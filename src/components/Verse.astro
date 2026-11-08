@@ -1,0 +1,9 @@
+---
+interface Props { zh: string; en: string; ref: string }
+const { zh, en, ref } = Astro.props;
+---
+<blockquote class="verse-card">
+  <p>{zh}</p>
+  <p class="en">{en}</p>
+  <cite>{ref}</cite>
+</blockquote>

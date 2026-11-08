@@ -1,0 +1,78 @@
+---
+import Base from '../layouts/Base.astro';
+import PostCards from '../components/PostCards.astro';
+import CatIcon from '../components/CatIcon.astro';
+import { CATEGORIES } from '../consts';
+import { getPosts } from '../lib';
+
+const posts = await getPosts();
+const latest = posts.slice(0, 5);
+const counts = Object.fromEntries(CATEGORIES.map((c) => [c.name, posts.filter((p) => p.data.category === c.name).length]));
+const first = posts.at(-1)?.data.date;
+const sermonCount = counts['主日笔记'];
+---
+<Base>
+  <section class="hero">
+    <div class="wrap-wide hero-grid">
+      <div>
+        <span class="eyebrow">Faith Journey</span>
+        <h1>一步一步，<br /><span class="grad">走在信仰的路上</span></h1>
+        <p class="sub">我是一个初信的基督徒。这里记下每个主日听到的道、读经的领受和生活里的感恩，也想把耶稣基督的好消息分享给你。</p>
+        <div class="cta-row">
+          <a class="btn" href="/posts/">读我的记录 →</a>
+          <a class="btn ghost" href="/gospel/">认识福音</a>
+        </div>
+        <div class="stats">
+          <div><strong>{posts.length}</strong><span>篇记录</span></div>
+          <div><strong>{sermonCount}</strong><span>篇主日笔记</span></div>
+          {first && <div><strong>{first.getUTCFullYear()}.{first.getUTCMonth() + 1}</strong><span>开始记录</span></div>}
+        </div>
+      </div>
+      <blockquote class="verse-card">
+        <p>忘记背后，努力面前的，向着标竿直跑，要得神在基督耶稣里从上面召我来得的奖赏。</p>
+        <p class="en">Forgetting those things which are behind, and reaching forth unto those things which are before, I press toward the mark for the prize of the high calling of God in Christ Jesus.</p>
+        <cite>腓立比书 3:13-14</cite>
+      </blockquote>
+    </div>
+  </section>
+
+  <div class="wrap-wide">
+    <section class="section" style="margin-top:24px">
+      <div class="section-head">
+        <div>
+          <h2>最近的记录</h2>
+          <p>最新的学习和领受</p>
+        </div>
+        <a class="more" href="/posts/">全部 {posts.length} 篇 →</a>
+      </div>
+      <PostCards posts={latest} featureFirst />
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>栏目</h2>
+          <p>按主题浏览</p>
+        </div>
+      </div>
+      <div class="cat-grid">
+        {CATEGORIES.map((c) => (
+          <a class="cat-card" href={`/category/${c.slug}/`}>
+            <CatIcon slug={c.slug} />
+            <strong>{c.name}</strong>
+            <span>{c.desc}</span>
+            <em>{counts[c.name]} 篇</em>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="banner">
+        <h2>你也想认识这位神吗？</h2>
+        <p>“神爱世人，甚至将他的独生子赐给他们，叫一切信他的，不致灭亡，反得永生。”用五分钟，了解这个改变我生命的好消息。</p>
+        <a class="btn" href="/gospel/">认识福音 →</a>
+      </div>
+    </section>
+  </div>
+</Base>

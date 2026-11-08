@@ -1,0 +1,19 @@
+---
+import Base from '../../layouts/Base.astro';
+import Timeline from '../../components/Timeline.astro';
+import { getPosts } from '../../lib';
+
+const posts = await getPosts();
+---
+<Base title="全部记录" description="按时间排列的全部信仰成长记录。">
+  <header class="page-hero">
+    <div class="wrap">
+      <span class="eyebrow">Archive</span>
+      <h1>全部记录</h1>
+      <p class="lead">共 {posts.length} 篇，按时间从新到旧排列。回头看，每一步都有神的带领。</p>
+    </div>
+  </header>
+  <div class="wrap" style="margin-top:40px">
+    <Timeline posts={posts} />
+  </div>
+</Base>

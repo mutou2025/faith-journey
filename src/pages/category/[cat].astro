@@ -1,0 +1,26 @@
+---
+import Base from '../../layouts/Base.astro';
+import PostCards from '../../components/PostCards.astro';
+import CatIcon from '../../components/CatIcon.astro';
+import { CATEGORIES } from '../../consts';
+import { getPosts } from '../../lib';
+
+export function getStaticPaths() {
+  return CATEGORIES.map((c) => ({ params: { cat: c.slug }, props: { category: c } }));
+}
+
+const { category } = Astro.props;
+const posts = (await getPosts()).filter((p) => p.data.category === category.name);
+---
+<Base title={category.name} description={category.desc}>
+  <header class="page-hero">
+    <div class="wrap-wide">
+      <CatIcon slug={category.slug} />
+      <h1>{category.name}</h1>
+      <p class="lead">{category.desc} 共 {posts.length} 篇。</p>
+    </div>
+  </header>
+  <div class="wrap-wide" style="margin-top:40px">
+    <PostCards posts={posts} />
+  </div>
+</Base>
