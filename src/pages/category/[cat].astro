@@ -12,7 +12,7 @@ export function getStaticPaths() {
 const { category } = Astro.props;
 const posts = (await getPosts()).filter((p) => p.data.category === category.name);
 ---
-<Base title={category.name} description={category.desc}>
+<Base title={category.name} description={`${category.desc}目前收录 ${posts.length} 篇。`} keywords={[category.name]}>
   <header class="page-hero">
     <div class="wrap-wide">
       <CatIcon slug={category.slug} />

@@ -1,4 +1,7 @@
 export const SITE_TITLE = '信仰之路';
+export const SITE_URL = 'https://faith-journey-eight.vercel.app';
+export const AUTHOR = 'Fawn';
+export const SITE_KEYWORDS = ['基督教', '信仰', '初信', '主日讲道', '讲道笔记', '圣经', '和合本', 'KJV', '中英对照', '福音', '耶稣基督'];
 export const SITE_SUBTITLE = '一个初信者的成长记录';
 export const SITE_DESCRIPTION =
   '记录我信主之后的成长：主日讲道笔记、经文学习、圣经事件和个人感想，也和你分享耶稣基督的好消息。';

@@ -1,13 +1,41 @@
 ---
 import '../styles/global.css';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import Analytics from '@vercel/analytics/astro';
+import { SITE_TITLE, SITE_DESCRIPTION, SITE_KEYWORDS, AUTHOR } from '../consts';
 
 interface Props {
   title?: string;
   description?: string;
+  /** 'article' 用于文章页 */
+  type?: 'website' | 'article';
+  publishedTime?: Date;
+  keywords?: string[];
+  /** 页面专属的结构化数据（JSON-LD） */
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  noindex?: boolean;
 }
-const { title, description = SITE_DESCRIPTION } = Astro.props;
-const fullTitle = title ? `${title} · ${SITE_TITLE}` : SITE_TITLE;
+const {
+  title,
+  description = SITE_DESCRIPTION,
+  type = 'website',
+  publishedTime,
+  keywords = [],
+  jsonLd,
+  noindex = false,
+} = Astro.props;
+const fullTitle = title ? `${title} · ${SITE_TITLE}` : `${SITE_TITLE} · 一个初信基督徒的成长记录`;
+const ogImage = new URL('/og.png', Astro.site).href;
+const allKeywords = [...new Set([...keywords, ...SITE_KEYWORDS])].join(',');
+const siteLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: SITE_TITLE,
+  url: new URL('/', Astro.site).href,
+  inLanguage: 'zh-CN',
+  description: SITE_DESCRIPTION,
+  author: { '@type': 'Person', name: AUTHOR },
+};
+const ldBlocks = [siteLd, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [])];
 const path = Astro.url.pathname;
 const nav = [
   { href: '/', label: '首页' },
@@ -27,12 +55,34 @@ const canonical = new URL(path, Astro.site);
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
+    <meta name="keywords" content={allKeywords} />
+    <meta name="author" content={AUTHOR} />
+    {noindex && <meta name="robots" content="noindex" />}
     <link rel="canonical" href={canonical} />
-    <meta property="og:title" content={fullTitle} />
+    <meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#111013" media="(prefers-color-scheme: dark)" />
+
+    <meta property="og:site_name" content={SITE_TITLE} />
+    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:title" content={title ?? fullTitle} />
     <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={type} />
     <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${SITE_TITLE}：一个初信基督徒的成长记录`} />
+    {publishedTime && <meta property="article:published_time" content={publishedTime.toISOString()} />}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title ?? fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+    <link rel="alternate" type="application/rss+xml" title={SITE_TITLE} href="/rss.xml" />
+    {ldBlocks.map((ld) => <script type="application/ld+json" set:html={JSON.stringify(ld)} />)}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -73,5 +123,6 @@ const canonical = new URL(path, Astro.site);
         </div>
       </div>
     </footer>
+    <Analytics />
   </body>
 </html>

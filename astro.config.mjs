@@ -2,7 +2,7 @@
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  // 部署到 Vercel 后，可以把这里改成正式网址
-  site: 'https://faith-journey.vercel.app',
+  // 网站正式网址（换域名时改这里）
+  site: 'https://faith-journey-eight.vercel.app',
   trailingSlash: 'always',
 });
