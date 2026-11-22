@@ -11,6 +11,7 @@ export const GET: APIRoute = async ({ site }) => {
     { loc: u('/gospel/'), priority: '0.9' },
     { loc: u('/posts/'), lastmod: latest, priority: '0.8' },
     { loc: u('/about/'), priority: '0.5' },
+    { loc: u('/captions/'), priority: '0.5' },
     ...CATEGORIES.map((c) => ({ loc: u(`/category/${c.slug}/`), priority: '0.6' })),
     ...posts.map((p) => ({ loc: u(`/posts/${p.id}/`), lastmod: p.data.date.toISOString().slice(0, 10), priority: '0.7' })),
   ];
