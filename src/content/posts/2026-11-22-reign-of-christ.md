@@ -1,8 +1,8 @@
 ---
-title: "基督的王权（主日预备）"
+title: "基督的王权"
 date: 2026-11-22
 category: 主日笔记
-summary: "基督君王主日：三段经文用“牧人与羊”的图画讲王。这位王亲自寻找、牧养他的羊，也按人怎样对待“最小的”来审判。"
+summary: "基督君王主日：他的宝座是十字架。基督是牧养百姓、以爱和服事掌权的王，呼召我们感恩地敬拜、信靠地跟随、怜悯地服事。"
 scriptures:
   - "诗篇 100"
   - "以西结书 34:11-16, 20-24"
@@ -24,6 +24,72 @@ scriptures:
 | 回应诗歌 | #374 更像我恩主（More Like the Master） |
 
 周报消息：圣诞节受洗或转会报名**截止 11月30日**，请联络巫牧师；欢迎慕道友参加初信造就班；主日学由巫牧师教《受伤的恋者——何西阿书今释》至 12月20日。
+
+## 讲道幻灯片要点
+
+按讲道顺序整理了我拍下的十张幻灯片，先英文原文，再中文翻译。
+
+### 引言：当我们听到“王”
+
+> Introduction: Brothers and sisters, today's theme is "The Reign of Christ." In the Christian church calendar, today is also celebrated as Christ the King Sunday. It is a special Sunday on which we proclaim that Jesus Christ is the King of kings and Lord of lords. When we hear the word "king," what images come to mind? Perhaps we think of magnificent palaces, glittering crowns, royal thrones, luxurious robes, servants attending to the king, and armies protecting the kingdom.
+
+引言：弟兄姊妹，今天的主题是“基督的王权”。在教会年历中，今天也是**基督君王主日**，我们在这个特别的主日宣告：耶稣基督是万王之王、万主之主。听到“王”这个字，我们会想到什么？也许是宏伟的宫殿、闪亮的王冠、宝座、华丽的袍子、侍候君王的仆人，还有保卫国家的军队。
+
+> However, the kingship of Jesus is completely different. Jesus does not exercise His authority in the same way as the kings and rulers of this world. His crown is not a symbol of worldly glory; His throne is the cross. His power is revealed through love, His authority is demonstrated through compassion, and His greatness is made known through humility and service. Throughout the Gospels, we see that Jesus Christ is a King who shepherds and serves His people.
+
+然而耶稣的王权完全不同。他不像这世上的君王那样行使权柄。他的冠冕不是世上荣耀的象征；**他的宝座是十字架**。他的能力借着爱显明，他的权柄借着怜悯彰显，他的伟大借着谦卑和服事为人所知。在四福音里我们看到，耶稣基督是一位**牧养并服事他百姓的王**。
+
+> Today's three Scripture passages help us understand that although Christ is King, He rules His kingdom in a very different way. God promises that He Himself will become the Shepherd: personally seeking the lost sheep, bringing back those who have wandered away, and caring for the injured and the weak.
+
+今天的三段经文帮助我们明白：基督虽然是王，他治理国度的方式却非常不同。神应许他要亲自作牧人：亲自寻找迷失的羊，领回走失的，照顾受伤和软弱的。
+
+### 一、基督是怎样的王？牧养百姓的王（以西结书 34:11-16）
+
+> 1. What Kind of King Is Christ? Christ is the King who shepherds His people: Ezekiel 34:11–16, the prophet Ezekiel was speaking to a people who had experienced suffering, disappointment, and displacement. Their leaders had failed them. Those who were supposed to care for the people had neglected them instead.
+
+第一，基督是怎样的王？他是**牧养他百姓的王**。以西结说话的对象，是一群经历了苦难、失望和流离失所的百姓（被掳到巴比伦）。他们的领袖辜负了他们，本该照顾百姓的人反而忽略了他们。
+
+> We are called to pay attention to the needs of others, listen to their stories, offer encouragement, and walk alongside them through the difficult seasons of life. However, we also pray that the Lord will give us more opportunities to encounter and serve people in these ways.
+
+我们蒙召去**留意别人的需要，聆听他们的故事，给予鼓励，在人生艰难的季节与他们同行**。同时也求主给我们更多机会，用这些方式遇见人、服事人。
+
+> Sometimes, what I have experienced in pastoral ministry is quite different from what I read in the Bible. Churches are more than gorgeous shops and banks, and more than one person has said to me, "Pastor, God gives people freedom. I also want to visit other churches and see what they are like." Twenty-two years have passed. Most of the young people have grown up, married, and followed their spouses elsewhere. Some have received help and benefits from the church, but afterwards, they have disappeared completely.
+
+有时候，我在牧会中的经历和我在圣经里读到的很不一样。这里的教会比华丽的商店和银行还多，不止一个人对我说：“牧师，神给人自由，我也想去别的教会看看是什么样子。”二十二年过去了，大部分年轻人长大、结婚，随配偶去了别处。也有些人曾从教会得到帮助和好处，之后却完全消失了。
+
+（这张是牧师的真心话。“Churches are more than gorgeous shops and banks”字面有点难懂，我理解为“教会比商店和银行还多”，人可以像逛商店一样换教会。“二十二年”应该是牧师在这间教会服事的年数。放在以西结书 34 章旁边看，牧人的心会被羊的离开刺痛，但神仍然说“失丧的，我必寻找”。）
+
+### 二、基督是以爱和服事掌权的王（马太福音 25:31-46）
+
+> 2. Christ Is the King Who Rules Through Love and Service (Matthew 25:31–46): The Gospel passage in Matthew 25 gives us another picture of Christ's kingship. Jesus describes the Son of Man coming in glory and sitting on His glorious throne, with all the nations gathered before Him. He will separate the people, just as a shepherd separates the sheep from the goats.
+
+第二，基督是**以爱和服事掌权的王**。马太福音 25 章给了我们基督王权的另一幅图画：人子在荣耀里降临，坐在荣耀的宝座上，万民都聚集在他面前。他要把人分别出来，好像牧羊人分别绵羊和山羊一样。
+
+（这一点的后半部分没有拍到。按经文，分别的标准就是有没有看顾“弟兄中一个最小的”：饿的、渴的、作客旅的、赤身的、病的、坐监的。）
+
+### 三、基督呼召我们敬拜并顺服他（诗篇 100）
+
+> 3. Christ Calls Us to Worship and Obey Him (Psalm 100): Now, let us turn to Psalm 100 as we bring the message towards its conclusion. This psalm begins with a joyful invitation: "Shout for joy to the Lord, all the earth!" It continues: "Worship the Lord with gladness; come before him with joyful songs." Then it reminds us: "Know that the Lord is God. It is he who made us, and we are his; we are his people, the sheep of his pasture." Psalm 100 reminds us that worship is not simply an activity that takes place on Sunday mornings.
+
+第三，基督**呼召我们敬拜并顺服他**。讲道快结束时，牧师带我们转到诗篇 100 篇。这篇诗以喜乐的邀请开始：“普天下当向耶和华欢呼！”接着说：“你们当乐意事奉耶和华，当来向他歌唱！”然后提醒我们：“你们当晓得耶和华是神！我们是他造的，也是属他的；我们是他的民，也是他草场的羊。”诗篇 100 提醒我们：**敬拜不只是主日早上的一项活动**。
+
+（这张照片右边缘被切掉几个字，按上下文补全。）
+
+> Worship is our response of saying "Yes" to everything God teaches us and to everything He has done for us. (Just as when we go to work, we are expected to listen to and follow our employer's instructions.) We worship on the first day of the week because God is our Creator. We worship because God loves us. We worship because God is always faithful. We worship because we belong to God. Notice the connection between Psalm 100 and Ezekiel 34.
+
+**敬拜，是我们对神所教导的一切、对他为我们所做的一切说“是”**。（就像上班时，我们要听从并遵行雇主的指示。）我们在一周的第一天敬拜，因为神是我们的创造主。我们敬拜，因为神爱我们；因为神永远信实；因为我们属于神。请留意诗篇 100 和以西结书 34 的关联。
+
+（关联就在“羊”：以西结书 34 章说神亲自作我们的牧人，诗篇 100 篇说“我们是他草场的羊”。被这样的牧人寻回的羊，自然会向他欢呼。）
+
+### 结论：三个委身
+
+> His crown represents sacrificial love. His throne reveals the power of humility. His Kingdom is established through compassion, justice, love, and service. Therefore, as we leave the church today, let us carry three commitments in our hearts: Worship Christ with grateful hearts, because we belong to Him. Follow Christ with trusting hearts, because He is our Good Shepherd. Serve Christ with compassionate hearts, caring for those who are often overlooked by the world.
+
+他的冠冕代表舍己的爱，他的宝座显出谦卑的能力，他的国度借着怜悯、公义、爱与服事建立。所以，今天离开教会时，让我们心里带着三个委身：
+
+1. **以感恩的心敬拜基督**，因为我们属于他（诗篇 100）。
+2. **以信靠的心跟随基督**，因为他是我们的好牧人（以西结书 34）。
+3. **以怜悯的心服事基督**，关怀那些常被世界忽略的人（马太福音 25）。
 
 ## 经文中英对照
 
@@ -115,8 +181,18 @@ scriptures:
 4. 承认“基督是王”，在我的生活里具体意味着什么？有没有哪一块我还没有交给他管理？
 5. 将临期就要开始了。在等候主的这几周，我想怎样预备自己的心？
 
-**听道时可以记下：** 牧师如何解释“王权”；他用了哪些例子；哪一句话最触动我。这是听道前的预备笔记，听完讲道后我会把讲道内容补进来。
+**听道时可以记下：** 牧师如何解释“王权”；他用了哪些例子；哪一句话最触动我。
 
 **祈祷：**
 
 > 亲爱的主耶稣，你是万王之王，也是我的好牧人。感谢你在我失丧时寻找我，在我受伤时缠裹我。在这一年的最后一个主日，我愿意重新将我的心、我的家、我的时间都交在你的王权之下。求你打开我的眼睛，看见身边那“最小的”一位，使我更像我恩主。也求你今天使用巫牧师的口，将你的话语种在我心里。奉主耶稣基督的名求，阿们。
+
+## 听道后的回应
+
+牧师最后的三个委身，正好对应三段经文。这周可以各写一两句：
+
+1. **感恩地敬拜**：除了主日早上，我这周在哪一件事上可以对神说“是”？
+2. **信靠地跟随**：有哪一件担忧，我想交给这位亲自寻找、缠裹羊的好牧人？
+3. **怜悯地服事**：身边有谁常被忽略？我可以怎样留意他的需要、听他的故事、陪他走一段难路？
+
+牧师说到二十多年来有人离开、有人受了帮助就消失，这提醒我：我不只是被牧养的羊，也可以成为陪伴牧人、陪伴别人的那一位。也可以为巫牧师祈祷，求主安慰他、坚固他。
