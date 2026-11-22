@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>粤语实时字幕 · 信仰之路</title>
+<meta name="description" content="在教会用手机实时转写粤语讲道，并翻译成普通话或英文。">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<style>
+  :root { --bg:#111; --fg:#f2f2f2; --dim:#8a8a8a; --acc:#fb923c; --card:#1c1c1c; --fs:22px; }
+  * { box-sizing:border-box; }
+  html,body { margin:0; height:100%; background:var(--bg); color:var(--fg);
+    font-family:Inter,-apple-system,"PingFang SC","Noto Sans SC","Microsoft YaHei",sans-serif; }
+  body { display:flex; flex-direction:column; }
+  header { padding:10px 12px; display:flex; gap:8px; flex-wrap:wrap; align-items:center;
+    background:#000; position:sticky; top:0; z-index:2; border-bottom:1px solid #222; }
+  button, select { font-size:15px; padding:8px 12px; border-radius:8px; border:1px solid #333;
+    background:var(--card); color:var(--fg); }
+  #toggle { background:var(--acc); color:#000; font-weight:700; border:none; min-width:84px; }
+  #toggle.on { background:#e5484d; color:#fff; }
+  #status { font-size:13px; color:var(--dim); flex-basis:100%; }
+  main { flex:1; overflow-y:auto; padding:12px 14px 40vh; }
+  .seg { margin:0 0 18px; }
+  .src { font-size:calc(var(--fs) * .72); color:var(--dim); line-height:1.4; }
+  .tr  { font-size:var(--fs); line-height:1.45; margin-top:2px; }
+  .tr.pending { color:#555; }
+  #interim { font-size:calc(var(--fs) * .8); color:var(--acc); line-height:1.4; min-height:1.4em; }
+  .home { color:var(--dim); text-decoration:none; font-size:14px; padding:8px 4px; margin-left:auto; }
+  .home:hover { color:var(--fg); }
+  details summary { cursor:pointer; padding:6px 0; }
+  .help ul { margin:6px 0 0; padding-left:18px; line-height:1.6; }
+  .help b { color:var(--fg); font-weight:600; }
+  details { padding:0 12px 10px; background:#000; font-size:14px; color:var(--dim); }
+  details input { width:100%; padding:8px; margin-top:6px; border-radius:8px; border:1px solid #333;
+    background:var(--card); color:var(--fg); font-size:14px; }
+  details textarea { width:100%; height:60px; padding:8px; margin-top:6px; border-radius:8px; border:1px solid #333;
+    background:var(--card); color:var(--fg); font-size:14px; }
+</style>
+</head>
+<body>
+<header>
+  <button id="toggle">开始</button>
+  <select id="target">
+    <option value="zh-CN">→ 普通话</option>
+    <option value="en">→ English</option>
+    <option value="both">→ 中 + 英</option>
+    <option value="none">只看粤语原文</option>
+  </select>
+  <button id="smaller">A−</button>
+  <button id="bigger">A+</button>
+  <button id="clear">清空</button>
+  <a class="home" href="/" aria-label="回到信仰之路首页">← 信仰之路</a>
+  <div id="status">点"开始"，允许麦克风。手机尽量靠近音箱。</div>
+</header>
+<details class="help">
+  <summary>使用说明</summary>
+  <ul>
+    <li><b>iPhone</b>：请用 <b>Safari</b> 打开，并在“设置 → 通用 → 键盘”里打开“启用听写”（Siri 与听写需联网）。iPhone 上的 Chrome 等其它浏览器多半不支持。</li>
+    <li><b>安卓</b>：请用 <b>Chrome</b> 打开。</li>
+    <li>第一次点“开始”时，浏览器会问是否允许使用麦克风，请选“允许”。</li>
+    <li>需要网络：语音识别和翻译都在线完成。字幕只显示在你自己的手机上，不会上传保存。</li>
+    <li>识别是机器自动的，会有错字，翻译仅供参考；经文和人名以讲员为准。可以在“高级设置”里填上当天经文和人名帮助纠错。</li>
+    <li>浏览器每隔一会儿会自动停一下，本页会自动重连；锁屏或切到别的 App 时会暂停，回来后如没反应，点“停止”再“开始”即可。</li>
+  </ul>
+</details>
+<details>
+  <summary>高级设置（可选）</summary>
+  <label>Gemini API Key（留空则用免费的 Google 翻译；填了翻译质量更好，免费额度够用）
+    <input id="gkey" type="password" placeholder="AIza...">
+  </label>
+  <label>专有名词 / 当天经文（给 Gemini 当上下文，提高准确度）
+    <textarea id="ctx" placeholder="例：使徒行传 2章；彼得、约翰、耶路撒冷、圣灵"></textarea>
+  </label>
+</details>
+<main id="out"><div id="interim"></div></main>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const out = $('out'), interimEl = $('interim'), statusEl = $('status'), btn = $('toggle');
+  const store = {
+    get(k){ try { return localStorage.getItem(k) || ''; } catch(e){ return ''; } },
+    set(k,v){ try { localStorage.setItem(k,v); } catch(e){} }
+  };
+  $('gkey').value = store.get('gkey'); $('ctx').value = store.get('ctx');
+  $('target').value = store.get('target') || 'zh-CN';
+  let fs = parseInt(store.get('fs')) || 22;
+  const applyFs = () => { document.documentElement.style.setProperty('--fs', fs + 'px'); store.set('fs', fs); };
+  applyFs();
+  $('gkey').onchange = e => store.set('gkey', e.target.value.trim());
+  $('ctx').onchange  = e => store.set('ctx', e.target.value);
+  $('target').onchange = e => store.set('target', e.target.value);
+  $('bigger').onclick = () => { fs = Math.min(48, fs + 2); applyFs(); };
+  $('smaller').onclick = () => { fs = Math.max(14, fs - 2); applyFs(); };
+  $('clear').onclick = () => { out.querySelectorAll('.seg').forEach(n => n.remove()); history.length = 0; };
+
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) { statusEl.textContent = '这个浏览器不支持语音识别。安卓请用 Chrome，iPhone 请用 Safari。'; btn.disabled = true; return; }
+
+  let rec = null, running = false, wakeLock = null, lastResultAt = 0;
+  const history = []; // recent Cantonese lines for Gemini context
+
+  function autoScroll() {
+    const nearBottom = out.scrollHeight - out.scrollTop - out.clientHeight < 400;
+    if (nearBottom) out.scrollTop = out.scrollHeight;
+  }
+
+  // ---------- Translation ----------
+  async function gtx(text, tl) {
+    for (const sl of ['yue', 'zh-TW', 'auto']) {
+      try {
+        const url = 'https://translate.googleapis.com/translate_a/single?client=gtx&dt=t&sl=' + sl +
+                    '&tl=' + tl + '&q=' + encodeURIComponent(text);
+        const r = await fetch(url);
+        if (!r.ok) continue;
+        const j = await r.json();
+        const s = (j[0] || []).map(x => x[0]).join('');
+        if (s) return s;
+      } catch (e) {}
+    }
+    throw new Error('翻译失败');
+  }
+
+  async function gemini(text, mode, key) {
+    const ctx = $('ctx').value.trim();
+    const want = mode === 'en' ? '英文' : mode === 'both' ? '规范普通话，然后换行给出英文' : '规范普通话（简体）';
+    const prompt =
+`你是教会讲道的实时字幕翻译。下面是语音识别得到的粤语口语文字，可能有同音错字、没有标点。
+请结合上下文纠错，把【当前句】翻译成${want}。只输出译文，不要解释。
+${ctx ? '背景/专有名词：' + ctx + '\n' : ''}前文：${history.slice(-4).join(' ')}
+【当前句】${text}`;
+    const r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' + encodeURIComponent(key), {
+      method: 'POST', headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: { temperature: 0.2, thinkingConfig: { thinkingBudget: 0 } } })
+    });
+    if (!r.ok) throw new Error('Gemini ' + r.status);
+    const j = await r.json();
+    return (j.candidates?.[0]?.content?.parts || []).map(p => p.text).join('').trim();
+  }
+
+  async function translate(text, mode) {
+    const key = $('gkey').value.trim();
+    if (key) { try { return await gemini(text, mode, key); } catch (e) { console.warn(e); } }
+    if (mode === 'both') {
+      const [a, b] = await Promise.all([gtx(text, 'zh-CN'), gtx(text, 'en')]);
+      return a + '\n' + b;
+    }
+    return gtx(text, mode);
+  }
+
+  function addSegment(text) {
+    const mode = $('target').value;
+    const seg = document.createElement('div'); seg.className = 'seg';
+    const src = document.createElement('div'); src.className = 'src'; src.textContent = text;
+    seg.appendChild(src);
+    if (mode !== 'none') {
+      const tr = document.createElement('div'); tr.className = 'tr pending'; tr.textContent = '翻译中…';
+      seg.appendChild(tr);
+      translate(text, mode).then(t => { tr.textContent = t; tr.style.whiteSpace = 'pre-line'; })
+        .catch(() => { tr.textContent = '（翻译失败，看上面原文）'; })
+        .finally(() => { tr.classList.remove('pending'); autoScroll(); });
+    } else {
+      src.className = 'tr';
+    }
+    out.insertBefore(seg, interimEl);
+    history.push(text); if (history.length > 20) history.shift();
+    autoScroll();
+  }
+
+  // ---------- Speech recognition ----------
+  function startRec() {
+    rec = new SR();
+    rec.lang = 'zh-HK';
+    rec.continuous = true;
+    rec.interimResults = true;
+    rec.maxAlternatives = 1;
+    rec.onresult = e => {
+      lastResultAt = Date.now();
+      let interim = '';
+      for (let i = e.resultIndex; i < e.results.length; i++) {
+        const r = e.results[i];
+        if (r.isFinal) { const t = r[0].transcript.trim(); if (t) addSegment(t); }
+        else interim += r[0].transcript;
+      }
+      interimEl.textContent = interim;
+      autoScroll();
+    };
+    rec.onerror = e => {
+      if (e.error === 'not-allowed' || e.error === 'service-not-allowed') {
+        statusEl.textContent = '麦克风权限被拒绝。请在浏览器设置里允许麦克风后重试。';
+        stop(); return;
+      }
+      statusEl.textContent = '识别出错（' + e.error + '），自动重连中…';
+    };
+    rec.onend = () => { // browsers stop periodically; keep restarting
+      interimEl.textContent = '';
+      if (running) setTimeout(() => { if (running) { try { startRec(); } catch (e) {} } }, 250);
+    };
+    rec.start();
+    statusEl.textContent = '正在听…（粤语 zh-HK）';
+  }
+
+  async function start() {
+    running = true; btn.textContent = '停止'; btn.classList.add('on');
+    try { wakeLock = await navigator.wakeLock?.request('screen'); } catch (e) {}
+    startRec();
+  }
+  function stop() {
+    running = false; btn.textContent = '开始'; btn.classList.remove('on');
+    try { rec && rec.stop(); } catch (e) {}
+    try { wakeLock && wakeLock.release(); } catch (e) {}
+    wakeLock = null; interimEl.textContent = '';
+    statusEl.textContent = '已停止';
+  }
+  btn.onclick = () => running ? stop() : start();
+
+  // Watchdog: if no result for 20s while running, force restart
+  setInterval(() => {
+    if (running && lastResultAt && Date.now() - lastResultAt > 20000) {
+      lastResultAt = Date.now(); try { rec.abort(); } catch (e) {}
+    }
+  }, 5000);
+  document.addEventListener('visibilitychange', async () => {
+    if (running && document.visibilityState === 'visible') {
+      try { wakeLock = await navigator.wakeLock?.request('screen'); } catch (e) {}
+    }
+  });
+})();
+</script>
+</body>
+</html>
