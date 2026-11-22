@@ -20,6 +20,7 @@ const sermonCount = counts['主日笔记'];
         <p class="sub">我是一个初信的基督徒。这里记下每个主日听到的道、读经的领受和生活里的感恩，也想把耶稣基督的好消息分享给你。</p>
         <div class="cta-row">
           <a class="btn" href="/posts/">读我的记录 →</a>
+          <a class="btn ghost" href="/daily/">每日诵读</a>
           <a class="btn ghost" href="/gospel/">认识福音</a>
         </div>
         <div class="stats">
@@ -37,6 +38,12 @@ const sermonCount = counts['主日笔记'];
   </section>
 
   <div class="wrap-wide">
+    <a class="daily-card" href="/daily/">
+      <span class="eyebrow">每日诵读</span>
+      <strong>使徒信经 · 主祷文</strong>
+      <span>“我们在天上的父，愿人都尊你的名为圣……”</span>
+      <em>今天读一遍 →</em>
+    </a>
     <section class="section" style="margin-top:24px">
       <div class="section-head">
         <div>
@@ -76,3 +83,16 @@ const sermonCount = counts['主日笔记'];
     </section>
   </div>
 </Base>
+
+<style>
+  .daily-card {
+    display: grid; gap: 6px; margin-top: 28px; padding: 22px 24px; border-radius: var(--radius);
+    background: linear-gradient(135deg, var(--accent-soft), var(--surface));
+    border: 1px solid var(--line); box-shadow: var(--shadow); color: var(--text); text-decoration: none;
+    transition: box-shadow .2s;
+  }
+  .daily-card:hover { box-shadow: var(--shadow-hover); }
+  .daily-card strong { font-family: var(--serif); font-size: 22px; }
+  .daily-card span:not(.eyebrow) { color: var(--muted); font-family: var(--serif); }
+  .daily-card em { font-style: normal; color: var(--accent); font-weight: 600; }
+</style>

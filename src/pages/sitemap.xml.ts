@@ -9,6 +9,7 @@ export const GET: APIRoute = async ({ site }) => {
   const entries: { loc: string; lastmod?: string; priority: string }[] = [
     { loc: u('/'), lastmod: latest, priority: '1.0' },
     { loc: u('/gospel/'), priority: '0.9' },
+    { loc: u('/daily/'), priority: '0.8' },
     { loc: u('/posts/'), lastmod: latest, priority: '0.8' },
     { loc: u('/about/'), priority: '0.5' },
     ...CATEGORIES.map((c) => ({ loc: u(`/category/${c.slug}/`), priority: '0.6' })),

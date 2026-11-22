@@ -1,0 +1,161 @@
+---
+import Base from '../layouts/Base.astro';
+
+const creed = [
+  ['我信上帝，全能的父，创造天地的主。', 'I believe in God, the Father almighty, creator of heaven and earth.'],
+  ['我信我主耶稣基督，上帝的独生子；', 'I believe in Jesus Christ, his only Son, our Lord,'],
+  ['因着圣灵感孕，从童贞女马利亚所生；', 'who was conceived by the Holy Spirit, born of the Virgin Mary,'],
+  ['在本丢彼拉多手下受难，被钉在十字架上，受死，埋葬；', 'suffered under Pontius Pilate, was crucified, died, and was buried;'],
+  ['降在阴间；第三天从死里复活；', 'he descended to the dead. On the third day he rose again;'],
+  ['他升天，坐在全能父上帝的右边；', 'he ascended into heaven, he is seated at the right hand of the Father,'],
+  ['将来必从那里降临，审判活人，死人。', 'and he will come to judge the living and the dead.'],
+  ['我信圣灵；', 'I believe in the Holy Spirit,'],
+  ['我信圣而公之教会；我信圣徒相通；', 'the holy catholic Church, the communion of saints,'],
+  ['我信罪得赦免；', 'the forgiveness of sins,'],
+  ['我信身体复活；', 'the resurrection of the body,'],
+  ['我信永生。阿们！', 'and the life everlasting. Amen.'],
+];
+
+const prayer = [
+  ['我们在天上的父，愿人都尊你的名为圣。', 'Our Father, which art in heaven, hallowed be thy name.'],
+  ['愿你的国降临。愿你的旨意行在地上，如同行在天上。', 'Thy kingdom come. Thy will be done in earth, as it is in heaven.'],
+  ['我们日用的饮食，今日赐给我们。', 'Give us this day our daily bread.'],
+  ['免我们的债，如同我们免了人的债。', 'And forgive us our debts, as we forgive our debtors.'],
+  ['不叫我们遇见试探，救我们脱离凶恶。', 'And lead us not into temptation, but deliver us from evil:'],
+  ['因为国度、权柄、荣耀，全是你的，直到永远，阿们。', 'For thine is the kingdom, and the power, and the glory, for ever. Amen.'],
+];
+---
+<Base
+  title="每日诵读：使徒信经与主祷文"
+  description="每天诵读《使徒信经》和《主祷文》，中英对照全文，适合手机阅读。"
+  keywords={['使徒信经', '主祷文', '每日诵读', 'Apostles Creed', 'Lord\'s Prayer']}
+>
+  <header class="page-hero">
+    <div class="wrap">
+      <span class="eyebrow">Daily Reading</span>
+      <h1>每日诵读</h1>
+      <p class="lead">每天花几分钟，用《使徒信经》宣告我所信的，用《主祷文》照着主耶稣所教导的来祷告。</p>
+      <p class="today" id="today"></p>
+      <nav class="jump" aria-label="跳到">
+        <a href="#creed">使徒信经</a>
+        <a href="#prayer">主祷文</a>
+        <button type="button" class="en-toggle" id="enToggle" aria-pressed="true">隐藏英文</button>
+      </nav>
+    </div>
+  </header>
+
+  <div class="wrap daily" id="daily">
+    <section class="reading" id="creed">
+      <h2>使徒信经 <small>The Apostles' Creed</small></h2>
+      <ol class="lines numbered">
+        {creed.map(([zh, en]) => (
+          <li><p class="zh">{zh}</p><p class="en">{en}</p></li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="reading" id="prayer">
+      <h2>主祷文 <small>The Lord's Prayer</small></h2>
+      <ol class="lines">
+        {prayer.map(([zh, en]) => (
+          <li><p class="zh">{zh}</p><p class="en">{en}</p></li>
+        ))}
+      </ol>
+      <p class="ref">参 马太福音 6:9-13；路加福音 11:2-4</p>
+    </section>
+
+    <div class="done-box">
+      <button type="button" class="btn" id="doneBtn">今天已诵读 ✓</button>
+      <p class="done-note" id="doneNote">连续诵读的天数只记在你自己的设备上。</p>
+    </div>
+  </div>
+</Base>
+
+<script is:inline>
+  (function () {
+    var d = new Date();
+    var key = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+    var wk = ['日', '一', '二', '三', '四', '五', '六'][d.getDay()];
+    var t = document.getElementById('today');
+    if (t) t.textContent = '今天是 ' + d.getFullYear() + '年' + (d.getMonth() + 1) + '月' + d.getDate() + '日 星期' + wk;
+
+    function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+    function set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+
+    var box = document.getElementById('daily');
+    var tg = document.getElementById('enToggle');
+    function applyEn(show) {
+      box.classList.toggle('no-en', !show);
+      tg.textContent = show ? '隐藏英文' : '显示英文';
+      tg.setAttribute('aria-pressed', show ? 'true' : 'false');
+    }
+    applyEn(get('daily-en') !== '0');
+    tg.addEventListener('click', function () {
+      var show = box.classList.contains('no-en');
+      applyEn(show);
+      set('daily-en', show ? '1' : '0');
+    });
+
+    var btn = document.getElementById('doneBtn');
+    var note = document.getElementById('doneNote');
+    function render() {
+      var last = get('daily-last');
+      var streak = parseInt(get('daily-streak') || '0', 10);
+      if (last === key) {
+        btn.textContent = '今天已诵读，感谢主 🙏';
+        btn.disabled = true;
+        note.textContent = '已连续诵读 ' + streak + ' 天。明天再来！';
+      }
+    }
+    btn.addEventListener('click', function () {
+      var y = new Date(d); y.setDate(d.getDate() - 1);
+      var ykey = y.getFullYear() + '-' + (y.getMonth() + 1) + '-' + y.getDate();
+      var last = get('daily-last');
+      var streak = parseInt(get('daily-streak') || '0', 10);
+      if (last === key) return;
+      streak = last === ykey ? streak + 1 : 1;
+      set('daily-last', key);
+      set('daily-streak', String(streak));
+      render();
+    });
+    render();
+  })();
+</script>
+
+<style>
+  .today { color: var(--muted); margin-top: 8px; }
+  .jump { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .jump a, .en-toggle {
+    font: inherit; font-size: 14px; padding: 6px 14px; border-radius: 999px;
+    border: 1px solid var(--line); background: var(--surface); color: var(--text);
+    text-decoration: none; cursor: pointer;
+  }
+  .daily { margin-top: 32px; }
+  .reading {
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+    box-shadow: var(--shadow); padding: 28px 24px; margin-bottom: 24px; scroll-margin-top: 80px;
+  }
+  .reading h2 { font-family: var(--serif); font-size: 26px; margin: 0 0 18px; }
+  .reading h2 small { display: block; font-family: var(--sans); font-size: 14px; font-weight: 400; color: var(--muted); margin-top: 4px; }
+  .lines { list-style: none; margin: 0; padding: 0; counter-reset: l; }
+  .lines li { padding: 10px 0; border-top: 1px dashed var(--line); }
+  .lines li:first-child { border-top: 0; }
+  .numbered li { position: relative; padding-left: 34px; counter-increment: l; }
+  .numbered li::before {
+    content: counter(l); position: absolute; left: 0; top: 13px; width: 22px; height: 22px;
+    border-radius: 50%; background: var(--accent-soft); color: var(--accent);
+    font-size: 12px; font-weight: 700; display: grid; place-items: center;
+  }
+  .zh { font-family: var(--serif); font-size: 20px; line-height: 1.8; margin: 0; }
+  .en { font-size: 14px; line-height: 1.6; color: var(--muted); margin: 2px 0 0; font-style: italic; }
+  .no-en .en { display: none; }
+  .ref { color: var(--muted); font-size: 14px; margin: 14px 0 0; text-align: right; }
+  .done-box { text-align: center; margin: 32px 0 56px; }
+  .done-box .btn { border: 0; font: inherit; cursor: pointer; }
+  .done-box .btn:disabled { opacity: .85; cursor: default; }
+  .done-note { color: var(--muted); font-size: 14px; margin-top: 10px; }
+  @media (max-width: 600px) {
+    .reading { padding: 22px 16px; }
+    .zh { font-size: 19px; }
+  }
+</style>
