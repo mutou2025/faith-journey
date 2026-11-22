@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>粤语实时字幕 · 信仰之路</title>
-<meta name="description" content="在教会用手机实时转写粤语讲道，并翻译成普通话或英文。">
+<title>讲道实时字幕 · 信仰之路</title>
+<meta name="description" content="在教会用手机实时转写讲道（粤语 / 普通话 / 英文），并翻译成普通话或英文。">
 <meta name="theme-color" content="#000000">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -42,11 +42,16 @@
 <body>
 <header>
   <button id="toggle">开始</button>
-  <select id="target">
+  <select id="srclang" aria-label="识别语言">
+    <option value="zh-HK">听：粤语</option>
+    <option value="zh-CN">听：普通话</option>
+    <option value="en-US">听：English</option>
+  </select>
+  <select id="target" aria-label="翻译成">
     <option value="zh-CN">→ 普通话</option>
     <option value="en">→ English</option>
     <option value="both">→ 中 + 英</option>
-    <option value="none">只看粤语原文</option>
+    <option value="none">只看原文</option>
   </select>
   <button id="smaller">A−</button>
   <button id="bigger">A+</button>
@@ -57,6 +62,7 @@
 <details class="help">
   <summary>使用说明</summary>
   <ul>
+    <li>先选讲员说的语言（“听：粤语 / 普通话 / English”），再选要翻译成什么。比如英文讲道选“听：English”和“→ 普通话”。</li>
     <li><b>iPhone</b>：请用 <b>Safari</b> 打开，并在“设置 → 通用 → 键盘”里打开“启用听写”（Siri 与听写需联网）。iPhone 上的 Chrome 等其它浏览器多半不支持。</li>
     <li><b>安卓</b>：请用 <b>Chrome</b> 打开。</li>
     <li>第一次点“开始”时，浏览器会问是否允许使用麦克风，请选“允许”。</li>
@@ -92,6 +98,11 @@
   $('gkey').onchange = e => store.set('gkey', e.target.value.trim());
   $('ctx').onchange  = e => store.set('ctx', e.target.value);
   $('target').onchange = e => store.set('target', e.target.value);
+  $('srclang').value = store.get('srclang') || 'zh-HK';
+  $('srclang').onchange = e => {
+    store.set('srclang', e.target.value);
+    try { if (running) rec.abort(); } catch (err) {} // onend restarts with the new language
+  };
   $('bigger').onclick = () => { fs = Math.min(48, fs + 2); applyFs(); };
   $('smaller').onclick = () => { fs = Math.max(14, fs - 2); applyFs(); };
   $('clear').onclick = () => { out.querySelectorAll('.seg').forEach(n => n.remove()); history.length = 0; };
@@ -109,7 +120,9 @@
 
   // ---------- Translation ----------
   async function gtx(text, tl) {
-    for (const sl of ['yue', 'zh-TW', 'auto']) {
+    const src = $('srclang').value;
+    const sls = src === 'en-US' ? ['en', 'auto'] : src === 'zh-CN' ? ['zh-CN', 'auto'] : ['yue', 'zh-TW', 'auto'];
+    for (const sl of sls) {
       try {
         const url = 'https://translate.googleapis.com/translate_a/single?client=gtx&dt=t&sl=' + sl +
                     '&tl=' + tl + '&q=' + encodeURIComponent(text);
@@ -123,11 +136,12 @@
     throw new Error('翻译失败');
   }
 
+  const LANG_NAME = { 'zh-HK': '粤语', 'zh-CN': '普通话', 'en-US': '英文' };
   async function gemini(text, mode, key) {
     const ctx = $('ctx').value.trim();
     const want = mode === 'en' ? '英文' : mode === 'both' ? '规范普通话，然后换行给出英文' : '规范普通话（简体）';
     const prompt =
-`你是教会讲道的实时字幕翻译。下面是语音识别得到的粤语口语文字，可能有同音错字、没有标点。
+`你是教会讲道的实时字幕翻译。下面是语音识别得到的${LANG_NAME[$('srclang').value]}口语文字，可能有同音错字、没有标点。
 请结合上下文纠错，把【当前句】翻译成${want}。只输出译文，不要解释。
 ${ctx ? '背景/专有名词：' + ctx + '\n' : ''}前文：${history.slice(-4).join(' ')}
 【当前句】${text}`;
@@ -173,7 +187,7 @@ ${ctx ? '背景/专有名词：' + ctx + '\n' : ''}前文：${history.slice(-4).
   // ---------- Speech recognition ----------
   function startRec() {
     rec = new SR();
-    rec.lang = 'zh-HK';
+    rec.lang = $('srclang').value;
     rec.continuous = true;
     rec.interimResults = true;
     rec.maxAlternatives = 1;
@@ -200,7 +214,7 @@ ${ctx ? '背景/专有名词：' + ctx + '\n' : ''}前文：${history.slice(-4).
       if (running) setTimeout(() => { if (running) { try { startRec(); } catch (e) {} } }, 250);
     };
     rec.start();
-    statusEl.textContent = '正在听…（粤语 zh-HK）';
+    statusEl.textContent = '正在听…（' + LANG_NAME[rec.lang] + '）';
   }
 
   async function start() {
