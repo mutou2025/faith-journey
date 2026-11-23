@@ -1,0 +1,344 @@
+---
+import Base from '../layouts/Base.astro';
+import Verse from '../components/Verse.astro';
+
+type V = { zh: string; en: string; ref: string };
+type Scene = { id: string; title: string; short: string; intro: string; prayer: string; verses: V[] };
+
+const acts = [
+  { k: 'A', name: '赞美', en: 'Adoration', text: '先想想神是谁：他是创造天地的主，是爱我的天父，是信实、良善的神。' },
+  { k: 'C', name: '认罪', en: 'Confession', text: '诚实地把做错的、想错的告诉他，求他赦免。他不是来定我们罪的，是来洗净我们的。' },
+  { k: 'T', name: '感谢', en: 'Thanksgiving', text: '数算今天的恩典，大的小的都可以：一顿饭、一次平安到家、一句鼓励的话。' },
+  { k: 'S', name: '祈求', en: 'Supplication', text: '把自己的需要和别人的需要说出来，越具体越好，然后把结果交给他。' },
+];
+
+const scenes: Scene[] = [
+  {
+    id: 'anxiety',
+    title: '焦虑、担心的时候',
+    short: '焦虑担心',
+    intro: '担心常常是因为我们想自己扛起明天。祷告就是把这个重担放下，交给顾念我们的神。',
+    prayer:
+      '天父，我心里很不安，一直在想（说出你担心的事）。你知道我的软弱，也知道我担心的每一件事。我现在把这些忧虑交给你，因为你顾念我。求你赐给我出人意外的平安，保守我的心思意念。让我今天只专心做今天该做的事，明天的事交在你手里。奉耶稣的名祷告，阿们。',
+    verses: [
+      { zh: '你们要将一切的忧虑卸给神，因为他顾念你们。', en: 'Casting all your care upon him; for he careth for you.', ref: '彼得前书 5:7' },
+      { zh: '你不要害怕，因为我与你同在；不要惊惶，因为我是你的神。我必坚固你，我必帮助你；我必用我公义的右手扶持你。', en: 'Fear thou not; for I am with thee: be not dismayed; for I am thy God: I will strengthen thee; yea, I will help thee; yea, I will uphold thee with the right hand of my righteousness.', ref: '以赛亚书 41:10' },
+    ],
+  },
+  {
+    id: 'sick',
+    title: '生病、身体软弱的时候',
+    short: '生病',
+    intro: '可以坦然求神医治，他是医治我们的神；同时也把身体和治疗都交托在他手中。',
+    prayer:
+      '主啊，我（或：我所爱的人）的身体正在受苦。求你按着你的怜悯医治，减轻疼痛，也赐医生和护士智慧。在等候好转的日子里，求你赐我忍耐和平安，让我知道你一直在我身边。无论怎样，我相信你是美善的，我的生命在你手中。奉耶稣的名祷告，阿们。',
+    verses: [
+      { zh: '耶和华啊，求你医治我，我便痊愈，拯救我，我便得救；因你是我所赞美的。', en: 'Heal me, O Lord, and I shall be healed; save me, and I shall be saved: for thou art my praise.', ref: '耶利米书 17:14' },
+      { zh: '神是我们的避难所，是我们的力量，是我们在患难中随时的帮助。', en: 'God is our refuge and strength, a very present help in trouble.', ref: '诗篇 46:1' },
+    ],
+  },
+  {
+    id: 'family',
+    title: '为家人祷告',
+    short: '为家人',
+    intro: '家人可能在身边，也可能远在另一个国家。祷告可以跨越距离，把他们带到神面前。',
+    prayer:
+      '天父，感谢你把（说出家人的名字）放在我的生命中。求你保守他们的身体平安、出入平安，看顾他们的工作和生活。求你让他们也认识你的爱，有一天和我一同来敬拜你。也求你帮助我在家里多一些忍耐和温柔，用爱心去对待他们。奉耶稣的名祷告，阿们。',
+    verses: [
+      { zh: '他们说：“当信主耶稣，你和你一家都必得救。”', en: 'And they said, Believe on the Lord Jesus Christ, and thou shalt be saved, and thy house.', ref: '使徒行传 16:31' },
+    ],
+  },
+  {
+    id: 'others',
+    title: '为别人代祷',
+    short: '为别人代祷',
+    intro: '当朋友、同事、教会弟兄姊妹告诉你他们的难处，答应“我会为你祷告”之后，就真的为他祷告吧。',
+    prayer:
+      '主啊，我把（说出名字）带到你面前。他／她正在经历（说出他们的难处）。求你亲自安慰他／她、帮助他／她，供应他／她一切的需要。也求你让他／她在这件事里经历你的同在和爱。如果我能做些什么去关心他／她，求你提醒我。奉耶稣的名祷告，阿们。',
+    verses: [
+      { zh: '我劝你，第一要为万人恳求、祷告、代求、祝谢；', en: 'I exhort therefore, that, first of all, supplications, prayers, intercessions, and giving of thanks, be made for all men;', ref: '提摩太前书 2:1' },
+      { zh: '所以你们要彼此认罪，互相代求，使你们可以得医治。义人祈祷所发的力量是大有功效的。', en: 'Confess your faults one to another, and pray one for another, that ye may be healed. The effectual fervent prayer of a righteous man availeth much.', ref: '雅各书 5:16' },
+    ],
+  },
+  {
+    id: 'forgive',
+    title: '被人伤害、很难饶恕的时候',
+    short: '难以饶恕',
+    intro: '饶恕不是假装没受伤，也不一定一下子就做得到。可以先诚实地告诉神你的感受，求他帮助你。',
+    prayer:
+      '天父，（说出那个人或那件事）让我很受伤，我心里有怒气，也很难过。你都知道。我自己没有力量饶恕，但我愿意把这件事交给你，因为你是公义的神。求你医治我心里的伤，也帮助我像你饶恕我一样，慢慢学会饶恕。求你赐我智慧，知道接下来该怎样面对。奉耶稣的名祷告，阿们。',
+    verses: [
+      { zh: '并要以恩慈相待，存怜悯的心，彼此饶恕，正如神在基督里饶恕了你们一样。', en: 'And be ye kind one to another, tenderhearted, forgiving one another, even as God for Christ\'s sake hath forgiven you.', ref: '以弗所书 4:32' },
+      { zh: '耶和华靠近伤心的人，拯救灵性痛悔的人。', en: 'The Lord is nigh unto them that are of a broken heart; and saveth such as be of a contrite spirit.', ref: '诗篇 34:18' },
+    ],
+  },
+  {
+    id: 'thanks',
+    title: '感恩的时候',
+    short: '感恩',
+    intro: '不只是有好事才感恩。每天睡前想三件值得感谢的事，会慢慢改变我们看生活的眼光。',
+    prayer:
+      '天父，谢谢你！谢谢你今天（说出具体的事，比如：让我平安到家、让我遇到一位帮助我的人）。谢谢你赐我每天的饮食、家人和朋友，更谢谢你差耶稣来救我，让我成为你的孩子。很多恩典我以前都没留意，求你给我一颗常常感恩的心。奉耶稣的名祷告，阿们。',
+    verses: [
+      { zh: '要常常喜乐，不住地祷告，凡事谢恩；因为这是神在基督耶稣里向你们所定的旨意。', en: 'Rejoice evermore. Pray without ceasing. In every thing give thanks: for this is the will of God in Christ Jesus concerning you.', ref: '帖撒罗尼迦前书 5:16-18' },
+      { zh: '你们要称谢耶和华，因他本为善；他的慈爱永远长存。', en: 'O give thanks unto the Lord; for he is good: for his mercy endureth for ever.', ref: '诗篇 136:1' },
+    ],
+  },
+  {
+    id: 'confess',
+    title: '做错事、需要认罪的时候',
+    short: '认罪',
+    intro: '犯了错不要躲着神。他早就知道，也一直等着我们回到他面前。认罪之后，要相信自己真的被赦免了。',
+    prayer:
+      '天父，我向你承认，我（说出具体做错的事）。这是不对的，伤害了你，也可能伤害了别人。求你因着耶稣在十字架上为我流的血赦免我，洗净我。求你给我一颗清洁的心，帮助我改变。如果我需要向别人道歉或弥补，求你给我勇气去做。谢谢你的赦免。奉耶稣的名祷告，阿们。',
+    verses: [
+      { zh: '我们若认自己的罪，神是信实的，是公义的，必要赦免我们的罪，洗净我们一切的不义。', en: 'If we confess our sins, he is faithful and just to forgive us our sins, and to cleanse us from all unrighteousness.', ref: '约翰一书 1:9' },
+      { zh: '神啊，求你为我造清洁的心，使我里面重新有正直的灵。', en: 'Create in me a clean heart, O God; and renew a right spirit within me.', ref: '诗篇 51:10' },
+    ],
+  },
+  {
+    id: 'wisdom',
+    title: '要做决定、需要智慧的时候',
+    short: '求智慧',
+    intro: '换工作、搬家、人际关系……遇到不知道怎么选的时候，先停下来祷告，再加上读经、和成熟的基督徒商量。',
+    prayer:
+      '主啊，我现在要决定（说出要决定的事），我不知道哪一条路是对的。你应许过，缺少智慧的人可以向你求。求你赐我智慧，让我看清楚，也让我的心愿意顺服你的带领，而不只是选我自己喜欢的。如果这条路不是你的心意，求你为我关门；如果是，求你给我平安和勇气走下去。奉耶稣的名祷告，阿们。',
+    verses: [
+      { zh: '你们中间若有缺少智慧的，应当求那厚赐与众人、也不斥责人的神，主就必赐给他。', en: 'If any of you lack wisdom, let him ask of God, that giveth to all men liberally, and upbraideth not; and it shall be given him.', ref: '雅各书 1:5' },
+      { zh: '你要专心仰赖耶和华，不可倚靠自己的聪明，在你一切所行的事上都要认定他，他必指引你的路。', en: 'Trust in the Lord with all thine heart; and lean not unto thine own understanding. In all thy ways acknowledge him, and he shall direct thy paths.', ref: '箴言 3:5-6' },
+    ],
+  },
+  {
+    id: 'morning',
+    title: '早晨祷告',
+    short: '早晨',
+    intro: '起床后、看手机之前，用一两分钟把这一天交给神。',
+    prayer:
+      '天父，早安。谢谢你让我平安醒来，又给我新的一天。你的慈爱每天早晨都是新的。今天我要去（说出今天的安排），求你与我同在，带领我说的每一句话、做的每一件事。帮助我对身边的人有耐心、有爱心，让别人从我身上看到你。奉耶稣的名祷告，阿们。',
+    verses: [
+      { zh: '我们不致消灭，是出于耶和华诸般的慈爱；是因他的怜悯不致断绝。每早晨，这都是新的；你的诚实极其广大！', en: 'It is of the Lord\'s mercies that we are not consumed, because his compassions fail not. They are new every morning: great is thy faithfulness.', ref: '耶利米哀歌 3:22-23' },
+      { zh: '耶和华啊，早晨你必听我的声音；早晨我必向你陈明我的心意，并要警醒！', en: 'My voice shalt thou hear in the morning, O Lord; in the morning will I direct my prayer unto thee, and will look up.', ref: '诗篇 5:3' },
+    ],
+  },
+  {
+    id: 'night',
+    title: '晚上睡前祷告',
+    short: '睡前',
+    intro: '睡前回顾这一天：感谢、认罪、交托，然后安心睡觉。',
+    prayer:
+      '天父，谢谢你保守我度过今天。谢谢你（说出今天的一件恩典）。今天我有做得不好的地方（可以具体说出来），求你赦免我。还没解决的事情，我现在都放在你手里，不再带着它们入睡。求你赐我和家人一夜安睡，明天早晨有新的力量。奉耶稣的名祷告，阿们。',
+    verses: [
+      { zh: '我必安然躺下睡觉，因为独有你─耶和华使我安然居住。', en: 'I will both lay me down in peace, and sleep: for thou, Lord, only makest me dwell in safety.', ref: '诗篇 4:8' },
+    ],
+  },
+  {
+    id: 'meal',
+    title: '饭前祷告',
+    short: '饭前',
+    intro: '短短一句就够了，一个人吃饭或和家人朋友一起都可以。',
+    prayer:
+      '天父，感谢你赐给我们这一餐，也感谢预备这顿饭的人。求你祝福这些食物，使我们的身体得着力量，也记念那些今天没有饭吃的人。奉耶稣的名祷告，阿们。',
+    verses: [
+      { zh: '凡神所造的物都是好的，若感谢着领受，就没有一样可弃的，都因神的道和人的祈求成为圣洁了。', en: 'For every creature of God is good, and nothing to be refused, if it be received with thanksgiving: For it is sanctified by the word of God and prayer.', ref: '提摩太前书 4:4-5' },
+    ],
+  },
+  {
+    id: 'waiting',
+    title: '祷告了很久还没看到回应的时候',
+    short: '等候回应',
+    intro: '神的回应有时是“好”，有时是“不”，有时是“等一等”。等候的时候继续祷告，不要灰心。',
+    prayer:
+      '主啊，我为（说出这件事）已经祷告了很久，还没有看到改变，我有时会灰心，甚至怀疑你有没有听见。求你帮助我相信，你的时间和方法比我的更好。在等候的日子里，求你更新我的力量，让我不只是等一个结果，更是在这段时间里更认识你。奉耶稣的名祷告，阿们。',
+    verses: [
+      { zh: '但那等候耶和华的必重新得力。他们必如鹰展翅上腾；他们奔跑却不困倦，行走却不疲乏。', en: 'But they that wait upon the Lord shall renew their strength; they shall mount up with wings as eagles; they shall run, and not be weary; and they shall walk, and not faint.', ref: '以赛亚书 40:31' },
+      { zh: '耶稣设一个比喻，是要人常常祷告，不可灰心。', en: 'And he spake a parable unto them to this end, that men ought always to pray, and not to faint;', ref: '路加福音 18:1' },
+    ],
+  },
+];
+
+const hardSteps = [
+  {
+    title: '先倾心吐意，说真话',
+    text: '不用先整理好情绪，也不用说漂亮的话。害怕、委屈、生气、不明白，都可以原原本本告诉神。诗篇里有很多这样的祷告。',
+    verse: { zh: '你们众民当时时倚靠他，在他面前倾心吐意；神是我们的避难所。', en: 'Trust in him at all times; ye people, pour out your heart before him: God is a refuge for us.', ref: '诗篇 62:8' },
+  },
+  {
+    title: '具体地求',
+    text: '把难处一件一件说清楚：需要的是一份工作、一个答案、一笔钱、一段关系的和好，还是先有力量撑过这一周？具体地求，以后也更容易看见神怎样回应。',
+    verse: { zh: '你们祈求，就给你们；寻找，就寻见；叩门，就给你们开门。', en: 'Ask, and it shall be given you; seek, and ye shall find; knock, and it shall be opened unto you:', ref: '马太福音 7:7' },
+  },
+  {
+    title: '交托，并求他的心意',
+    text: '告诉神你希望的结果，同时也承认他比你看得更远。“愿你的旨意成就”不是放弃，而是相信他会给最好的。',
+    verse: { zh: '我的恩典够你用的，因为我的能力是在人的软弱上显得完全。', en: 'My grace is sufficient for thee: for my strength is made perfect in weakness.', ref: '哥林多后书 12:9' },
+  },
+  {
+    title: '求平安和今天的力量',
+    text: '难题不一定马上解决，但可以求神先赐下平安，并给你今天需要的力量和下一步的智慧。',
+    verse: { zh: '并要在患难之日求告我；我必搭救你，你也要荣耀我。', en: 'And call upon me in the day of trouble: I will deliver thee, and thou shalt glorify me.', ref: '诗篇 50:15' },
+  },
+  {
+    title: '用感谢结束，然后继续祷告',
+    text: '感谢他已经听见。之后每天继续为这件事祷告，也可以请教会的弟兄姊妹一起代祷。不要一个人扛。',
+    verse: { zh: '你们要恒切祷告，在此警醒感恩。', en: 'Continue in prayer, and watch in the same with thanksgiving;', ref: '歌罗西书 4:2' },
+  },
+];
+
+const faqs = [
+  ['一定要闭眼、跪下吗？', '不一定。闭眼可以帮助专心，但走路、开车、做家务的时候也可以在心里祷告。神看的是心，不是姿势。'],
+  ['要说多久才算数？', '一句话的祷告神也听。可以从每天几分钟开始，慢慢就会越说越自然。'],
+  ['为什么最后要说“奉耶稣的名”？', '因为我们是靠着耶稣才能来到父神面前，不是靠自己够好。“阿们”的意思是“诚心所愿”。'],
+  ['可以用中文、英文或者混着说吗？', '当然可以。神懂每一种语言，也懂你说不出来的叹息。'],
+  ['说着说着走神了怎么办？', '很正常。发现了就回来继续说。也可以把祷告写下来，或者照着一节经文来祷告。'],
+];
+---
+<Base
+  title="学习祷告：遇到难处时怎样祷告"
+  description="祷告就是和天父说话。用 ACTS 四步学会祷告，并附焦虑、生病、为家人、感恩、认罪、求智慧、早晚、饭前、代祷等场景的示范祷告，每个配和合本与 KJV 中英对照经文。"
+  keywords={['怎样祷告', '祷告', '祷告词', '遇到困难怎么祷告', '代祷', '饭前祷告', '睡前祷告', 'ACTS 祷告']}
+>
+  <header class="page-hero">
+    <div class="wrap">
+      <span class="eyebrow">Learning to Pray</span>
+      <h1>学习祷告</h1>
+      <p class="lead">祷告就是和天父说话。不需要华丽的词句，也不需要先变得够好，像孩子对父亲那样说出心里的话就可以。我自己也还在一边学、一边祷告。</p>
+      <nav class="jump" aria-label="跳到">
+        <a href="#how">怎样祷告</a>
+        <a href="#hard">遇到难处</a>
+        {scenes.map((s) => <a href={`#${s.id}`}>{s.short}</a>)}
+        <a href="#faq">常见问题</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="wrap pray">
+    <Verse
+      zh="应当一无挂虑，只要凡事藉着祷告、祈求，和感谢，将你们所要的告诉神。神所赐、出人意外的平安必在基督耶稣里保守你们的心怀意念。"
+      en="Be careful for nothing; but in every thing by prayer and supplication with thanksgiving let your requests be made known unto God. And the peace of God, which passeth all understanding, shall keep your hearts and minds through Christ Jesus."
+      ref="腓立比书 4:6-7"
+    />
+
+    <section class="section" id="how">
+      <div class="section-head"><div><h2>一个容易记的顺序：ACTS</h2><p>祷告没有固定格式。刚开始不知道说什么时，可以照这四步来。</p></div></div>
+      <div class="acts">
+        {acts.map((a) => (
+          <div class="act">
+            <span class="act-k">{a.k}</span>
+            <strong>{a.name} <small>{a.en}</small></strong>
+            <span>{a.text}</span>
+          </div>
+        ))}
+      </div>
+      <p class="pray-tip">最后用 <b>“奉耶稣基督的名祷告，阿们”</b> 结束。</p>
+      <Verse
+        zh="你们奉我的名无论求什么，我必成就，叫父因儿子得荣耀。"
+        en="And whatsoever ye shall ask in my name, that will I do, that the Father may be glorified in the Son."
+        ref="约翰福音 14:13"
+      />
+
+      <div class="model">
+        <h3>最好的范本：主祷文</h3>
+        <p>门徒请耶稣教他们祷告，耶稣就教了他们这段祷告。它先敬拜神、求神的国和旨意，再为日用的饮食、赦免和保守祈求。可以每天照着念，也可以一句一句用自己的话展开来说。</p>
+        <p><a class="btn ghost" href="/daily/#prayer">去读主祷文（中英对照）→</a></p>
+      </div>
+
+      <div class="model">
+        <h3>不知道怎么说也没关系</h3>
+        <p>有时候心里太乱，一句话都说不出来。那就安静地在神面前，说一句“主啊，帮助我”也可以。圣经说，圣灵会替我们祷告。</p>
+        <Verse
+          zh="况且，我们的软弱有圣灵帮助；我们本不晓得当怎样祷告，只是圣灵亲自用说不出来的叹息替我们祷告。"
+          en="Likewise the Spirit also helpeth our infirmities: for we know not what we should pray for as we ought: but the Spirit itself maketh intercession for us with groanings which cannot be uttered."
+          ref="罗马书 8:26"
+        />
+      </div>
+    </section>
+
+    <section class="section" id="hard">
+      <div class="section-head"><div><h2>遇到难处、很难解决的时候</h2><p>可以照这五步来祷告。一次说不完，就每天都来说。</p></div></div>
+      <ol class="steps">
+        {hardSteps.map((s) => (
+          <li>
+            <h2>{s.title}</h2>
+            <p>{s.text}</p>
+            <Verse zh={s.verse.zh} en={s.verse.en} ref={s.verse.ref} />
+          </li>
+        ))}
+      </ol>
+      <div class="scene-prayer">
+        <span class="sp-label">示范祷告</span>
+        <p>亲爱的天父，我现在遇到了一件很难的事：（把事情说出来）。我试了很多办法，还是不知道该怎么办，心里很累，也很害怕。你说在患难的日子可以求告你，所以我来到你面前。求你（具体说出你的需要）。我不知道最好的结果是什么，但我相信你知道，也相信你爱我。求你先赐我平安，给我今天需要的力量，让我看清下一步该怎么走。也求你差派人来帮助我。无论结果如何，我都愿意信靠你。奉耶稣基督的名祷告，阿们。</p>
+      </div>
+    </section>
+
+    <div class="section-head section"><div><h2>各种场景的示范祷告</h2><p>括号里的地方换成你自己的情况。这些只是例子，用你自己的话说也一样好。</p></div></div>
+
+    {scenes.map((s) => (
+      <section class="scene" id={s.id}>
+        <h3>{s.title}</h3>
+        <p class="scene-intro">{s.intro}</p>
+        <div class="scene-prayer">
+          <span class="sp-label">示范祷告</span>
+          <p>{s.prayer}</p>
+        </div>
+        {s.verses.map((v) => <Verse zh={v.zh} en={v.en} ref={v.ref} />)}
+      </section>
+    ))}
+
+    <section class="section" id="faq">
+      <div class="section-head"><div><h2>常见问题</h2></div></div>
+      <div class="faq">
+        {faqs.map(([q, a]) => (
+          <details>
+            <summary>{q}</summary>
+            <p>{a}</p>
+          </details>
+        ))}
+      </div>
+      <Verse
+        zh="你祷告的时候，要进你的内屋，关上门，祷告你在暗中的父；你父在暗中察看，必然报答你。"
+        en="But thou, when thou prayest, enter into thy closet, and when thou hast shut thy door, pray to thy Father which is in secret; and thy Father which seeth in secret shall reward thee openly."
+        ref="马太福音 6:6"
+      />
+    </section>
+  </div>
+</Base>
+
+<style>
+  .pray { margin-top: 40px; }
+  .jump { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+  .jump a {
+    font-size: 0.88rem; text-decoration: none; color: var(--text); background: var(--surface);
+    border: 1px solid var(--line); border-radius: 999px; padding: 5px 12px;
+  }
+  .jump a:hover { border-color: var(--accent); color: var(--accent); }
+  .section-head { display: block; }
+  .acts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  .act { position: relative; padding: 20px 20px 18px; border-radius: var(--radius); background: var(--surface); border: 1px solid var(--line); }
+  .act-k { display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--accent); color: #fff; font-weight: 700; margin-bottom: 10px; }
+  .act strong { display: block; font-size: 1.1rem; margin-bottom: 4px; }
+  .act strong small { font-weight: 400; color: var(--muted); font-size: 0.8rem; margin-left: 4px; }
+  .act > span:last-child { color: var(--muted); font-size: 0.93rem; line-height: 1.7; }
+  .pray-tip { margin: 18px 0 0; }
+  .model { margin-top: 36px; padding: 24px; border-radius: var(--radius); background: var(--surface); border: 1px solid var(--line); }
+  .model h3 { margin: 0 0 8px; font-size: 1.2rem; }
+  .model p { margin: 0 0 12px; }
+  .model .verse-card { margin: 12px 0 0; }
+  #hard .steps { margin-top: 8px; }
+  .scene { margin-top: 44px; padding-top: 28px; border-top: 1px solid var(--line); scroll-margin-top: 80px; }
+  .scene h3 { margin: 0 0 6px; font-size: 1.3rem; }
+  .scene-intro { margin: 0 0 14px; color: var(--muted); }
+  .scene-prayer { margin: 0 0 14px; padding: 20px 22px; border-radius: var(--radius); background: color-mix(in srgb, var(--accent) 7%, var(--surface)); border: 1px solid color-mix(in srgb, var(--accent) 22%, var(--line)); }
+  .scene-prayer p { margin: 0; font-family: var(--serif); font-size: 1.06rem; line-height: 1.95; }
+  .sp-label { display: inline-block; font-size: 0.78rem; font-weight: 600; color: var(--accent); letter-spacing: 0.04em; margin-bottom: 6px; }
+  .scene .verse-card { margin: 12px 0; }
+  section[id] { scroll-margin-top: 80px; }
+  .faq { display: grid; gap: 10px; margin-bottom: 20px; }
+  .faq details { border: 1px solid var(--line); border-radius: 12px; background: var(--surface); padding: 14px 18px; }
+  .faq summary { cursor: pointer; font-weight: 600; }
+  .faq details p { margin: 10px 0 0; color: var(--muted); }
+  @media (max-width: 640px) {
+    .acts { grid-template-columns: 1fr; }
+    .model { padding: 20px 18px; }
+    .scene-prayer { padding: 18px; }
+  }
+</style>

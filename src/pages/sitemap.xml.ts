@@ -10,6 +10,7 @@ export const GET: APIRoute = async ({ site }) => {
     { loc: u('/'), lastmod: latest, priority: '1.0' },
     { loc: u('/gospel/'), priority: '0.9' },
     { loc: u('/daily/'), priority: '0.8' },
+    { loc: u('/prayer/'), priority: '0.8' },
     { loc: u('/journey/'), priority: '0.7' },
     { loc: u('/posts/'), lastmod: latest, priority: '0.8' },
     { loc: u('/about/'), priority: '0.5' },
