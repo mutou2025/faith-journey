@@ -1,0 +1,47 @@
+---
+import Base from '../layouts/Base.astro';
+import { JOURNEY } from '../journey';
+---
+<Base title="信仰历程" description="神一步一步带领我的脚踪：从异乡的孤单，到走进教会、受洗、服侍。">
+  <header class="page-hero">
+    <div class="wrap">
+      <span class="eyebrow">My Journey</span>
+      <h1>信仰历程</h1>
+      <p class="lead">把神一步一步带领我的脚踪记下来，免得忘记。</p>
+    </div>
+  </header>
+  <div class="wrap">
+    <ol class="timeline journey">
+      {JOURNEY.map((n) => (
+        <li>
+          <div class="meta"><span class="when">{n.when}</span></div>
+          <h3>{n.title}</h3>
+          <p>{n.text}</p>
+          {n.verse && (
+            <blockquote class="jv">
+              <p class="zh">{n.verse.zh}</p>
+              <p class="en">{n.verse.en}</p>
+              <cite>{n.verse.ref}</cite>
+            </blockquote>
+          )}
+          {n.link && <p class="jl"><a href={n.link.href}>{n.link.label} →</a></p>}
+        </li>
+      ))}
+    </ol>
+    <p class="journey-end">未完待续。愿神继续带领前面的路。</p>
+  </div>
+</Base>
+
+<style>
+  .journey { margin-top: 36px; }
+  .journey li { padding-bottom: 34px; }
+  .when { font-size: 0.85rem; font-weight: 600; color: var(--accent); letter-spacing: 0.02em; }
+  .journey p { color: var(--text); font-size: 1rem; line-height: 1.75; }
+  .jv { margin: 12px 0 0; padding: 12px 16px; border-left: 3px solid var(--accent); background: var(--surface); border-radius: 0 10px 10px 0; }
+  .jv p { margin: 0; }
+  .jv .zh { font-family: 'Noto Serif SC', serif; }
+  .jv .en { color: var(--muted); font-size: 0.9rem; margin-top: 4px; }
+  .jv cite { display: block; margin-top: 6px; font-style: normal; font-size: 0.85rem; color: var(--muted); }
+  .jl { margin-top: 8px !important; }
+  .journey-end { color: var(--muted); text-align: center; margin: 8px 0 48px; }
+</style>
