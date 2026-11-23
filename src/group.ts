@@ -20,7 +20,7 @@ export const GROUP = {
   time: '晚上 9:00',
   tz: 'America/Toronto',
   tzLabel: '多伦多时间',
-  durationMin: 90,
+  durationMin: 45,
   book: '创世记',
   bookChapters: 50,
   flow: [
