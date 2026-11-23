@@ -81,4 +81,14 @@ export const JOURNEY: JourneyNode[] = [
     },
     link: { href: '/gospel/', label: '认识福音' },
   },
+  {
+    when: '2026 年 11 月',
+    title: '加入每周四的线上读经小组',
+    text: '第一次参加，大家一起读《创世记》第 15 章，先彼此代祷，再读经、分享。结束的时候大家都说时间过得太快，意犹未尽。从此每周四晚上，又多了一段和弟兄姊妹一起亲近神的时间。',
+    verse: {
+      zh: '亚伯兰信耶和华，耶和华就以此为他的义。',
+      en: 'And he believed in the LORD; and he counted it to him for righteousness.',
+      ref: '创世记 15:6',
+    },
+  },
 ];
