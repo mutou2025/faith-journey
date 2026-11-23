@@ -37,18 +37,32 @@ const siteLd = {
 };
 const ldBlocks = [siteLd, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [])];
 const path = Astro.url.pathname;
-const nav = [
+type NavLink = { href: string; label: string; desc?: string };
+type NavItem = NavLink | { label: string; children: NavLink[] };
+const nav: NavItem[] = [
   { href: '/', label: '首页' },
-  { href: '/daily/', label: '每日诵读' },
-  { href: '/prayer/', label: '学习祷告' },
+  {
+    label: '我的记录',
+    children: [
+      { href: '/journey/', label: '信仰历程', desc: '一路走来的时间线' },
+      { href: '/posts/', label: '全部记录', desc: '按日期浏览所有文章' },
+      { href: '/category/sermon/', label: '主日笔记', desc: '每周主日讲道学习' },
+    ],
+  },
+  {
+    label: '灵修',
+    children: [
+      { href: '/daily/', label: '每日诵读', desc: '信经、主祷文、今日经文' },
+      { href: '/prayer/', label: '学习祷告', desc: 'ACTS 与各场景示范祷告' },
+      { href: '/category/resources/', label: '圣经资料', desc: '读经参考与整理' },
+    ],
+  },
   { href: '/group/', label: '读经小组' },
-  { href: '/journey/', label: '信仰历程' },
-  { href: '/posts/', label: '全部记录' },
-  { href: '/category/sermon/', label: '主日笔记' },
-  { href: '/category/resources/', label: '圣经资料' },
-  { href: '/captions/', label: '实时字幕' },
   { href: '/gospel/', label: '认识福音' },
-  { href: '/about/', label: '关于' },
+];
+const moreLinks: NavLink[] = [
+  { href: '/captions/', label: '讲道实时字幕' },
+  { href: '/about/', label: '关于这个网站' },
 ];
 const isCurrent = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
 const canonical = new URL(path, Astro.site);
@@ -106,10 +120,34 @@ const canonical = new URL(path, Astro.site);
           </span>
           <span class="brand-name">{SITE_TITLE}</span>
         </a>
-        <nav class="nav" aria-label="主导航">
-          {nav.map((n) => (
-            <a href={n.href} aria-current={isCurrent(n.href) ? 'page' : undefined}>{n.label}</a>
-          ))}
+        <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="打开菜单">
+          <svg class="i-open" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"></path></svg>
+          <svg class="i-close" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"></path></svg>
+        </button>
+        <nav class="nav" id="site-nav" aria-label="主导航">
+          {nav.map((n) =>
+            'children' in n ? (
+              <div class:list={['nav-group', { current: n.children.some((c) => isCurrent(c.href)) }]}>
+                <button class="nav-top" type="button" aria-expanded="false" aria-haspopup="true">
+                  {n.label}
+                  <svg class="chev" width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"></path></svg>
+                </button>
+                <div class="nav-menu">
+                  {n.children.map((c) => (
+                    <a href={c.href} aria-current={isCurrent(c.href) ? 'page' : undefined}>
+                      <span class="nm-label">{c.label}</span>
+                      {c.desc && <span class="nm-desc">{c.desc}</span>}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <a class="nav-link" href={n.href} aria-current={isCurrent(n.href) ? 'page' : undefined}>{n.label}</a>
+            )
+          )}
+          <div class="nav-more">
+            {moreLinks.map((m) => <a href={m.href} aria-current={isCurrent(m.href) ? 'page' : undefined}>{m.label}</a>)}
+          </div>
         </nav>
       </div>
     </header>
@@ -123,11 +161,41 @@ const canonical = new URL(path, Astro.site);
           <p>诗篇 119:105</p>
         </div>
         <div>
-          <p><a href="/gospel/">认识福音</a> · <a href="/prayer/">学习祷告</a> · <a href="/group/">读经小组</a> · <a href="/captions/">讲道实时字幕</a> · <a href="/about/">关于这个网站</a></p>
+          <p><a href="/gospel/">认识福音</a> · <a href="/group/">读经小组</a> · {moreLinks.map((m, i) => <>{i > 0 && ' · '}<a href={m.href}>{m.label}</a></>)}</p>
           <p>经文：和合本（简体）· King James Version</p>
         </div>
       </div>
     </footer>
+    <script>
+      const header = document.querySelector('.site-header');
+      const menuBtn = document.querySelector<HTMLButtonElement>('.menu-btn');
+      const groups = [...document.querySelectorAll<HTMLElement>('.nav-group')];
+      const setGroup = (g: HTMLElement, open: boolean) => {
+        g.classList.toggle('open', open);
+        g.querySelector('.nav-top')?.setAttribute('aria-expanded', String(open));
+      };
+      const closeGroups = (except?: HTMLElement) => groups.forEach((g) => g !== except && setGroup(g, false));
+      groups.forEach((g) => {
+        g.querySelector('.nav-top')?.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const open = !g.classList.contains('open');
+          closeGroups(g);
+          setGroup(g, open);
+        });
+      });
+      const setMenu = (open: boolean) => {
+        header?.classList.toggle('menu-open', open);
+        menuBtn?.setAttribute('aria-expanded', String(open));
+        menuBtn?.setAttribute('aria-label', open ? '关闭菜单' : '打开菜单');
+      };
+      menuBtn?.addEventListener('click', () => setMenu(!header?.classList.contains('menu-open')));
+      document.addEventListener('click', (e) => {
+        if (!(e.target as Element).closest('.nav-group')) closeGroups();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') { closeGroups(); setMenu(false); }
+      });
+    </script>
     <Analytics />
   </body>
 </html>
