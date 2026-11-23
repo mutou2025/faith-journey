@@ -1,0 +1,234 @@
+---
+import Base from '../layouts/Base.astro';
+import Verse from '../components/Verse.astro';
+import { GROUP, meetings, nextMeeting, previewMeeting, chapterNum, fmtDate, torontoToday } from '../group';
+
+const today = torontoToday();
+const next = nextMeeting(today)!;
+const week = previewMeeting(today)!;
+const done = Math.max(0, chapterNum(week) - 1);
+const pct = Math.round((done / GROUP.bookChapters) * 100);
+
+const gStart = next.date.replace(/-/g, '');
+const endMin = 21 * 60 + GROUP.durationMin;
+const gEnd = `${String(Math.floor(endMin / 60)).padStart(2, '0')}${String(endMin % 60).padStart(2, '0')}00`;
+const pageUrl = new URL('/group/', Astro.site).href;
+const google =
+  'https://calendar.google.com/calendar/render?' +
+  new URLSearchParams({
+    action: 'TEMPLATE',
+    text: GROUP.name,
+    dates: `${gStart}T210000/${gStart}T${gEnd}`,
+    ctz: GROUP.tz,
+    recur: 'RRULE:FREQ=WEEKLY;BYDAY=TH',
+    details: `代祷 · 读经 · 分享。本周经文和讨论问题：${pageUrl}\nZoom 链接请看群里。`,
+    location: 'Zoom（链接见群里）',
+  }).toString();
+
+const upcoming = meetings.filter((m) => m.date >= today);
+const past = meetings.filter((m) => m.date < today);
+---
+<Base
+  title="读经小组：本周预告与经文"
+  description={`${GROUP.weekday}${GROUP.time}（${GROUP.tzLabel}）线上读经小组。本周读${week.chapter}，附和合本与 KJV 中英对照经文、讨论问题和带领排班。`}
+  keywords={['读经小组', '查经', '创世记', '中英对照', '讨论问题', '线上查经']}
+>
+  <header class="page-hero">
+    <div class="wrap">
+      <span class="eyebrow">Bible Study Group</span>
+      <h1>读经小组</h1>
+      <p class="lead">{GROUP.weekday}{GROUP.time}（{GROUP.tzLabel}），我们在线上一起代祷、读经、分享。现在正在读《{GROUP.book}》。</p>
+      <nav class="jump" aria-label="跳到">
+        <a href="#week">本周预告</a>
+        <a href="#passage">经文</a>
+        <a href="#questions">讨论问题</a>
+        <a href="#roster">带领排班</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="wrap grp">
+    <section class="week-card" id="week">
+      <span class="wk-label">{week.date === next.date ? '本周预告' : '最近一次'}</span>
+      <h2>{week.chapter}</h2>
+      {week.theme && <p class="wk-theme">{week.theme}</p>}
+      <dl class="wk-meta">
+        <div><dt>时间</dt><dd>{fmtDate(week.date)}（周四）{GROUP.time} · {GROUP.tzLabel}<span class="local" data-date={week.date}></span></dd></div>
+        {week.leader && <div><dt>带领</dt><dd>{week.leader}</dd></div>}
+        <div><dt>流程</dt><dd>代祷 → 读经 → 分享</dd></div>
+        <div><dt>会议链接</dt><dd>请看群里的通知</dd></div>
+      </dl>
+      <div class="wk-btns">
+        <a class="btn" href="#passage">读本周经文 ↓</a>
+        <a class="btn ghost" href="/group.ics">加入日历（苹果 / Outlook）</a>
+        <a class="btn ghost" href={google} target="_blank" rel="noopener">加入 Google 日历</a>
+      </div>
+      <p class="wk-note">日历会每周四自动提醒，时间按你所在的时区显示。</p>
+    </section>
+
+    {next.special && next.date !== week.date && (
+      <p class="notice">下一次聚会 {fmtDate(next.date)}：{next.special}</p>
+    )}
+
+    <section class="progress" aria-label="读经进度">
+      <div class="pg-head"><strong>《{GROUP.book}》进度</strong><span>已读完 {done} / {GROUP.bookChapters} 章</span></div>
+      <div class="pg-bar"><span style={`width:${pct}%`}></span></div>
+    </section>
+
+    {week.keyVerse && <Verse zh={week.keyVerse.zh} en={week.keyVerse.en} ref={week.keyVerse.ref} />}
+
+    {week.passage && (
+      <section class="section" id="passage">
+        <div class="section-head"><div><h2>{week.chapter} 全文</h2><p>和合本（简体）· King James Version</p></div></div>
+        <div class="lang" role="group" aria-label="显示语言">
+          <button type="button" data-lang="both" aria-pressed="true">中英对照</button>
+          <button type="button" data-lang="zh" aria-pressed="false">只看中文</button>
+          <button type="button" data-lang="en" aria-pressed="false">English</button>
+        </div>
+        <ol class="passage" data-show="both">
+          {week.passage.map((v) => (
+            <li>
+              <span class="vn">{v.v}</span>
+              <p class="zh">{v.zh}</p>
+              <p class="en">{v.en}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+    )}
+
+    {week.questions && (
+      <section class="section" id="questions">
+        <div class="section-head"><div><h2>讨论问题</h2><p>可以先自己想一想，聚会时挑一两个分享。没有标准答案。</p></div></div>
+        <ol class="qs">{week.questions.map((q) => <li>{q}</li>)}</ol>
+      </section>
+    )}
+
+    <section class="section" id="flow">
+      <div class="section-head"><div><h2>聚会怎么进行</h2></div></div>
+      <ol class="flow">
+        {GROUP.flow.map((f) => (<li><strong>{f.title}</strong><span>{f.text}</span></li>))}
+      </ol>
+    </section>
+
+    <section class="section" id="roster">
+      <div class="section-head"><div><h2>带领排班</h2><p>网站上只写称呼的首字母。</p></div></div>
+      <table class="roster">
+        <thead><tr><th>日期</th><th>带领</th><th>内容</th></tr></thead>
+        <tbody>
+          {upcoming.map((m) => (
+            <tr class:list={[{ now: m.date === next.date, special: m.special }]}>
+              <td>{fmtDate(m.date)}</td>
+              <td>{m.special ? '—' : m.leader ?? '待定'}</td>
+              <td>{m.special ?? m.chapter ?? '接着往下读'}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      {past.length > 0 && (
+        <details class="past">
+          <summary>之前的聚会（{past.length} 次）</summary>
+          <table class="roster">
+            <tbody>
+              {[...past].reverse().map((m) => (
+                <tr><td>{fmtDate(m.date)}</td><td>{m.leader ?? '—'}</td><td>{m.chapter ?? ''}</td></tr>
+              ))}
+            </tbody>
+          </table>
+        </details>
+      )}
+    </section>
+
+    <aside class="privacy">
+      <strong>关于隐私</strong>
+      <p>这个页面是公开的。Zoom 链接、密码、联系方式和具体的代祷事项都只在群里分享，不会放在这里。</p>
+    </aside>
+  </div>
+</Base>
+
+<script>
+  // 中英切换
+  const list = document.querySelector<HTMLOListElement>('.passage');
+  document.querySelectorAll<HTMLButtonElement>('.lang button').forEach((b) => {
+    b.addEventListener('click', () => {
+      if (list) list.dataset.show = b.dataset.lang;
+      document.querySelectorAll('.lang button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    });
+  });
+  // 不在多伦多时区的人，显示本地时间
+  document.querySelectorAll<HTMLElement>('.local').forEach((el) => {
+    const iso = el.dataset.date;
+    if (!iso) return;
+    const local = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    if (local === 'America/Toronto') return;
+    const [y, m, d] = iso.split('-').map(Number);
+    // 找出多伦多当天 21:00 对应的 UTC 时间
+    const guess = Date.UTC(y, m - 1, d, 21 + 5, 0);
+    const torontoH = Number(new Intl.DateTimeFormat('en-US', { timeZone: 'America/Toronto', hour: 'numeric', hourCycle: 'h23' }).format(guess));
+    const t = new Date(guess - (torontoH - 21) * 3600e3);
+    const s = new Intl.DateTimeFormat('zh-CN', { month: 'long', day: 'numeric', weekday: 'short', hour: 'numeric', minute: '2-digit' }).format(t);
+    el.textContent = `（你那里是 ${s}）`;
+  });
+</script>
+
+<style>
+  .grp { margin-top: 36px; }
+  .jump { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+  .jump a { font-size: 0.88rem; text-decoration: none; color: var(--text); background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 5px 12px; }
+  .jump a:hover { border-color: var(--accent); color: var(--accent); }
+  .section-head { display: block; }
+  section[id] { scroll-margin-top: 80px; }
+  .week-card { padding: 26px 26px 22px; border-radius: var(--radius); background: linear-gradient(135deg, var(--accent-soft), var(--surface)); border: 1px solid var(--line); box-shadow: var(--shadow); }
+  .wk-label { display: inline-block; font-size: 0.8rem; font-weight: 600; color: #fff; background: var(--accent); border-radius: 999px; padding: 3px 12px; }
+  .week-card h2 { font-family: var(--serif); font-size: 1.9rem; margin: 12px 0 4px; }
+  .wk-theme { font-family: var(--serif); font-size: 1.12rem; margin: 0 0 16px; }
+  .wk-meta { display: grid; gap: 8px; margin: 0 0 18px; }
+  .wk-meta div { display: grid; grid-template-columns: 5em 1fr; gap: 8px; }
+  .wk-meta dt { color: var(--muted); }
+  .wk-meta dd { margin: 0; }
+  .local { display: block; color: var(--muted); font-size: 0.9rem; }
+  .wk-btns { display: flex; flex-wrap: wrap; gap: 10px; }
+  .wk-note { margin: 12px 0 0; color: var(--muted); font-size: 0.88rem; }
+  .notice { margin: 16px 0 0; padding: 12px 16px; border-radius: 12px; background: var(--surface-2); }
+  .progress { margin: 24px 0; }
+  .pg-head { display: flex; justify-content: space-between; gap: 12px; font-size: 0.95rem; margin-bottom: 8px; }
+  .pg-head span { color: var(--muted); }
+  .pg-bar { height: 10px; border-radius: 999px; background: var(--surface-2); overflow: hidden; border: 1px solid var(--line); }
+  .pg-bar span { display: block; height: 100%; background: var(--accent); border-radius: 999px; }
+  .lang { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; margin-bottom: 14px; background: var(--surface); }
+  .lang button { font: inherit; font-size: 0.88rem; border: 0; background: transparent; color: var(--text); padding: 7px 14px; cursor: pointer; }
+  .lang button[aria-pressed='true'] { background: var(--accent); color: #fff; }
+  .passage { list-style: none; padding: 0; margin: 0; display: grid; gap: 4px; }
+  .passage li { display: grid; grid-template-columns: 2em 1fr 1fr; gap: 6px 18px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+  .passage .vn { color: var(--accent); font-weight: 700; font-size: 0.85rem; padding-top: 4px; }
+  .passage p { margin: 0; line-height: 1.85; }
+  .passage .zh { font-family: var(--serif); font-size: 1.06rem; }
+  .passage .en { color: var(--muted); font-size: 0.95rem; }
+  .passage[data-show='zh'] .en, .passage[data-show='en'] .zh { display: none; }
+  .passage[data-show='zh'] li, .passage[data-show='en'] li { grid-template-columns: 2em 1fr; }
+  .passage[data-show='en'] .en { color: var(--text); font-size: 1.02rem; }
+  .qs { display: grid; gap: 12px; padding-left: 1.4em; margin: 0; }
+  .qs li { padding: 14px 16px; border-radius: 12px; background: var(--surface); border: 1px solid var(--line); line-height: 1.8; }
+  .qs li::marker { color: var(--accent); font-weight: 700; }
+  .flow { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; counter-reset: f; }
+  .flow li { padding: 18px; border-radius: var(--radius); background: var(--surface); border: 1px solid var(--line); counter-increment: f; }
+  .flow li::before { content: counter(f); display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: #fff; font-weight: 700; margin-bottom: 8px; }
+  .flow strong { display: block; margin-bottom: 4px; }
+  .flow span { color: var(--muted); font-size: 0.93rem; line-height: 1.7; }
+  .roster { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  .roster th, .roster td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); }
+  .roster th { font-size: 0.85rem; color: var(--muted); font-weight: 600; background: var(--surface-2); }
+  .roster tr.now td { background: var(--accent-soft); font-weight: 600; }
+  .roster tr.special td:last-child { color: var(--accent); }
+  .past { margin-top: 14px; }
+  .past summary { cursor: pointer; color: var(--muted); margin-bottom: 10px; }
+  .privacy { margin: 44px 0 20px; padding: 18px 20px; border-radius: 12px; background: var(--surface-2); border: 1px dashed var(--line); }
+  .privacy p { margin: 4px 0 0; color: var(--muted); font-size: 0.93rem; }
+  @media (max-width: 640px) {
+    .week-card { padding: 22px 18px 18px; }
+    .passage li, .passage[data-show='zh'] li, .passage[data-show='en'] li { grid-template-columns: 1.6em 1fr; }
+    .passage .en { grid-column: 2; }
+    .flow { grid-template-columns: 1fr; }
+    .roster th, .roster td { padding: 9px 10px; }
+  }
+</style>
