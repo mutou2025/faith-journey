@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { CATEGORIES } from '../consts';
+import { PUBLIC_CATEGORIES as CATEGORIES } from '../consts';
 import { getPosts } from '../lib';
 
 export const GET: APIRoute = async ({ site }) => {

@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import PostCards from '../components/PostCards.astro';
 import CatIcon from '../components/CatIcon.astro';
-import { CATEGORIES } from '../consts';
+import { PUBLIC_CATEGORIES as CATEGORIES } from '../consts';
 import { getPosts } from '../lib';
 
 const posts = await getPosts();

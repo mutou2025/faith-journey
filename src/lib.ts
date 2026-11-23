@@ -1,7 +1,8 @@
 import { getCollection } from 'astro:content';
+import { HIDDEN_CATEGORIES } from './consts';
 
 export async function getPosts() {
-  const posts = await getCollection('posts', ({ data }) => !data.draft);
+  const posts = await getCollection('posts', ({ data }) => !data.draft && !HIDDEN_CATEGORIES.includes(data.category));
   return posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 }
 
