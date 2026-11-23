@@ -8,7 +8,6 @@ import { getPosts } from '../lib';
 const posts = await getPosts();
 const latest = posts.slice(0, 5);
 const counts = Object.fromEntries(CATEGORIES.map((c) => [c.name, posts.filter((p) => p.data.category === c.name).length]));
-const first = posts.at(-1)?.data.date;
 const sermonCount = counts['主日笔记'];
 ---
 <Base>
@@ -26,7 +25,6 @@ const sermonCount = counts['主日笔记'];
         <div class="stats">
           <div><strong>{posts.length}</strong><span>篇记录</span></div>
           <div><strong>{sermonCount}</strong><span>篇主日笔记</span></div>
-          {first && <div><strong>{first.getUTCFullYear()}.{first.getUTCMonth() + 1}</strong><span>开始记录</span></div>}
         </div>
       </div>
       <blockquote class="verse-card">
