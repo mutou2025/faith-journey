@@ -11,6 +11,12 @@ import { JOURNEY } from '../journey';
     </div>
   </header>
   <div class="wrap">
+    <blockquote class="pinned">
+      <span class="pin-label">置顶经文</span>
+      <p class="zh">爱是恒久忍耐，又有恩慈；爱是不嫉妒；爱是不自夸，不张狂，不做害羞的事，不求自己的益处，不轻易发怒，不计算人的恶，不喜欢不义，只喜欢真理；凡事包容，凡事相信，凡事盼望，凡事忍耐。</p>
+      <p class="en">Charity suffereth long, and is kind; charity envieth not; charity vaunteth not itself, is not puffed up, doth not behave itself unseemly, seeketh not her own, is not easily provoked, thinketh no evil; rejoiceth not in iniquity, but rejoiceth in the truth; beareth all things, believeth all things, hopeth all things, endureth all things.</p>
+      <cite>哥林多前书 13:4-7</cite>
+    </blockquote>
     <ol class="timeline journey">
       {JOURNEY.map((n) => (
         <li>
@@ -33,6 +39,11 @@ import { JOURNEY } from '../journey';
 </Base>
 
 <style>
+  .pinned { margin: 32px 0 0; padding: 22px 22px 18px; border-radius: var(--radius); background: var(--surface); border: 1px solid var(--line); border-top: 4px solid var(--accent); }
+  .pinned .pin-label { display: inline-block; font-size: 0.78rem; font-weight: 600; color: var(--accent); letter-spacing: 0.04em; margin-bottom: 8px; }
+  .pinned .zh { margin: 0; font-family: 'Noto Serif SC', serif; font-size: 1.12rem; line-height: 1.9; }
+  .pinned .en { margin: 10px 0 0; color: var(--muted); font-size: 0.92rem; line-height: 1.7; }
+  .pinned cite { display: block; margin-top: 10px; font-style: normal; font-size: 0.88rem; color: var(--muted); text-align: right; }
   .journey { margin-top: 36px; }
   .journey li { padding-bottom: 34px; }
   .when { font-size: 0.85rem; font-weight: 600; color: var(--accent); letter-spacing: 0.02em; }
