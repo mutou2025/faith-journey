@@ -39,6 +39,7 @@ const ldBlocks = [siteLd, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd
 const path = Astro.url.pathname;
 const nav = [
   { href: '/', label: '首页' },
+  { href: '/daily/', label: '每日诵读' },
   { href: '/posts/', label: '全部记录' },
   { href: '/category/sermon/', label: '主日笔记' },
   { href: '/category/resources/', label: '圣经资料' },
