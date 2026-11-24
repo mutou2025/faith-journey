@@ -1,0 +1,156 @@
+---
+import Base from '../../layouts/Base.astro';
+import Verse from '../../components/Verse.astro';
+import { chapters, notes, resources, type ChapterNote } from '../../confession';
+
+export function getStaticPaths() {
+  return notes.map((note) => ({ params: { n: String(note.n) }, props: { note } }));
+}
+
+const { note } = Astro.props as { note: ChapterNote };
+const ch = chapters.find((c) => c.n === note.n)!;
+const nextCh = chapters.find((c) => c.n === note.n + 1);
+const nextDone = nextCh && notes.some((x) => x.n === nextCh.n);
+---
+<Base
+  title={`第 ${ch.n} 章 ${ch.zh}：《这是我们的信仰》学习笔记`}
+  description={`门诺会信仰告白第 ${ch.n} 章「${ch.zh}」(${ch.en}) 学习笔记：${note.summary}`}
+  keywords={['这是我们的信仰', '门诺会信仰告白', ch.zh, ch.en]}
+>
+  <header class="page-hero">
+    <div class="wrap">
+      <a class="back" href="/confession/">← 《这是我们的信仰》学习笔记</a>
+      <span class="eyebrow">Article {ch.n} · {ch.en}</span>
+      <h1>第 {ch.n} 章　{ch.zh}</h1>
+      <p class="lead">{note.summary}</p>
+      <nav class="jump" aria-label="跳到">
+        <a href="#text">原文摘录</a>
+        <a href="#points">要点</a>
+        <a href="#verses">章末经文</a>
+        <a href="#commentary">英文注释</a>
+        <a href="#questions">讨论题</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="wrap conf">
+    <section class="section" id="text">
+      <div class="section-head"><div><h2>原文摘录</h2></div></div>
+      <div class="excerpt">
+        {note.excerpt.map((para) => (
+          <p>{para.map((s) => (<>{s.text}{s.fn && <sup><a href={`#fn${s.fn}`}>{s.fn}</a></sup>}</>))}</p>
+        ))}
+      </div>
+      {note.excerptNote && <p class="small-note">{note.excerptNote}</p>}
+    </section>
+
+    <section class="section" id="points">
+      <div class="section-head"><div><h2>本章要点</h2></div></div>
+      <ol class="points">
+        {note.points.map((p) => (
+          <li><h3>{p.title}</h3><p>{p.text}</p></li>
+        ))}
+      </ol>
+      <h3 class="sub">中英关键词</h3>
+      <table class="terms">
+        <tbody>
+          {note.terms.map(([zh, en]) => (<tr><td>{zh}</td><td lang="en">{en}</td></tr>))}
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section" id="verses">
+      <div class="section-head"><div><h2>章末经文</h2><p>按书中脚注编号整理，经文为和合本与 KJV 对照。完整出处都列出来了，可以自己再查读上下文。</p></div></div>
+      {note.footnotes.map((f) => (
+        <div class="fn" id={`fn${f.fn}`}>
+          <div class="fn-head"><span class="fn-n">{f.fn}</span><div><b>{f.refs}</b><span>{f.about}</span></div></div>
+          {f.verses.map((v) => <Verse zh={v.zh} en={v.en} ref={v.ref} />)}
+        </div>
+      ))}
+    </section>
+
+    <section class="section" id="commentary">
+      <div class="section-head"><div><h2>英文原版的注释</h2><p>英文版每章后附有 Commentary，下面是第 {ch.n} 章注释的中文概述（自己整理，不是逐字翻译）。</p></div></div>
+      <ol class="points">
+        {note.commentary.map((p) => (
+          <li><h3>{p.title}</h3><p>{p.text}</p></li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="section" id="questions">
+      <div class="section-head"><div><h2>默想与讨论</h2></div></div>
+      <ol class="qs">
+        {note.questions.map((q) => <li>{q}</li>)}
+      </ol>
+      {note.hope && (
+        <div class="hope">
+          <span class="sp-label">盼望</span>
+          <Verse zh={note.hope.zh} en={note.hope.en} ref={note.hope.ref} />
+        </div>
+      )}
+    </section>
+
+    {note.next && (
+      <section class="section next">
+        <p>{note.next}</p>
+        {nextCh && (nextDone
+          ? <a class="btn" href={`/confession/${nextCh.n}/`}>下一章：第 {nextCh.n} 章 {nextCh.zh} →</a>
+          : <span class="small-note">第 {nextCh?.n} 章笔记整理中。</span>)}
+      </section>
+    )}
+
+    <section class="section">
+      <div class="section-head"><div><h2>参考资料</h2></div></div>
+      <ul class="res">
+        {resources.map((r) => (
+          <li><a href={r.href} target="_blank" rel="noopener">{r.label}</a><span>{r.desc}</span></li>
+        ))}
+      </ul>
+      <p><a class="btn ghost" href="/confession/">返回目录</a></p>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .back { display: inline-block; margin-bottom: 10px; font-size: 0.9rem; color: var(--muted); text-decoration: none; }
+  .back:hover { color: var(--accent); }
+  .jump { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+  .jump a { padding: 6px 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--text); font-size: 0.9rem; text-decoration: none; }
+  .jump a:hover { border-color: var(--accent); color: var(--accent); }
+  .conf section { scroll-margin-top: 80px; }
+  .excerpt { padding: 22px 24px; border-radius: var(--radius); background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--accent); }
+  .excerpt p { margin: 0 0 14px; font-family: var(--serif); font-size: 1.08rem; line-height: 2; text-indent: 2em; }
+  .excerpt p:last-child { margin-bottom: 0; }
+  .excerpt sup a { color: var(--accent); text-decoration: none; font-family: var(--sans); font-size: 0.75em; margin-left: 1px; }
+  .small-note { color: var(--muted); font-size: 0.88rem; margin: 10px 0 0; }
+  .points { list-style: none; counter-reset: p; padding: 0; margin: 0; display: grid; gap: 12px; }
+  .points li { counter-increment: p; position: relative; padding: 18px 20px 16px 58px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); }
+  .points li::before { content: counter(p); position: absolute; left: 18px; top: 18px; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.85rem; }
+  .points h3 { margin: 0 0 4px; font-size: 1.08rem; }
+  .points p { margin: 0; color: var(--muted); line-height: 1.8; }
+  .sub { margin: 28px 0 10px; font-size: 1.1rem; }
+  .terms { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; font-size: 0.95rem; }
+  .terms td { padding: 9px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  .terms tr:first-child td { border-top: 0; }
+  .terms td:first-child { width: 42%; font-weight: 600; }
+  .terms td:last-child { color: var(--muted); font-style: italic; }
+  .fn { margin-top: 26px; scroll-margin-top: 80px; }
+  .fn-head { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 4px; }
+  .fn-n { flex: none; display: grid; place-items: center; width: 26px; height: 26px; border-radius: 6px; background: var(--accent-soft); color: var(--accent); font-weight: 700; font-size: 0.85rem; }
+  .fn-head b { display: block; }
+  .fn-head span { color: var(--muted); font-size: 0.9rem; }
+  .fn .verse-card { margin: 10px 0; }
+  .qs { margin: 0; padding-left: 1.4em; display: grid; gap: 10px; line-height: 1.85; }
+  .hope { margin-top: 28px; }
+  .sp-label { display: inline-block; font-size: 0.78rem; font-weight: 600; color: var(--accent); letter-spacing: 0.04em; }
+  .next { padding: 20px 22px; border-radius: var(--radius); background: color-mix(in srgb, var(--accent) 7%, var(--surface)); border: 1px solid color-mix(in srgb, var(--accent) 22%, var(--line)); }
+  .next p { margin: 0 0 8px; }
+  .res { margin: 0 0 18px; padding-left: 1.2em; line-height: 1.9; }
+  .res li span { display: block; color: var(--muted); font-size: 0.88rem; margin-bottom: 6px; }
+  @media (max-width: 640px) {
+    .excerpt { padding: 18px; }
+    .points li { padding: 16px 16px 14px 52px; }
+    .points li::before { left: 14px; top: 16px; }
+  }
+</style>
