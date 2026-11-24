@@ -1,6 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { chapters, notes, resources } from '../../confession';
+import { chapters, notes, resources } from '../../confession/index';
 
 const done = new Set(notes.map((n) => n.n));
 ---
@@ -13,13 +13,13 @@ const done = new Set(notes.map((n) => n.n));
     <div class="wrap">
       <span class="eyebrow">Confession of Faith</span>
       <h1>《这是我们的信仰》学习笔记</h1>
-      <p class="lead">《这是我们的信仰：门诺会的圣经信念》是门诺会在 1995 年通过的信仰告白，共 24 章，从神、耶稣基督、圣灵一直讲到教会生活和神的王权。每章都很短，后面附有经文出处。这里一章一章整理读书笔记。</p>
+      <p class="lead">《这是我们的信仰：门诺会的圣经信念》是门诺会在 1995 年通过的信仰告白，共 24 章，从神、耶稣基督、圣灵一直讲到教会生活和神的王权。每章都很短，后面附有经文出处。这里把 24 章都整理成了读书笔记：每章有内容整理、要点、中英关键词、章末经文（和合本与 KJV 对照）、英文注释的中文概述和讨论题。</p>
     </div>
   </header>
 
   <div class="wrap conf">
     <section class="section">
-      <div class="section-head"><div><h2>目录</h2><p>已整理的章节可以点进去看；其他章节读到时再补上。中文章名除第 7、24 章外为暂译，以书中为准。</p></div></div>
+      <div class="section-head"><div><h2>目录</h2><p>点章名进入笔记。第 7 章附有中文版原文摘录；其他各章按英文原版用自己的话整理，读到中文版时可以对照。中文章名除第 7、24 章外为暂译，以书中为准。</p></div></div>
       <ol class="toc">
         {chapters.map((c) => (
           <li class={done.has(c.n) ? 'has' : ''}>

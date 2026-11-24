@@ -1,7 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Verse from '../../components/Verse.astro';
-import { chapters, notes, resources, type ChapterNote } from '../../confession';
+import { chapters, notes, resources, type ChapterNote } from '../../confession/index';
 
 export function getStaticPaths() {
   return notes.map((note) => ({ params: { n: String(note.n) }, props: { note } }));
@@ -11,6 +11,8 @@ const { note } = Astro.props as { note: ChapterNote };
 const ch = chapters.find((c) => c.n === note.n)!;
 const nextCh = chapters.find((c) => c.n === note.n + 1);
 const nextDone = nextCh && notes.some((x) => x.n === nextCh.n);
+const prevCh = chapters.find((c) => c.n === note.n - 1);
+const prevDone = prevCh && notes.some((x) => x.n === prevCh.n);
 ---
 <Base
   title={`第 ${ch.n} 章 ${ch.zh}：《这是我们的信仰》学习笔记`}
@@ -22,9 +24,10 @@ const nextDone = nextCh && notes.some((x) => x.n === nextCh.n);
       <a class="back" href="/confession/">← 《这是我们的信仰》学习笔记</a>
       <span class="eyebrow">Article {ch.n} · {ch.en}</span>
       <h1>第 {ch.n} 章　{ch.zh}</h1>
+      {!ch.confirmed && <p class="small-note">中文章名为暂译，以纸本书为准。</p>}
       <p class="lead">{note.summary}</p>
       <nav class="jump" aria-label="跳到">
-        <a href="#text">原文摘录</a>
+        <a href="#text">{note.excerpt ? '原文摘录' : '本章内容'}</a>
         <a href="#points">要点</a>
         <a href="#verses">章末经文</a>
         <a href="#commentary">英文注释</a>
@@ -34,15 +37,27 @@ const nextDone = nextCh && notes.some((x) => x.n === nextCh.n);
   </header>
 
   <div class="wrap conf">
-    <section class="section" id="text">
-      <div class="section-head"><div><h2>原文摘录</h2></div></div>
-      <div class="excerpt">
-        {note.excerpt.map((para) => (
-          <p>{para.map((s) => (<>{s.text}{s.fn && <sup><a href={`#fn${s.fn}`}>{s.fn}</a></sup>}</>))}</p>
-        ))}
-      </div>
-      {note.excerptNote && <p class="small-note">{note.excerptNote}</p>}
-    </section>
+    {note.excerpt && (
+      <section class="section" id="text">
+        <div class="section-head"><div><h2>原文摘录</h2></div></div>
+        <div class="excerpt">
+          {note.excerpt.map((para) => (
+            <p>{para.map((s) => (<>{s.text}{s.fn && <sup><a href={`#fn${s.fn}`}>{s.fn}</a></sup>}</>))}</p>
+          ))}
+        </div>
+        {note.excerptNote && <p class="small-note">{note.excerptNote}</p>}
+      </section>
+    )}
+    {!note.excerpt && note.overview && (
+      <section class="section" id="text">
+        <div class="section-head"><div><h2>本章内容</h2><p>按英文原版逐段用自己的话整理，不是书中原文；上标数字对应下面的脚注经文。</p></div></div>
+        <div class="excerpt overview">
+          {note.overview.map((para) => (
+            <p>{para.map((s) => (<>{s.text}{s.fn && <sup><a href={`#fn${s.fn}`}>{s.fn}</a></sup>}</>))}</p>
+          ))}
+        </div>
+      </section>
+    )}
 
     <section class="section" id="points">
       <div class="section-head"><div><h2>本章要点</h2></div></div>
@@ -91,14 +106,13 @@ const nextDone = nextCh && notes.some((x) => x.n === nextCh.n);
       )}
     </section>
 
-    {note.next && (
-      <section class="section next">
-        <p>{note.next}</p>
-        {nextCh && (nextDone
-          ? <a class="btn" href={`/confession/${nextCh.n}/`}>下一章：第 {nextCh.n} 章 {nextCh.zh} →</a>
-          : <span class="small-note">第 {nextCh?.n} 章笔记整理中。</span>)}
-      </section>
-    )}
+    <section class="section next">
+      {note.next && <p>{note.next}</p>}
+      <div class="pn">
+        {prevCh && prevDone && <a class="btn ghost" href={`/confession/${prevCh.n}/`}>← 第 {prevCh.n} 章 {prevCh.zh}</a>}
+        {nextCh && nextDone && <a class="btn" href={`/confession/${nextCh.n}/`}>第 {nextCh.n} 章 {nextCh.zh} →</a>}
+      </div>
+    </section>
 
     <section class="section">
       <div class="section-head"><div><h2>参考资料</h2></div></div>
@@ -145,7 +159,8 @@ const nextDone = nextCh && notes.some((x) => x.n === nextCh.n);
   .hope { margin-top: 28px; }
   .sp-label { display: inline-block; font-size: 0.78rem; font-weight: 600; color: var(--accent); letter-spacing: 0.04em; }
   .next { padding: 20px 22px; border-radius: var(--radius); background: color-mix(in srgb, var(--accent) 7%, var(--surface)); border: 1px solid color-mix(in srgb, var(--accent) 22%, var(--line)); }
-  .next p { margin: 0 0 8px; }
+  .next p { margin: 0 0 12px; }
+  .pn { display: flex; flex-wrap: wrap; gap: 10px; }
   .res { margin: 0 0 18px; padding-left: 1.2em; line-height: 1.9; }
   .res li span { display: block; color: var(--muted); font-size: 0.88rem; margin-bottom: 6px; }
   @media (max-width: 640px) {

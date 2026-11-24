@@ -1,52 +1,6 @@
-// 《这是我们的信仰：门诺会的圣经信念》(Confession of Faith in a Mennonite Perspective, 1995) 逐章学习笔记
-// 新增一章：在 notes 里加一个对象（n 为章号），页面 /confession/<n>/ 会自动生成，目录也会自动出现链接。
+import type { ChapterNote } from './types';
 
-export type V = { zh: string; en: string; ref: string };
-
-export type ChapterNote = {
-  n: number;
-  summary: string; // 一句话总结
-  excerpt: { text: string; fn?: number }[][]; // 书中原文摘录（按段落，fn 为脚注号）
-  excerptNote?: string;
-  points: { title: string; text: string }[];
-  terms: [string, string][]; // 中英关键词
-  footnotes: { fn: number; refs: string; about: string; verses: V[] }[];
-  commentary: { title: string; text: string }[];
-  questions: string[];
-  hope?: V;
-  next?: string;
-};
-
-// 章名：中文为暂译，书里的正式译名以纸本为准（第 7、24 章已与纸本核对）
-export const chapters: { n: number; zh: string; en: string }[] = [
-  { n: 1, zh: '神', en: 'God' },
-  { n: 2, zh: '耶稣基督', en: 'Jesus Christ' },
-  { n: 3, zh: '圣灵', en: 'Holy Spirit' },
-  { n: 4, zh: '圣经', en: 'Scripture' },
-  { n: 5, zh: '创造与神的护理', en: 'Creation and Divine Providence' },
-  { n: 6, zh: '人的被造与呼召', en: 'The Creation and Calling of Human Beings' },
-  { n: 7, zh: '罪', en: 'Sin' },
-  { n: 8, zh: '救恩', en: 'Salvation' },
-  { n: 9, zh: '耶稣基督的教会', en: 'The Church of Jesus Christ' },
-  { n: 10, zh: '教会的使命', en: 'The Church in Mission' },
-  { n: 11, zh: '洗礼', en: 'Baptism' },
-  { n: 12, zh: '主的晚餐', en: "The Lord's Supper" },
-  { n: 13, zh: '洗脚', en: 'Foot Washing' },
-  { n: 14, zh: '教会的纪律', en: 'Discipline in the Church' },
-  { n: 15, zh: '事奉与领导', en: 'Ministry and Leadership' },
-  { n: 16, zh: '教会的秩序与合一', en: 'Church Order and Unity' },
-  { n: 17, zh: '门徒生活', en: 'Discipleship and the Christian Life' },
-  { n: 18, zh: '基督徒的灵性操练', en: 'Christian Spirituality' },
-  { n: 19, zh: '家庭、单身与婚姻', en: 'Family, Singleness, and Marriage' },
-  { n: 20, zh: '诚实与不起誓', en: 'Truth and the Avoidance of Oaths' },
-  { n: 21, zh: '基督徒的管家职分', en: 'Christian Stewardship' },
-  { n: 22, zh: '和平、公义与不抵抗', en: 'Peace, Justice, and Nonresistance' },
-  { n: 23, zh: '教会与政府和社会的关系', en: "The Church's Relation to Government and Society" },
-  { n: 24, zh: '神的王权', en: 'The Reign of God' },
-];
-
-export const notes: ChapterNote[] = [
-  {
+const note: ChapterNote = {
     n: 7,
     summary:
       '从亚当夏娃开始，人选择离开神；罪不只是做错几件事，而是背弃与神所立的约，破坏一切关系，并让人落在罪恶与死亡的权势之下。但神没有任凭这些权势掌权到底，也没有让人毫无盼望。',
@@ -239,20 +193,6 @@ export const notes: ChapterNote[] = [
       ref: '以弗所书 2:4-5',
     },
     next: '第 7 章讲到人落在罪中，第 8 章“救恩”接着讲神怎样藉着耶稣基督把人从罪中救出来。',
-  },
-];
+  };
 
-export const resources = [
-  { href: 'https://mennonitechurch.ca/cof', label: '加拿大门诺会：信仰告白介绍', desc: '英文，可在线阅读各章' },
-  {
-    href: 'https://www.mennoniteusa.org/wp-content/uploads/2024/02/Confession-of-Faith-In-a-Mennonite-Perspective.pdf',
-    label: '英文原版全文 PDF',
-    desc: '每章附经文出处和注释（Commentary）',
-  },
-  { href: 'https://mennoniteusa.org/confession-of-faith/', label: '美国门诺会：信仰告白', desc: '英文介绍页' },
-  {
-    href: 'https://www.cmu.ca/docs/cmupress/CMU-Understanding-the-Faith-from-a-Mennonite-Perspective.pdf',
-    label: '《Understanding the Faith from a Mennonite Perspective》',
-    desc: '配套的英文学习材料',
-  },
-];
+export default note;
