@@ -1,0 +1,78 @@
+---
+import Base from '../../layouts/Base.astro';
+import { chapters, notes, resources } from '../../confession';
+
+const done = new Set(notes.map((n) => n.n));
+---
+<Base
+  title="《这是我们的信仰》学习笔记"
+  description="门诺会信仰告白《这是我们的信仰：门诺会的圣经信念》（Confession of Faith in a Mennonite Perspective）逐章学习笔记：要点、中英关键词、章末经文（和合本与 KJV 对照）和讨论题。"
+  keywords={['这是我们的信仰', '门诺会信仰告白', 'Confession of Faith in a Mennonite Perspective', '门诺会', '信仰告白']}
+>
+  <header class="page-hero">
+    <div class="wrap">
+      <span class="eyebrow">Confession of Faith</span>
+      <h1>《这是我们的信仰》学习笔记</h1>
+      <p class="lead">《这是我们的信仰：门诺会的圣经信念》是门诺会在 1995 年通过的信仰告白，共 24 章，从神、耶稣基督、圣灵一直讲到教会生活和神的王权。每章都很短，后面附有经文出处。这里一章一章整理读书笔记。</p>
+    </div>
+  </header>
+
+  <div class="wrap conf">
+    <section class="section">
+      <div class="section-head"><div><h2>目录</h2><p>已整理的章节可以点进去看；其他章节读到时再补上。中文章名除第 7、24 章外为暂译，以书中为准。</p></div></div>
+      <ol class="toc">
+        {chapters.map((c) => (
+          <li class={done.has(c.n) ? 'has' : ''}>
+            {done.has(c.n) ? (
+              <a href={`/confession/${c.n}/`}>
+                <span class="num">{c.n}</span>
+                <span class="t"><b>{c.zh}</b><small>{c.en}</small></span>
+                <span class="tag">笔记 →</span>
+              </a>
+            ) : (
+              <div>
+                <span class="num">{c.n}</span>
+                <span class="t"><b>{c.zh}</b><small>{c.en}</small></span>
+              </div>
+            )}
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="section">
+      <div class="section-head"><div><h2>怎样读这本书</h2></div></div>
+      <ul class="how">
+        <li>每章先读正文，再把脚注里的经文一处一处查出来读，看信条是从哪段圣经来的。</li>
+        <li>英文原版每章后面还有“注释”（Commentary），解释这一章为什么这样说，中文版可能没有，笔记里会简单整理。</li>
+        <li>读完可以用讨论题自己默想，或在小组里一起分享。</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <div class="section-head"><div><h2>相关资源</h2><p>网上暂时找不到中文版的电子档，以下是英文原版和配套材料。</p></div></div>
+      <ul class="res">
+        {resources.map((r) => (
+          <li><a href={r.href} target="_blank" rel="noopener">{r.label}</a><span>{r.desc}</span></li>
+        ))}
+      </ul>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .conf { margin-top: 8px; }
+  .toc { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .toc li > a, .toc li > div { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 14px; border: 1px solid var(--line); background: var(--surface); color: inherit; text-decoration: none; }
+  .toc li > div { opacity: 0.62; }
+  .toc li.has > a { border-color: color-mix(in srgb, var(--accent) 35%, var(--line)); background: color-mix(in srgb, var(--accent) 6%, var(--surface)); }
+  .toc li.has > a:hover { border-color: var(--accent); }
+  .num { flex: none; display: inline-grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: var(--surface-2); font-weight: 700; font-size: 0.9rem; }
+  .has .num { background: var(--accent); color: #fff; }
+  .t { display: flex; flex-direction: column; min-width: 0; }
+  .t small { color: var(--muted); font-size: 0.8rem; }
+  .tag { margin-left: auto; color: var(--accent); font-size: 0.85rem; font-weight: 600; white-space: nowrap; }
+  .how, .res { margin: 0; padding-left: 1.2em; line-height: 1.9; }
+  .res li span { display: block; color: var(--muted); font-size: 0.88rem; margin-bottom: 6px; }
+  @media (max-width: 640px) { .toc { grid-template-columns: 1fr; } }
+</style>

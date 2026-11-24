@@ -11,6 +11,8 @@ export const GET: APIRoute = async ({ site }) => {
     { loc: u('/gospel/'), priority: '0.9' },
     { loc: u('/daily/'), priority: '0.8' },
     { loc: u('/prayer/'), priority: '0.8' },
+    { loc: u('/confession/'), priority: '0.7' },
+    { loc: u('/confession/7/'), priority: '0.6' },
     { loc: u('/group/'), priority: '0.7' },
     { loc: u('/posts/'), lastmod: latest, priority: '0.8' },
     { loc: u('/about/'), priority: '0.5' },
