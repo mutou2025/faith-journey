@@ -47,7 +47,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '圣经都是神所默示的，于教训、督责、使人归正、教导人学义都是有益的，',
-          en: 'All scripture is given by inspiration of God, and is profitable for doctrine, for reproof, for correction, for instruction in righteousness:',
+          en: "All Scripture is inspired by God and is useful to teach us what is true and to make us realize what is wrong in our lives. It corrects us when we are wrong and teaches us to do what is right.",
           ref: '提摩太后书 3:16',
         },
       ],
@@ -59,7 +59,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '因为预言从来没有出于人意的，乃是人被圣灵感动，说出神的话来。',
-          en: 'For the prophecy came not in old time by the will of man: but holy men of God spake as they were moved by the Holy Ghost.',
+          en: "or from human initiative. No, those prophets were moved by the Holy Spirit, and they spoke from God.",
           ref: '彼得后书 1:21',
         },
       ],
@@ -71,7 +71,7 @@ const note: ChapterNote = {
       refs: '箴 30:5；约 10:35',
       about: '神的话完全可靠',
       verses: [
-        { zh: '神的言语句句都是炼净的；投靠他的，他便作他们的盾牌。', en: 'Every word of God is pure: he is a shield unto them that put their trust in him.', ref: '箴言 30:5' },
+        { zh: '神的言语句句都是炼净的；投靠他的，他便作他们的盾牌。', en: "Every word of God proves true. He is a shield to all who come to him for protection.", ref: '箴言 30:5' },
       ],
     },
     {
@@ -81,7 +81,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '我口所出的话也必如此，决不徒然返回，却要成就我所喜悦的，在我发他去成就的事上必然亨通。',
-          en: 'So shall my word be that goeth forth out of my mouth: it shall not return unto me void, but it shall accomplish that which I please, and it shall prosper in the thing whereto I sent it.',
+          en: "It is the same with my word. I send it out, and it always produces fruit. It will accomplish all I want it to, and it will prosper everywhere I send it.",
           ref: '以赛亚书 55:11',
         },
       ],
@@ -93,7 +93,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '于是从摩西和众先知起，凡经上所指着自己的话都给他们讲解明白了。',
-          en: 'And beginning at Moses and all the prophets, he expounded unto them in all the scriptures the things concerning himself.',
+          en: "Then Jesus took them through the writings of Moses and all the prophets, explaining from all the Scriptures the things concerning himself.",
           ref: '路加福音 24:27',
         },
       ],
@@ -103,7 +103,7 @@ const note: ChapterNote = {
       refs: '可 7:13；徒 5:29-32；西 2:6-23',
       about: '一切都要用圣经来检验',
       verses: [
-        { zh: '彼得和众使徒回答说：顺从神，不顺从人，是应当的。', en: 'Then Peter and the other apostles answered and said, We ought to obey God rather than men.', ref: '使徒行传 5:29' },
+        { zh: '彼得和众使徒回答说：顺从神，不顺从人，是应当的。', en: "But Peter and the apostles replied, \"We must obey God rather than any human authority.\"", ref: '使徒行传 5:29' },
       ],
     },
     {
@@ -111,7 +111,7 @@ const note: ChapterNote = {
       refs: '诗 1:2；提前 4:13；提后 3:15-17',
       about: '昼夜思想神的话',
       verses: [
-        { zh: '惟喜爱耶和华的律法，昼夜思想，这人便为有福！', en: 'But his delight is in the law of the Lord; and in his law doth he meditate day and night.', ref: '诗篇 1:2' },
+        { zh: '惟喜爱耶和华的律法，昼夜思想，这人便为有福！', en: "But they delight in the law of the Lord, meditating on it day and night.", ref: '诗篇 1:2' },
       ],
     },
     {
@@ -121,7 +121,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '神的道是活泼的，是有功效的，比一切两刃的剑更快，甚至魂与灵，骨节与骨髓，都能刺入、剖开，连心中的思念和主意都能辨明。',
-          en: 'For the word of God is quick, and powerful, and sharper than any twoedged sword, piercing even to the dividing asunder of soul and spirit, and of the joints and marrow, and is a discerner of the thoughts and intents of the heart.',
+          en: "For the word of God is alive and powerful. It is sharper than the sharpest two-edged sword, cutting between soul and spirit, between joint and marrow. It exposes our innermost thoughts and desires.",
           ref: '希伯来书 4:12',
         },
       ],

@@ -42,7 +42,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '弟兄们，若有人偶然被过犯所胜，你们属灵的人就当用温柔的心把他挽回过来；又当自己小心，恐怕也被引诱。',
-          en: 'Brethren, if a man be overtaken in a fault, ye which are spiritual, restore such an one in the spirit of meekness; considering thyself, lest thou also be tempted.',
+          en: "Dear brothers and sisters, if another believer is overcome by some sin, you who are godly should gently and humbly help that person back onto the right path. And be careful not to fall into the same temptation yourself.",
           ref: '加拉太书 6:1',
         },
       ],
@@ -54,7 +54,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '惟用爱心说诚实话，凡事长进，连于元首基督。',
-          en: 'But speaking the truth in love, may grow up into him in all things, which is the head, even Christ:',
+          en: "Instead, we will speak the truth in love, growing in every way more and more like Christ, who is the head of his body, the church.",
           ref: '以弗所书 4:15',
         },
       ],

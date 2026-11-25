@@ -44,7 +44,7 @@ const note: ChapterNote = {
       refs: '诗 27:10；路 8:19-21；弗 2:19',
       about: '神的家里的人',
       verses: [
-        { zh: '我父母离弃我，耶和华必收留我。', en: 'When my father and my mother forsake me, then the Lord will take me up.', ref: '诗篇 27:10' },
+        { zh: '我父母离弃我，耶和华必收留我。', en: "Even if my father and mother abandon me, the Lord will hold me close.", ref: '诗篇 27:10' },
       ],
     },
     { fn: 2, refs: '林前 7:38', about: '单身和婚姻都好', verses: [] },
@@ -53,13 +53,13 @@ const note: ChapterNote = {
       fn: 4,
       refs: '可 10:9；林前 7:10-11',
       about: '神配合的，人不可分开',
-      verses: [{ zh: '所以，神配合的，人不可分开。', en: 'What therefore God hath joined together, let not man put asunder.', ref: '马可福音 10:9' }],
+      verses: [{ zh: '所以，神配合的，人不可分开。', en: "Let no one split apart what God has joined together.", ref: '马可福音 10:9' }],
     },
     {
       fn: 5,
       refs: '弗 5:21',
       about: '存敬畏基督的心彼此顺服',
-      verses: [{ zh: '又当存敬畏基督的心彼此顺服。', en: 'Submitting yourselves one to another in the fear of God.', ref: '以弗所书 5:21' }],
+      verses: [{ zh: '又当存敬畏基督的心彼此顺服。', en: "And further, submit to one another out of reverence for Christ.", ref: '以弗所书 5:21' }],
     },
     { fn: 6, refs: '出 20:14；林前 6:12-20', about: '不可奸淫；身体是圣灵的殿', verses: [] },
     {
@@ -69,7 +69,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '让小孩子到我这里来，不要禁止他们；因为在神国的，正是这样的人。',
-          en: 'Suffer the little children to come unto me, and forbid them not: for of such is the kingdom of God.',
+          en: "When Jesus saw what was happening, he was angry with his disciples. He said to them, \"Let the children come to me. Don't stop them! For the Kingdom of God belongs to those who are like these children.\"",
           ref: '马可福音 10:14',
         },
       ],

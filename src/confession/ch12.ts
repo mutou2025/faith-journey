@@ -34,7 +34,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '你们每逢吃这饼，喝这杯，是表明主的死，直等到他来。',
-          en: "For as often as ye eat this bread, and drink this cup, ye do shew the Lord's death till he come.",
+          en: "For every time you eat this bread and drink this cup, you are announcing the Lord's death until he comes again.",
           ref: '哥林多前书 11:26',
         },
       ],
@@ -46,7 +46,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '饭后，也照样拿起杯来，说：“这杯是用我的血所立的新约。你们每逢喝的时候，要如此行，为的是记念我。”',
-          en: 'After the same manner also he took the cup, when he had supped, saying, This cup is the new testament in my blood: this do ye, as oft as ye drink it, in remembrance of me.',
+          en: "In the same way, he took the cup of wine after supper, saying, \"This cup is the new covenant between God and his people—an agreement confirmed with my blood. Do this in remembrance of me as often as you drink it.\"",
           ref: '哥林多前书 11:25',
         },
       ],
@@ -58,7 +58,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '我们所祝福的杯，岂不是同领基督的血吗？我们所擘开的饼，岂不是同领基督的身体吗？',
-          en: 'The cup of blessing which we bless, is it not the communion of the blood of Christ? The bread which we break, is it not the communion of the body of Christ?',
+          en: "When we bless the cup at the Lord's Table, aren't we sharing in the blood of Christ? And when we break the bread, aren't we sharing in the body of Christ?",
           ref: '哥林多前书 10:16',
         },
       ],

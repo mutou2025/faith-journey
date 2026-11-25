@@ -56,7 +56,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '在至高之处荣耀归与神！在地上平安归与他所喜悦的人！',
-          en: 'Glory to God in the highest, and on earth peace, good will toward men.',
+          en: "Glory to God in highest heaven, and peace on earth to those with whom God is pleased.",
           ref: '路加福音 2:14',
         },
       ],
@@ -68,7 +68,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '只是我告诉你们，要爱你们的仇敌，为那逼迫你们的祷告。',
-          en: 'But I say unto you, Love your enemies, bless them that curse you, do good to them that hate you, and pray for them which despitefully use you, and persecute you;',
+          en: "But I say, love your enemies! Pray for those who persecute you!",
           ref: '马太福音 5:44',
         },
       ],
@@ -81,7 +81,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '因他使我们和睦，将两下合而为一，拆毁了中间隔断的墙；',
-          en: 'For he is our peace, who hath made both one, and hath broken down the middle wall of partition between us;',
+          en: "For Christ himself has brought peace to us. He united Jews and Gentiles into one people when, in his own body on the cross, he broke down the wall of hostility that separated us.",
           ref: '以弗所书 2:14',
         },
       ],
@@ -91,14 +91,14 @@ const note: ChapterNote = {
       fn: 9,
       refs: '太 5:3-12',
       about: '使人和睦的人有福了',
-      verses: [{ zh: '使人和睦的人有福了！因为他们必称为神的儿子。', en: 'Blessed are the peacemakers: for they shall be called the children of God.', ref: '马太福音 5:9' }],
+      verses: [{ zh: '使人和睦的人有福了！因为他们必称为神的儿子。', en: "God blesses those who work for peace, for they will be called the children of God.", ref: '马太福音 5:9' }],
     },
     {
       fn: 10,
       refs: '太 5:39；林前 6:1-16；罗 12:14-21',
       about: '不可为恶所胜，反要以善胜恶',
       verses: [
-        { zh: '你不可为恶所胜，反要以善胜恶。', en: 'Be not overcome of evil, but overcome evil with good.', ref: '罗马书 12:21' },
+        { zh: '你不可为恶所胜，反要以善胜恶。', en: "Don't let evil conquer you, but conquer evil by doing good.", ref: '罗马书 12:21' },
       ],
     },
     { fn: 11, refs: '赛 11:1-9', about: '豺狼与绵羊羔同居', verses: [] },
@@ -117,7 +117,7 @@ const note: ChapterNote = {
   ],
   hope: {
     zh: '他必在列国中施行审判，为许多国民断定是非。他们要将刀打成犁头，把枪打成镰刀。这国不举刀攻击那国，他们也不再学习战事。',
-    en: 'And he shall judge among the nations, and shall rebuke many people: and they shall beat their swords into plowshares, and their spears into pruninghooks: nation shall not lift up sword against nation, neither shall they learn war any more.',
+    en: "The Lord will mediate between nations and will settle international disputes. They will hammer their swords into plowshares and their spears into pruning hooks. Nation will no longer fight against nation, nor train for war anymore.",
     ref: '以赛亚书 2:4',
   },
   next: '第 23 章讲教会与政府和社会的关系：教会是神“圣洁的国度”，首先效忠基督。',

@@ -60,7 +60,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '你们要谨慎行事，不要像愚昧人，当像智慧人。要爱惜光阴，因为现今的世代邪恶。',
-          en: 'See then that ye walk circumspectly, not as fools, but as wise, Redeeming the time, because the days are evil.',
+          en: "So be careful how you live. Don't live like fools, but like those who are wise. Make the most of every opportunity in these evil days.",
           ref: '以弗所书 5:15-16',
         },
       ],
@@ -74,7 +74,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '又对他们说：“安息日是为人设立的，人不是为安息日设立的。所以，人子也是安息日的主。”',
-          en: 'And he said unto them, The sabbath was made for man, and not man for the sabbath: Therefore the Son of man is Lord also of the sabbath.',
+          en: "Then Jesus said to them, \"The Sabbath was made to meet the needs of people, and not people to meet the requirements of the Sabbath. So the Son of Man is Lord, even over the Sabbath!\"",
           ref: '马可福音 2:27-28',
         },
       ],
@@ -89,7 +89,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '地和其中所充满的，世界和住在其间的，都属耶和华。',
-          en: "The earth is the Lord's, and the fulness thereof; the world, and they that dwell therein.",
+          en: "The earth is the Lord's, and everything in it. The world and all its people belong to him.",
           ref: '诗篇 24:1',
         },
       ],
@@ -101,7 +101,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '各人要随本心所酌定的，不要作难，不要勉强，因为捐得乐意的人是神所喜爱的。',
-          en: 'Every man according as he purposeth in his heart, so let him give; not grudgingly, or of necessity: for God loveth a cheerful giver.',
+          en: "You must each decide in your heart how much to give. And don't give reluctantly or in response to pressure. \"For God loves a person who gives cheerfully.\"",
           ref: '哥林多后书 9:7',
         },
       ],
@@ -113,7 +113,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '一个人不能事奉两个主；不是恶这个爱那个，就是重这个轻那个。你们不能又事奉神，又事奉玛门。',
-          en: 'No man can serve two masters: for either he will hate the one, and love the other; or else he will hold to the one, and despise the other. Ye cannot serve God and mammon.',
+          en: "No one can serve two masters. For you will hate one and love the other; you will be devoted to one and despise the other. You cannot serve God and be enslaved to money.",
           ref: '马太福音 6:24',
         },
       ],
@@ -125,7 +125,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '凡劳苦担重担的人可以到我这里来，我就使你们得安息。',
-          en: 'Come unto me, all ye that labour and are heavy laden, and I will give you rest.',
+          en: "Then Jesus said, \"Come to me, all of you who are weary and carry heavy burdens, and I will give you rest.\"",
           ref: '马太福音 11:28',
         },
       ],

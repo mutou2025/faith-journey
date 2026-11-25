@@ -35,7 +35,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '我是你们的主，你们的夫子，尚且洗你们的脚，你们也当彼此洗脚。我给你们作了榜样，叫你们照着我向你们所做的去做。',
-          en: "If I then, your Lord and Master, have washed your feet; ye also ought to wash one another's feet. For I have given you an example, that ye should do as I have done to you.",
+          en: "And since I, your Lord and Teacher, have washed your feet, you ought to wash each other's feet. I have given you an example to follow. Do as I have done to you.",
           ref: '约翰福音 13:14-15',
         },
       ],
@@ -48,7 +48,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '只是在你们中间，不可这样。你们中间谁愿为大，就必作你们的用人；',
-          en: 'But it shall not be so among you: but whosoever will be great among you, let him be your minister;',
+          en: "But among you it will be different. Whoever wants to be a leader among you must be your servant,",
           ref: '马太福音 20:26',
         },
       ],
