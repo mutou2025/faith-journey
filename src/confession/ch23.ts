@@ -46,7 +46,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '惟有你们是被拣选的族类，是有君尊的祭司，是圣洁的国度，是属神的子民，要叫你们宣扬那召你们出黑暗入奇妙光明者的美德。',
-          en: 'But ye are a chosen generation, a royal priesthood, an holy nation, a peculiar people; that ye should shew forth the praises of him who hath called you out of darkness into his marvellous light:',
+          en: "But you are not like that, for you are a chosen people. You are royal priests, a holy nation, God's very own possession. As a result, you can show others the goodness of God, for he called you out of the darkness into his wonderful light.",
           ref: '彼得前书 2:9',
         },
       ],
@@ -58,7 +58,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '我们却是天上的国民，并且等候救主，就是主耶稣基督从天上降临。',
-          en: 'For our conversation is in heaven; from whence also we look for the Saviour, the Lord Jesus Christ:',
+          en: "But we are citizens of heaven, where the Lord Jesus Christ lives. And we are eagerly waiting for him to return as our Savior.",
           ref: '腓立比书 3:20',
         },
       ],
@@ -73,7 +73,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '为君王和一切在位的，也该如此，使我们可以敬虔、端正、平安无事地度日。',
-          en: 'For kings, and for all that are in authority; that we may lead a quiet and peaceable life in all godliness and honesty.',
+          en: "Pray this way for kings and all who are in authority so that we can live peaceful and quiet lives marked by godliness and dignity.",
           ref: '提摩太前书 2:2',
         },
       ],
@@ -87,7 +87,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '我所使你们被掳到的那城，你们要为那城求平安，为那城祷告耶和华；因为那城得平安，你们也随着得平安。',
-          en: 'And seek the peace of the city whither I have caused you to be carried away captives, and pray unto the Lord for it: for in the peace thereof shall ye have peace.',
+          en: "And work for the peace and prosperity of the city where I sent you into exile. Pray to the Lord for it, for its welfare will determine your welfare.",
           ref: '耶利米书 29:7',
         },
       ],

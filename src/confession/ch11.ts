@@ -41,7 +41,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '所以，我们藉着洗礼归入死，和他一同埋葬，原是叫我们一举一动有新生的样式，像基督藉着父的荣耀从死里复活一样。',
-          en: 'Therefore we are buried with him by baptism into death: that like as Christ was raised up from the dead by the glory of the Father, even so we also should walk in newness of life.',
+          en: "For we died and were buried with Christ by baptism. And just as Christ was raised from the dead by the glorious power of the Father, now we also may live new lives.",
           ref: '罗马书 6:4',
         },
       ],
@@ -54,7 +54,7 @@ const note: ChapterNote = {
       refs: '太 28:19-20；约 4:1；徒 2:38；加 3:27',
       about: '悔改的人受洗，披戴基督',
       verses: [
-        { zh: '你们受洗归入基督的，都是披戴基督了。', en: 'For as many of you as have been baptized into Christ have put on Christ.', ref: '加拉太书 3:27' },
+        { zh: '你们受洗归入基督的，都是披戴基督了。', en: "And all who have been united with Christ in baptism have put on Christ, like putting on new clothes.", ref: '加拉太书 3:27' },
       ],
     },
   ],

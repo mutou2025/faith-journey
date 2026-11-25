@@ -35,7 +35,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '你们的话，是，就说是；不是，就说不是；若再多说，就是出于那恶者。',
-          en: 'But let your communication be, Yea, yea; Nay, nay: for whatsoever is more than these cometh of evil.',
+          en: "Just say a simple, 'Yes, I will,' or 'No, I won't.' Anything beyond this is from the evil one.",
           ref: '马太福音 5:37',
         },
       ],
@@ -47,7 +47,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '污秽的言语，一句不可出口，只要随事说造就人的好话，叫听见的人得益处。',
-          en: 'Let no corrupt communication proceed out of your mouth, but that which is good to the use of edifying, that it may minister grace unto the hearers.',
+          en: "Don't use foul or abusive language. Let everything you say be good and helpful, so that your words will be an encouragement to those who hear them.",
           ref: '以弗所书 4:29',
         },
       ],

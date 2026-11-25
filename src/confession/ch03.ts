@@ -46,7 +46,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '以后，我要将我的灵浇灌凡有血气的。你们的儿女要说预言；你们的老年人要做异梦，少年人要见异象。',
-          en: 'And it shall come to pass afterward, that I will pour out my spirit upon all flesh; and your sons and your daughters shall prophesy, your old men shall dream dreams, your young men shall see visions:',
+          en: "Then, after doing all those things, I will pour out my Spirit upon all people. Your sons and daughters will prophesy. Your old men will dream dreams, and your young men will see visions.",
           ref: '约珥书 2:28',
         },
       ],
@@ -58,7 +58,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '他既来了，就要叫世人为罪、为义、为审判，自己责备自己。',
-          en: 'And when he is come, he will reprove the world of sin, and of righteousness, and of judgment:',
+          en: "And when he comes, he will convict the world of its sin, and of God's righteousness, and of the coming judgment.",
           ref: '约翰福音 16:8',
         },
       ],
@@ -70,7 +70,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '不要叫神的圣灵担忧；你们原是受了他的印记，等候得赎的日子来到。',
-          en: 'And grieve not the holy Spirit of God, whereby ye are sealed unto the day of redemption.',
+          en: "And do not bring sorrow to God's Holy Spirit by the way you live. Remember, he has identified you as his own, guaranteeing that you will be saved on the day of redemption.",
           ref: '以弗所书 4:30',
         },
       ],
@@ -82,7 +82,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '圣灵与我们的心同证我们是神的儿女；',
-          en: 'The Spirit itself beareth witness with our spirit, that we are the children of God:',
+          en: "For his Spirit joins with our spirit to affirm that we are God's children.",
           ref: '罗马书 8:16',
         },
       ],
@@ -94,7 +94,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '但保惠师，就是父因我的名所要差来的圣灵，他要将一切的事指教你们，并且要叫你们想起我对你们所说的一切话。',
-          en: 'But the Comforter, which is the Holy Ghost, whom the Father will send in my name, he shall teach you all things, and bring all things to your remembrance, whatsoever I have said unto you.',
+          en: "But when the Father sends the Advocate as my representative—that is, the Holy Spirit—he will teach you everything and will remind you of everything I have told you.",
           ref: '约翰福音 14:26',
         },
       ],
@@ -106,7 +106,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '况且，我们的软弱有圣灵帮助；我们本不晓得当怎样祷告，只是圣灵亲自用说不出来的叹息替我们祷告。',
-          en: 'Likewise the Spirit also helpeth our infirmities: for we know not what we should pray for as we ought: but the Spirit itself maketh intercession for us with groanings which cannot be uttered.',
+          en: "And the Holy Spirit helps us in our weakness. For example, we don't know what God wants us to pray for. But the Holy Spirit prays for us with groanings that cannot be expressed in words.",
           ref: '罗马书 8:26',
         },
       ],
@@ -128,7 +128,7 @@ const note: ChapterNote = {
   ],
   hope: {
     zh: '圣灵所结的果子，就是仁爱、喜乐、和平、忍耐、恩慈、良善、信实、温柔、节制。这样的事没有律法禁止。',
-    en: 'But the fruit of the Spirit is love, joy, peace, longsuffering, gentleness, goodness, faith, meekness, temperance: against such there is no law.',
+    en: "But the Holy Spirit produces this kind of fruit in our lives: love, joy, peace, patience, kindness, goodness, faithfulness, gentleness, and self-control. There is no law against these things!",
     ref: '加拉太书 5:22-23',
   },
   next: '第 4 章讲圣经：神藉着圣灵默示圣经，它是信仰和生活最可靠的标准。',

@@ -48,7 +48,7 @@ const note: ChapterNote = {
       refs: '诗 133:1；林前 14:33；弗 4:3',
       about: '弟兄和睦同居',
       verses: [
-        { zh: '看哪，弟兄和睦同居是何等地善，何等地美！', en: 'Behold, how good and how pleasant it is for brethren to dwell together in unity!', ref: '诗篇 133:1' },
+        { zh: '看哪，弟兄和睦同居是何等地善，何等地美！', en: "How wonderful and pleasant it is when brothers live together in harmony!", ref: '诗篇 133:1' },
       ],
     },
     { fn: 6, refs: '弗 4:7, 12-16', about: '在爱中建立自己', verses: [] },
@@ -59,7 +59,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '使他们都合而为一。正如你父在我里面，我在你里面，使他们也在我们里面，叫世人可以信你差了我来。',
-          en: 'That they all may be one; as thou, Father, art in me, and I in thee, that they also may be one in us: that the world may believe that thou hast sent me.',
+          en: "I pray that they will all be one, just as you and I are one—as you are in me, Father, and I am in you. And may they be in us so that the world will believe you sent me.",
           ref: '约翰福音 17:21',
         },
       ],

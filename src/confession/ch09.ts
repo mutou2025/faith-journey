@@ -43,7 +43,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '但圣灵降临在你们身上，你们就必得着能力，并要在耶路撒冷、犹太全地，和撒马利亚，直到地极，作我的见证。',
-          en: 'But ye shall receive power, after that the Holy Ghost is come upon you: and ye shall be witnesses unto me both in Jerusalem, and in all Judaea, and in Samaria, and unto the uttermost part of the earth.',
+          en: "But you will receive power when the Holy Spirit comes upon you. And you will be my witnesses, telling people about me everywhere—in Jerusalem, throughout Judea, in Samaria, and to the ends of the earth.",
           ref: '使徒行传 1:8',
         },
       ],
@@ -55,7 +55,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '并不分犹太人、希腊人，自主的、为奴的，或男或女，因为你们在基督耶稣里都成为一了。',
-          en: 'There is neither Jew nor Greek, there is neither bond nor free, there is neither male nor female: for ye are all one in Christ Jesus.',
+          en: "There is no longer Jew or Gentile, slave or free, male and female. For you are all one in Christ Jesus.",
           ref: '加拉太书 3:28',
         },
       ],
@@ -66,7 +66,7 @@ const note: ChapterNote = {
       refs: '申 10:19；罗 12:13；来 13:2',
       about: '接待客旅',
       verses: [
-        { zh: '不可忘记用爱心接待客旅；因为曾有接待客旅的，不知不觉就接待了天使。', en: 'Be not forgetful to entertain strangers: for thereby some have entertained angels unawares.', ref: '希伯来书 13:2' },
+        { zh: '不可忘记用爱心接待客旅；因为曾有接待客旅的，不知不觉就接待了天使。', en: "Don't forget to show hospitality to strangers, for some who have done this have entertained angels without realizing it!", ref: '希伯来书 13:2' },
       ],
     },
     { fn: 6, refs: '约 20:21；太 28:18-20；太 5-7', about: '差遣门徒', verses: [] },

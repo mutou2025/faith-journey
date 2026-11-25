@@ -48,7 +48,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '我们众人既然敞着脸得以看见主的荣光，好像从镜子里返照，就变成主的形状，荣上加荣，如同从主的灵变成的。',
-          en: 'But we all, with open face beholding as in a glass the glory of the Lord, are changed into the same image from glory to glory, even as by the Spirit of the Lord.',
+          en: "So all of us who have had that veil removed can see and reflect the glory of the Lord. And the Lord—who is the Spirit—makes us more and more like him as we are changed into his glorious image.",
           ref: '哥林多后书 3:18',
         },
       ],
@@ -61,7 +61,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '我是葡萄树，你们是枝子。常在我里面的，我也常在他里面，这人就多结果子；因为离了我，你们就不能做什么。',
-          en: 'I am the vine, ye are the branches: He that abideth in me, and I in him, the same bringeth forth much fruit: for without me ye can do nothing.',
+          en: "Yes, I am the vine; you are the branches. Those who remain in me, and I in them, will produce much fruit. For apart from me you can do nothing.",
           ref: '约翰福音 15:5',
         },
       ],
@@ -74,7 +74,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '在敬虔上操练自己。操练身体益处还少；惟独敬虔，凡事都有益处，因有今生和来生的应许。',
-          en: 'Exercise thyself rather unto godliness. For bodily exercise profiteth little: but godliness is profitable unto all things, having promise of the life that now is, and of that which is to come.',
+          en: "Do not waste time arguing over godless ideas and old wives' tales. Instead, train yourself to be godly. \"Physical training is good, but training for godliness is much better, promising benefits in this life and in the life to come.\"",
           ref: '提摩太前书 4:7-8',
         },
       ],
@@ -94,7 +94,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '我们如今仿佛对着镜子观看，模糊不清，到那时就要面对面了。我如今所知道的有限，到那时就全知道，如同主知道我一样。',
-          en: 'For now we see through a glass, darkly; but then face to face: now I know in part; but then shall I know even as also I am known.',
+          en: "Now we see things imperfectly, like puzzling reflections in a mirror, but then we will see everything with perfect clarity. All that I know now is partial and incomplete, but then I will know everything completely, just as God now knows me completely.",
           ref: '哥林多前书 13:12',
         },
       ],
@@ -114,7 +114,7 @@ const note: ChapterNote = {
   ],
   hope: {
     zh: '就是历世历代所隐藏的奥秘，但如今向他的圣徒显明了。神愿意叫他们知道，这奥秘在外邦人中有何等丰盛的荣耀，就是基督在你们心里成了有荣耀的盼望。',
-    en: 'Even the mystery which hath been hid from ages and from generations, but now is made manifest to his saints: To whom God would make known what is the riches of the glory of this mystery among the Gentiles; which is Christ in you, the hope of glory:',
+    en: "This message was kept secret for centuries and generations past, but now it has been revealed to God's people. For God wanted them to know that the riches and glory of Christ are for you Gentiles, too. And this is the secret: Christ lives in you. This gives you assurance of sharing his glory.",
     ref: '歌罗西书 1:26-27',
   },
   next: '第 19 章讲家庭、单身与婚姻：神的心意是人在家庭中开始生命并蒙福，也邀请所有人加入神的家。',

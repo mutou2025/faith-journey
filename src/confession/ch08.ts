@@ -48,7 +48,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '神爱世人，甚至将他的独生子赐给他们，叫一切信他的，不至灭亡，反得永生。',
-          en: 'For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.',
+          en: "For this is how God loved the world: He gave his one and only Son, so that everyone who believes in him will not perish but have eternal life.",
           ref: '约翰福音 3:16',
         },
       ],
@@ -63,7 +63,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '因为人子来，并不是要受人的服侍，乃是要服侍人，并且要舍命，作多人的赎价。',
-          en: 'For even the Son of man came not to be ministered unto, but to minister, and to give his life a ransom for many.',
+          en: "For even the Son of Man came not to be served but to serve others and to give his life as a ransom for many.",
           ref: '马可福音 10:45',
         },
       ],
@@ -76,7 +76,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '你们得救是本乎恩，也因着信；这并不是出于自己，乃是神所赐的；也不是出于行为，免得有人自夸。',
-          en: 'For by grace are ye saved through faith; and that not of yourselves: it is the gift of God: Not of works, lest any man should boast.',
+          en: "God saved you by his grace when you believed. And you can't take credit for this; it is a gift from God. Salvation is not a reward for the good things we have done, so none of us can boast about it.",
           ref: '以弗所书 2:8-9',
         },
       ],
@@ -90,7 +90,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '不要效法这个世界，只要心意更新而变化，叫你们察验何为神的善良、纯全、可喜悦的旨意。',
-          en: 'And be not conformed to this world: but be ye transformed by the renewing of your mind, that ye may prove what is that good, and acceptable, and perfect, will of God.',
+          en: "Don't copy the behavior and customs of this world, but let God transform you into a new person by changing the way you think. Then you will learn to know God's will for you, which is good and pleasing and perfect.",
           ref: '罗马书 12:2',
         },
       ],

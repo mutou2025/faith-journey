@@ -34,7 +34,7 @@ const note: ChapterNote = {
       fn: 1,
       refs: '创 1:1；赛 45:11-12；约 1:3',
       about: '神创造天地',
-      verses: [{ zh: '起初，神创造天地。', en: 'In the beginning God created the heaven and the earth.', ref: '创世记 1:1' }],
+      verses: [{ zh: '起初，神创造天地。', en: "In the beginning God created the heavens and the earth.", ref: '创世记 1:1' }],
     },
     {
       fn: 2,
@@ -43,7 +43,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '神看着一切所造的都甚好。有晚上，有早晨，是第六日。',
-          en: 'And God saw every thing that he had made, and, behold, it was very good. And the evening and the morning were the sixth day.',
+          en: "Then God looked over all he had made, and he saw that it was very good! And evening passed and morning came, marking the sixth day.",
           ref: '创世记 1:31',
         },
       ],
@@ -52,14 +52,14 @@ const note: ChapterNote = {
       fn: 3,
       refs: '诗 19:1-6；罗 1:19-23',
       about: '受造之物彰显神的荣耀',
-      verses: [{ zh: '诸天述说神的荣耀；穹苍传扬他的手段。', en: 'The heavens declare the glory of God; and the firmament sheweth his handywork.', ref: '诗篇 19:1' }],
+      verses: [{ zh: '诸天述说神的荣耀；穹苍传扬他的手段。', en: "The heavens proclaim the glory of God. The skies display his craftsmanship.", ref: '诗篇 19:1' }],
     },
     {
       fn: 4,
       refs: '创 9:8-17；诗 104；弗 3:9-11',
       about: '神与大地立约，托住万物',
       verses: [
-        { zh: '我把虹放在云彩中，这就可作我与地立约的记号了。', en: 'I do set my bow in the cloud, and it shall be for a token of a covenant between me and the earth.', ref: '创世记 9:13' },
+        { zh: '我把虹放在云彩中，这就可作我与地立约的记号了。', en: "I have placed my rainbow in the clouds. It is the sign of my covenant with you and with all the earth.", ref: '创世记 9:13' },
       ],
     },
     {
@@ -69,7 +69,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '你们看那天上的飞鸟，也不种，也不收，也不积蓄在仓里，你们的天父尚且养活它。你们不比飞鸟贵重得多吗？',
-          en: 'Behold the fowls of the air: for they sow not, neither do they reap, nor gather into barns; yet your heavenly Father feedeth them. Are ye not much better than they?',
+          en: "Look at the birds. They don't plant or harvest or store food in barns, for your heavenly Father feeds them. And aren't you far more valuable to him than they are?",
           ref: '马太福音 6:26',
         },
       ],

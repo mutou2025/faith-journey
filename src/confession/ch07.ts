@@ -57,22 +57,22 @@ const note: ChapterNote = {
         verses: [
           {
             zh: '只是分别善恶树上的果子，你不可吃，因为你吃的日子必定死。',
-            en: 'But of the tree of the knowledge of good and evil, thou shalt not eat of it: for in the day that thou eatest thereof thou shalt surely die.',
+            en: "except the tree of the knowledge of good and evil. If you eat its fruit, you are sure to die.",
             ref: '创世记 2:17',
           },
           {
             zh: '世界在神面前败坏，地上满了强暴。',
-            en: 'The earth also was corrupt before God, and the earth was filled with violence.',
+            en: "Now God saw that the earth had become corrupt and was filled with violence.",
             ref: '创世记 6:11',
           },
           {
             zh: '因为，他们虽然知道神，却不当作神荣耀他，也不感谢他。他们的思念变为虚妄，无知的心就昏暗了。',
-            en: 'Because that, when they knew God, they glorified him not as God, neither were thankful; but became vain in their imaginations, and their foolish heart was darkened.',
+            en: "Yes, they knew God, but they wouldn't worship him as God or even give him thanks. And they began to think up foolish ideas of what God was like. As a result, their minds became dark and confused.",
             ref: '罗马书 1:21',
           },
           {
             zh: '因为罪的工价乃是死；惟有神的恩赐，在我们的主基督耶稣里，乃是永生。',
-            en: 'For the wages of sin is death; but the gift of God is eternal life through Jesus Christ our Lord.',
+            en: "For the wages of sin is death, but the free gift of God is eternal life through Christ Jesus our Lord.",
             ref: '罗马书 6:23',
           },
         ],
@@ -84,7 +84,7 @@ const note: ChapterNote = {
         verses: [
           {
             zh: '我们犯罪作孽，行恶叛逆，偏离你的诫命典章。',
-            en: 'We have sinned, and have committed iniquity, and have done wickedly, and have rebelled, even by departing from thy precepts and from thy judgments:',
+            en: "But we have sinned and done wrong. We have rebelled against you and scorned your commands and regulations.",
             ref: '但以理书 9:5',
           },
         ],
@@ -96,7 +96,7 @@ const note: ChapterNote = {
         verses: [
           {
             zh: '你们要洗濯、自洁，从我眼前除掉你们的恶行；要止住作恶，学习行善，寻求公平，解救受欺压的；给孤儿伸冤，为寡妇辨屈。',
-            en: 'Wash you, make you clean; put away the evil of your doings from before mine eyes; cease to do evil; learn to do well; seek judgment, relieve the oppressed, judge the fatherless, plead for the widow.',
+            en: "Wash yourselves and be clean! Get your sins out of my sight. Give up your evil ways. Learn to do good. Seek justice. Help the oppressed. Defend the cause of orphans. Fight for the rights of widows.",
             ref: '以赛亚书 1:16-17',
           },
         ],
@@ -108,12 +108,12 @@ const note: ChapterNote = {
         verses: [
           {
             zh: '所以，不要容罪在你们必死的身上作王，使你们顺从身子的私欲。',
-            en: 'Let not sin therefore reign in your mortal body, that ye should obey it in the lusts thereof.',
+            en: "Do not let sin control the way you live; do not give in to sinful desires.",
             ref: '罗马书 6:12',
           },
           {
             zh: '因我们并不是与属血气的争战，乃是与那些执政的、掌权的、管辖这幽暗世界的，以及天空属灵气的恶魔争战。',
-            en: 'For we wrestle not against flesh and blood, but against principalities, against powers, against the rulers of the darkness of this world, against spiritual wickedness in high places.',
+            en: "For we are not fighting against flesh-and-blood enemies, but against evil rulers and authorities of the unseen world, against mighty powers in this dark world, and against evil spirits in the heavenly places.",
             ref: '以弗所书 6:12',
           },
         ],
@@ -125,12 +125,12 @@ const note: ChapterNote = {
         verses: [
           {
             zh: '耶和华从天上垂看世人，要看有明白的没有，有寻求神的没有。他们都偏离正路，一同变为污秽；并没有行善的，连一个也没有。',
-            en: 'The Lord looked down from heaven upon the children of men, to see if there were any that did understand, and seek God. They are all gone aside, they are all together become filthy: there is none that doeth good, no, not one.',
+            en: "The Lord looks down from heaven on the entire human race; he looks to see if anyone is truly wise, if anyone seeks God. But no, all have turned away; all have become corrupt. No one does good, not a single one!",
             ref: '诗篇 14:2-3',
           },
           {
             zh: '就如经上所记：没有义人，连一个也没有。',
-            en: 'As it is written, There is none righteous, no, not one:',
+            en: "As the Scriptures say, \"No one is righteous—not even one.\"",
             ref: '罗马书 3:10',
           },
         ],
@@ -142,12 +142,12 @@ const note: ChapterNote = {
         verses: [
           {
             zh: '你们死在过犯罪恶之中，他叫你们活过来。',
-            en: 'And you hath he quickened, who were dead in trespasses and sins;',
+            en: "Once you were dead because of your disobedience and your many sins.",
             ref: '以弗所书 2:1',
           },
           {
             zh: '我们为孩童的时候，受管于世俗小学之下，也是如此。',
-            en: 'Even so we, when we were children, were in bondage under the elements of the world:',
+            en: "And that's the way it was with us before Christ came. We were like children; we were slaves to the basic spiritual principles of this world.",
             ref: '加拉太书 4:3',
           },
         ],
@@ -189,7 +189,7 @@ const note: ChapterNote = {
     ],
     hope: {
       zh: '然而，神既有丰富的怜悯，因他爱我们的大爱，当我们死在过犯中的时候，便叫我们与基督一同活过来。（你们得救是本乎恩。）',
-      en: 'But God, who is rich in mercy, for his great love wherewith he loved us, even when we were dead in sins, hath quickened us together with Christ, (by grace ye are saved;)',
+      en: "But God is so rich in mercy, and he loved us so much, that even though we were dead because of our sins, he gave us life when he raised Christ from the dead. (It is only by God's grace that you have been saved!)",
       ref: '以弗所书 2:4-5',
     },
     next: '第 7 章讲到人落在罪中，第 8 章“救恩”接着讲神怎样藉着耶稣基督把人从罪中救出来。',

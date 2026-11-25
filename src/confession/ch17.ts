@@ -53,7 +53,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '所以弟兄们，我以神的慈悲劝你们，将身体献上，当作活祭，是圣洁的，是神所喜悦的；你们如此事奉乃是理所当然的。',
-          en: 'I beseech you therefore, brethren, by the mercies of God, that ye present your bodies a living sacrifice, holy, acceptable unto God, which is your reasonable service.',
+          en: "And so, dear brothers and sisters, I plead with you to give your bodies to God because of all he has done for you. Let them be a living and holy sacrifice—the kind he will find acceptable. This is truly the way to worship him.",
           ref: '罗马书 12:1',
         },
       ],
@@ -67,7 +67,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '万军之耶和华说：不是倚靠势力，不是倚靠才能，乃是倚靠我的灵方能成事。',
-          en: 'Not by might, nor by power, but by my spirit, saith the Lord of hosts.',
+          en: "It is not by force nor by strength, but by my Spirit, says the Lord of Heaven's Armies.",
           ref: '撒迦利亚书 4:6',
         },
       ],
@@ -82,7 +82,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '世人哪，耶和华已指示你何为善。他向你所要的是什么呢？只要你行公义，好怜悯，存谦卑的心，与你的神同行。',
-          en: 'He hath shewed thee, O man, what is good; and what doth the Lord require of thee, but to do justly, and to love mercy, and to walk humbly with thy God?',
+          en: "No, O people, the Lord has told you what is good, and this is what he requires of you: to do what is right, to love mercy, and to walk humbly with your God.",
           ref: '弥迦书 6:8',
         },
       ],
@@ -95,7 +95,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '你们要进窄门。因为引到灭亡，那门是宽的，路是大的，进去的人也多；引到永生，那门是窄的，路是小的，找着的人也少。',
-          en: 'Enter ye in at the strait gate: for wide is the gate, and broad is the way, that leadeth to destruction, and many there be which go in thereat: Because strait is the gate, and narrow is the way, which leadeth unto life, and few there be that find it.',
+          en: "You can enter God's Kingdom only through the narrow gate. The highway to hell is broad, and its gate is wide for the many who choose that way. But the gateway to life is very narrow and the road is difficult, and only a few ever find it.",
           ref: '马太福音 7:13-14',
         },
       ],

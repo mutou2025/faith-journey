@@ -43,7 +43,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '各人要照所得的恩赐彼此服侍，作神百般恩赐的好管家。',
-          en: 'As every man hath received the gift, even so minister the same one to another, as good stewards of the manifold grace of God.',
+          en: "God has given each of you a gift from his great variety of spiritual gifts. Use them well to serve one another.",
           ref: '彼得前书 4:10',
         },
       ],
@@ -56,7 +56,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '他所赐的有使徒，有先知，有传福音的，有牧师和教师，为要成全圣徒，各尽其职，建立基督的身体，',
-          en: 'And he gave some, apostles; and some, prophets; and some, evangelists; and some, pastors and teachers; For the perfecting of the saints, for the work of the ministry, for the edifying of the body of Christ:',
+          en: "Now these are the gifts Christ gave to the church: the apostles, the prophets, the evangelists, and the pastors and teachers. Their responsibility is to equip God's people to do his work and build up the church, the body of Christ.",
           ref: '以弗所书 4:11-12',
         },
       ],

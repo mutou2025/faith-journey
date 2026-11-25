@@ -49,7 +49,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '所以，你们要去，使万民作我的门徒，奉父、子、圣灵的名给他们施洗。凡我所吩咐你们的，都教训他们遵守，我就常与你们同在，直到世界的末了。',
-          en: 'Go ye therefore, and teach all nations, baptizing them in the name of the Father, and of the Son, and of the Holy Ghost: Teaching them to observe all things whatsoever I have commanded you: and, lo, I am with you alway, even unto the end of the world. Amen.',
+          en: "Therefore, go and make disciples of all the nations, baptizing them in the name of the Father and the Son and the Holy Spirit. Teach these new disciples to obey all the commands I have given you. And be sure of this: I am with you always, even to the end of the age.",
           ref: '马太福音 28:19-20',
         },
       ],
@@ -59,7 +59,7 @@ const note: ChapterNote = {
       refs: '可 1:15',
       about: '神的国近了',
       verses: [
-        { zh: '日期满了，神的国近了。你们当悔改，信福音！', en: 'The time is fulfilled, and the kingdom of God is at hand: repent ye, and believe the gospel.', ref: '马可福音 1:15' },
+        { zh: '日期满了，神的国近了。你们当悔改，信福音！', en: "\"The time promised by God has come at last!\" he announced. \"The Kingdom of God is near! Repent of your sins and believe the Good News!\"", ref: '马可福音 1:15' },
       ],
     },
     { fn: 3, refs: '约 20:21-22；徒 10:36', about: '父怎样差遣我，我也照样差遣你们', verses: [] },
@@ -68,7 +68,7 @@ const note: ChapterNote = {
       refs: '太 5:13-16；赛 42:6',
       about: '世上的光、山上的城',
       verses: [
-        { zh: '你们是世上的光。城造在山上是不能隐藏的。', en: 'Ye are the light of the world. A city that is set on an hill cannot be hid.', ref: '马太福音 5:14' },
+        { zh: '你们是世上的光。城造在山上是不能隐藏的。', en: "You are the light of the world—like a city on a hilltop that cannot be hidden.", ref: '马太福音 5:14' },
       ],
     },
     { fn: 5, refs: '可 6:13；雅 5:14-15', about: '用油膏抹，为病人祷告', verses: [] },
@@ -84,7 +84,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '他必在列国中施行审判，为许多国民断定是非。他们要将刀打成犁头，把枪打成镰刀。这国不举刀攻击那国，他们也不再学习战事。',
-          en: 'And he shall judge among the nations, and shall rebuke many people: and they shall beat their swords into plowshares, and their spears into pruninghooks: nation shall not lift up sword against nation, neither shall they learn war any more.',
+          en: "The Lord will mediate between nations and will settle international disputes. They will hammer their swords into plowshares and their spears into pruning hooks. Nation will no longer fight against nation, nor train for war anymore.",
           ref: '以赛亚书 2:4',
         },
       ],

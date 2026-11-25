@@ -46,7 +46,7 @@ const note: ChapterNote = {
       fn: 1,
       refs: '出 15:18；士 8:23；亚 14:9',
       about: '耶和华必作王，直到永永远远',
-      verses: [{ zh: '耶和华必作王，直到永永远远！', en: 'The Lord shall reign for ever and ever.', ref: '出埃及记 15:18' }],
+      verses: [{ zh: '耶和华必作王，直到永永远远！', en: "The Lord will reign forever and ever!", ref: '出埃及记 15:18' }],
     },
     { fn: 2, refs: '可 1:15', about: '日期满了，神的国近了', verses: [] },
     {
@@ -54,7 +54,7 @@ const note: ChapterNote = {
       refs: '太 5:10；8:10-12；17:20；21:31；路 6:20',
       about: '神国属于贫穷的人和受逼迫的人',
       verses: [
-        { zh: '你们贫穷的人有福了！因为神的国是你们的。', en: 'Blessed be ye poor: for yours is the kingdom of God.', ref: '路加福音 6:20' },
+        { zh: '你们贫穷的人有福了！因为神的国是你们的。', en: "Then Jesus turned to his disciples and said, \"God blesses you who are poor, for the Kingdom of God is yours.\"", ref: '路加福音 6:20' },
       ],
     },
     { fn: 4, refs: '诗 2:7；可 1:11；腓 2:9', about: '神将他升为至高', verses: [] },
@@ -66,7 +66,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '世上的国成了我主和主基督的国；他要作王，直到永永远远。',
-          en: 'The kingdoms of this world are become the kingdoms of our Lord, and of his Christ; and he shall reign for ever and ever.',
+          en: "Then the seventh angel blew his trumpet, and there were loud voices shouting in heaven: \"The world has now become the Kingdom of our Lord and of his Christ, and he will reign forever and ever.\"",
           ref: '启示录 11:15',
         },
       ],
@@ -89,7 +89,7 @@ const note: ChapterNote = {
   ],
   hope: {
     zh: '神要擦去他们一切的眼泪；不再有死亡，也不再有悲哀、哭号、疼痛，因为以前的事都过去了。',
-    en: 'And God shall wipe away all tears from their eyes; and there shall be no more death, neither sorrow, nor crying, neither shall there be any more pain: for the former things are passed away.',
+    en: "He will wipe every tear from their eyes, and there will be no more death or sorrow or crying or pain. All these things are gone forever.",
     ref: '启示录 21:4',
   },
   next: '全书完。从第 1 章的“神”到第 24 章的“神的王权”，整本信仰告白都围绕着这位在基督里显明、藉着圣灵与我们同在、并要完成他国度的神。',

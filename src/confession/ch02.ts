@@ -56,7 +56,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '既有人的样子，就自己卑微，存心顺服，以至于死，且死在十字架上。',
-          en: 'And being found in fashion as a man, he humbled himself, and became obedient unto death, even the death of the cross.',
+          en: "he humbled himself in obedience to God and died a criminal's death on a cross.",
           ref: '腓立比书 2:8',
         },
       ],
@@ -69,7 +69,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '因为那已经立好的根基就是耶稣基督，此外没有人能立别的根基。',
-          en: 'For other foundation can no man lay than that is laid, which is Jesus Christ.',
+          en: "For no one can lay any foundation other than the one we already have—Jesus Christ.",
           ref: '哥林多前书 3:11',
         },
       ],
@@ -88,7 +88,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '除他以外，别无拯救；因为在天下人间，没有赐下别的名，我们可以靠着得救。',
-          en: 'Neither is there salvation in any other: for there is none other name under heaven given among men, whereby we must be saved.',
+          en: "There is salvation in no one else! God has given no other name under heaven by which we must be saved.",
           ref: '使徒行传 4:12',
         },
       ],
@@ -102,7 +102,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '你们蒙召原是为此；因基督也为你们受过苦，给你们留下榜样，叫你们跟随他的脚踪行。',
-          en: 'For even hereunto were ye called: because Christ also suffered for us, leaving us an example, that ye should follow his steps:',
+          en: "For God called you to do good, even if it means suffering, just as Christ suffered for you. He is your example, and you must follow in his steps.",
           ref: '彼得前书 2:21',
         },
       ],
@@ -114,7 +114,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '这就是神在基督里叫世人与自己和好，不将他们的过犯归到他们身上，并且将这和好的道理托付了我们。',
-          en: 'To wit, that God was in Christ, reconciling the world unto himself, not imputing their trespasses unto them; and hath committed unto us the word of reconciliation.',
+          en: "For God was in Christ, reconciling the world to himself, no longer counting people's sins against them. And he gave us this wonderful message of reconciliation.",
           ref: '哥林多后书 5:19',
         },
       ],
@@ -126,7 +126,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '既将一切执政的、掌权的掳来，明显给众人看，就仗着十字架夸胜。',
-          en: 'And having spoiled principalities and powers, he made a shew of them openly, triumphing over them in it.',
+          en: "In this way, he disarmed the spiritual rulers and authorities. He shamed them publicly by his victory over them on the cross.",
           ref: '歌罗西书 2:15',
         },
       ],
@@ -138,7 +138,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '因我们的大祭司并非不能体恤我们的软弱。他也曾凡事受过试探，与我们一样，只是他没有犯罪。',
-          en: 'For we have not an high priest which cannot be touched with the feeling of our infirmities; but was in all points tempted like as we are, yet without sin.',
+          en: "This High Priest of ours understands our weaknesses, for he faced all of the same testings we do, yet he did not sin.",
           ref: '希伯来书 4:15',
         },
       ],
@@ -151,7 +151,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '爱子是那不能看见之神的像，是首生的，在一切被造的以先。',
-          en: 'Who is the image of the invisible God, the firstborn of every creature:',
+          en: "Christ is the visible image of the invisible God. He existed before anything was created and is supreme over all creation,",
           ref: '歌罗西书 1:15',
         },
       ],
@@ -165,7 +165,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '无不口称耶稣基督为主，使荣耀归与父神。',
-          en: 'And that every tongue should confess that Jesus Christ is Lord, to the glory of God the Father.',
+          en: "and every tongue declare that Jesus Christ is Lord, to the glory of God the Father.",
           ref: '腓立比书 2:11',
         },
       ],

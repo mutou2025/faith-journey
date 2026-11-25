@@ -39,7 +39,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '神就照着自己的形像造人，乃是照着他的形像造男造女。',
-          en: 'So God created man in his own image, in the image of God created he him; male and female created he them.',
+          en: "So God created human beings in his own image. In the image of God he created them; male and female he created them.",
           ref: '创世记 1:27',
         },
       ],
@@ -51,7 +51,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '人算什么，你竟顾念他？世人算什么，你竟眷顾他？你叫他比天使微小一点，并赐他荣耀尊贵为冠冕。',
-          en: 'What is man, that thou art mindful of him? and the son of man, that thou visitest him? For thou hast made him a little lower than the angels, and hast crowned him with glory and honour.',
+          en: "what are mere mortals that you should think about them, human beings that you should care for them? Yet you made them only a little lower than God and crowned them with glory and honor.",
           ref: '诗篇 8:4-5',
         },
       ],
@@ -63,7 +63,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '耶和华神说：“那人独居不好，我要为他造一个配偶帮助他。”',
-          en: 'And the Lord God said, It is not good that the man should be alone; I will make him an help meet for him.',
+          en: "Then the Lord God said, \"It is not good for the man to be alone. I will make a helper who is just right for him.\"",
           ref: '创世记 2:18',
         },
       ],
@@ -75,7 +75,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '因为我深信无论是死，是生，是天使，是掌权的，是有能的，是现在的事，是将来的事，是高处的，是低处的，是别的受造之物，都不能叫我们与神的爱隔绝；这爱是在我们的主基督耶稣里的。',
-          en: 'For I am persuaded, that neither death, nor life, nor angels, nor principalities, nor powers, nor things present, nor things to come, nor height, nor depth, nor any other creature, shall be able to separate us from the love of God, which is in Christ Jesus our Lord.',
+          en: "And I am convinced that nothing can ever separate us from God's love. Neither death nor life, neither angels nor demons, neither our fears for today nor our worries about tomorrow—not even the powers of hell can separate us from God's love. No power in the sky above or in the earth below—indeed, nothing in all creation will ever be able to separate us from the love of God that is revealed in Christ Jesus our Lord.",
           ref: '罗马书 8:38-39',
         },
       ],

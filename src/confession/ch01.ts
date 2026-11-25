@@ -48,7 +48,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '人非有信，就不能得神的喜悦；因为到神面前来的人必须信有神，且信他赏赐那寻求他的人。',
-          en: 'But without faith it is impossible to please him: for he that cometh to God must believe that he is, and that he is a rewarder of them that diligently seek him.',
+          en: "And it is impossible to please God without faith. Anyone who wants to come to him must believe that God exists and that he rewards those who sincerely seek him.",
           ref: '希伯来书 11:6',
         },
       ],
@@ -58,10 +58,10 @@ const note: ChapterNote = {
       refs: '出 20:1-6；申 6:4；太 28:19；林后 13:14',
       about: '独一的神；奉父、子、圣灵的名',
       verses: [
-        { zh: '以色列啊，你要听！耶和华我们神是独一的主。', en: 'Hear, O Israel: The Lord our God is one Lord:', ref: '申命记 6:4' },
+        { zh: '以色列啊，你要听！耶和华我们神是独一的主。', en: "Listen, O Israel! The Lord is our God, the Lord alone.", ref: '申命记 6:4' },
         {
           zh: '所以，你们要去，使万民作我的门徒，奉父、子、圣灵的名给他们施洗。',
-          en: 'Go ye therefore, and teach all nations, baptizing them in the name of the Father, and of the Son, and of the Holy Ghost:',
+          en: "Therefore, go and make disciples of all the nations, baptizing them in the name of the Father and the Son and the Holy Spirit.",
           ref: '马太福音 28:19',
         },
       ],
@@ -75,7 +75,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '深哉，神丰富的智慧和知识！他的判断何其难测！他的踪迹何其难寻！',
-          en: 'O the depth of the riches both of the wisdom and knowledge of God! how unsearchable are his judgments, and his ways past finding out!',
+          en: "Oh, how great are God's riches and wisdom and knowledge! How impossible it is for us to understand his decisions and his ways!",
           ref: '罗马书 11:33',
         },
       ],
@@ -87,7 +87,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '道成了肉身，住在我们中间，充充满满地有恩典有真理。我们也见过他的荣光，正是父独生子的荣光。',
-          en: 'And the Word was made flesh, and dwelt among us, (and we beheld his glory, the glory as of the only begotten of the Father,) full of grace and truth.',
+          en: "So the Word became human and made his home among us. He was full of unfailing love and faithfulness. And we have seen his glory, the glory of the Father's one and only Son.",
           ref: '约翰福音 1:14',
         },
       ],
@@ -99,7 +99,7 @@ const note: ChapterNote = {
       verses: [
         {
           zh: '神爱我们的心，我们也知道也信。神就是爱；住在爱里面的，就是住在神里面，神也住在他里面。',
-          en: 'And we have known and believed the love that God hath to us. God is love; and he that dwelleth in love dwelleth in God, and God in him.',
+          en: "We know how much God loves us, and we have put our trust in his love. God is love, and all who live in love live in God, and God lives in them.",
           ref: '约翰一书 4:16',
         },
       ],
