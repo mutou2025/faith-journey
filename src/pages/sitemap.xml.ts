@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { PUBLIC_CATEGORIES as CATEGORIES } from '../consts';
 import { getPosts } from '../lib';
+import { BOOKS } from '../bible/books';
 
 export const GET: APIRoute = async ({ site }) => {
   const posts = await getPosts();
@@ -13,6 +14,9 @@ export const GET: APIRoute = async ({ site }) => {
     { loc: u('/prayer/'), priority: '0.8' },
     { loc: u('/confession/'), priority: '0.7' },
     ...Array.from({ length: 24 }, (_, i) => ({ loc: u(`/confession/${i + 1}/`), priority: '0.6' })),
+    { loc: u('/bible/'), priority: '0.8' },
+    ...BOOKS.map((b) => ({ loc: u(`/bible/${b.slug}/`), priority: '0.5' })),
+    ...BOOKS.flatMap((b) => Array.from({ length: b.chapters }, (_, i) => ({ loc: u(`/bible/${b.slug}/${i + 1}/`), priority: '0.4' }))),
     { loc: u('/group/'), priority: '0.7' },
     { loc: u('/posts/'), lastmod: latest, priority: '0.8' },
     { loc: u('/about/'), priority: '0.5' },

@@ -1,0 +1,210 @@
+---
+import Base from '../../../layouts/Base.astro';
+import BibleSearch from '../../../components/bible/BibleSearch.astro';
+import { BOOKS, type Book } from '../../../bible/books';
+import { chapterVerses, type VerseRow } from '../../../bible/data';
+
+export function getStaticPaths() {
+  return BOOKS.flatMap((book, bi) =>
+    Array.from({ length: book.chapters }, (_, ci) => {
+      const chapter = ci + 1;
+      const prev = chapter > 1 ? { book, chapter: chapter - 1 } : bi > 0 ? { book: BOOKS[bi - 1], chapter: BOOKS[bi - 1].chapters } : null;
+      const next =
+        chapter < book.chapters ? { book, chapter: chapter + 1 } : bi < BOOKS.length - 1 ? { book: BOOKS[bi + 1], chapter: 1 } : null;
+      return { params: { book: book.slug, chapter: String(chapter) }, props: { book, chapter, verses: chapterVerses(bi, chapter), prev, next } };
+    }),
+  );
+}
+type Nav = { book: Book; chapter: number } | null;
+const { book, chapter, verses, prev, next } = Astro.props as {
+  book: Book; chapter: number; verses: VerseRow[]; prev: Nav; next: Nav;
+};
+const unit = book.slug === 'psa' ? '篇' : '章';
+const heading = `${book.name} 第 ${chapter} ${unit}`;
+const navHref = (n: NonNullable<Nav>) => `/bible/${n.book.slug}/${n.chapter}/`;
+const navLabel = (n: NonNullable<Nav>) => (n.book === book ? `第 ${n.chapter} ${unit}` : `${n.book.name} ${n.chapter}`);
+const firstText = verses[0]?.text ?? '';
+const bgUrl = `https://www.biblegateway.com/passage/?search=${encodeURIComponent(`${book.en} ${chapter}`)}&version=CUVS;NLT`;
+---
+<Base
+  title={`${book.name} ${chapter} ${unit}（和合本）`}
+  description={`${heading}：${firstText.slice(0, 60)}……`}
+  keywords={[`${book.name}${chapter}${unit}`, `${book.abbr}${chapter}`, `${book.en} ${chapter}`, '和合本']}
+>
+  <div class="bible-bar">
+    <div class="wrap bar-inner">
+      <a class="bb-back" href={`/bible/${book.slug}/`} aria-label={`${book.name}目录`}>
+        <strong>{book.name}</strong> <span>{chapter}</span>
+        <svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4"></path></svg>
+      </a>
+      <BibleSearch compact />
+    </div>
+  </div>
+
+  <article class="wrap chapter" data-book={book.name} data-abbr={book.abbr} data-chapter={chapter} data-unit={unit}>
+    <nav class="crumbs" aria-label="位置"><a href="/bible/">圣经</a> / <a href={`/bible/${book.slug}/`}>{book.name}</a></nav>
+    <h1>{heading}</h1>
+    <p class="hint">点一下经文可以选中，复制或分享。</p>
+
+    <ol class="verses">
+      {verses.map((v) => {
+        const [a, b] = v.label.split('-').map(Number);
+        return (
+          <li id={`v${v.n}`} data-v={v.n} data-end={b ?? a}>
+            {b && Array.from({ length: b - a }, (_, k) => <span class="alias" id={`v${a + k + 1}`}></span>)}
+            <sup class="vn">{v.label}</sup><span class="vt">{v.text}</span>
+          </li>
+        );
+      })}
+    </ol>
+
+    <nav class="pager" aria-label="翻页">
+      {prev ? <a class="prev" href={navHref(prev)}><small>上一{prev.book === book ? unit : '卷'}</small>← {navLabel(prev)}</a> : <span></span>}
+      {next ? <a class="next" href={navHref(next)}><small>下一{next.book === book ? unit : '卷'}</small>{navLabel(next)} →</a> : <span></span>}
+    </nav>
+
+    <p class="foot-note">
+      经文：和合本（公有领域）。<a href={bgUrl} target="_blank" rel="noopener">在 Bible Gateway 中英对照阅读本章（和合本 / NLT）↗</a>
+    </p>
+  </article>
+
+  <div class="sel-bar" id="selBar" hidden>
+    <span id="selRef"></span>
+    <button type="button" id="selCopy">复制经文</button>
+    <button type="button" id="selLink" class="ghost">复制链接</button>
+    <button type="button" id="selClear" class="ghost" aria-label="取消选择">✕</button>
+  </div>
+</Base>
+
+<script>
+  const art = document.querySelector<HTMLElement>('.chapter')!;
+  const { book, abbr, chapter } = art.dataset;
+  const items = [...art.querySelectorAll<HTMLLIElement>('.verses li')];
+  const bar = document.getElementById('selBar')!;
+  const refEl = document.getElementById('selRef')!;
+
+  try {
+    localStorage.setItem('bible:last', JSON.stringify({ href: location.pathname, label: `${book} 第 ${chapter} ${art.dataset.unit}` }));
+  } catch {}
+
+  // 把选中的节号压缩成 “16-18, 20”
+  const ranges = (ns: number[][]) => {
+    const out: [number, number][] = [];
+    for (const [a, b] of ns) {
+      const last = out[out.length - 1];
+      if (last && a === last[1] + 1) last[1] = b;
+      else out.push([a, b]);
+    }
+    return out.map(([a, b]) => (a === b ? `${a}` : `${a}-${b}`)).join(', ');
+  };
+  const selected = () => items.filter((li) => li.classList.contains('sel'));
+  const selNums = () => selected().map((li) => [+li.dataset.v!, +li.dataset.end!]);
+  const update = () => {
+    const sel = selected();
+    bar.hidden = sel.length === 0;
+    if (sel.length) refEl.textContent = `${abbr}${chapter}:${ranges(selNums())}`;
+  };
+  items.forEach((li) => li.addEventListener('click', () => {
+    if (getSelection()?.toString()) return; // 正在用手指选字时不切换
+    li.classList.toggle('sel');
+    update();
+  }));
+
+  const flash = (btn: HTMLElement, text: string) => {
+    const old = btn.textContent;
+    btn.textContent = text;
+    setTimeout(() => (btn.textContent = old), 1400);
+  };
+  const copy = async (text: string, btn: HTMLElement) => {
+    try { await navigator.clipboard.writeText(text); flash(btn, '已复制 ✓'); }
+    catch { prompt('复制下面的内容：', text); }
+  };
+  document.getElementById('selCopy')!.addEventListener('click', (e) => {
+    const sel = selected();
+    const body = sel.map((li) => li.querySelector('.vt')!.textContent).join('');
+    copy(`${body}\n——${book} ${chapter}:${ranges(selNums())}（和合本）`, e.currentTarget as HTMLElement);
+  });
+  document.getElementById('selLink')!.addEventListener('click', (e) => {
+    const ns = selNums();
+    const hash = ns.length ? `#v${ns[0][0]}${ns[ns.length - 1][1] > ns[0][0] ? `-${ns[ns.length - 1][1]}` : ''}` : '';
+    copy(`${book} ${chapter}:${ranges(ns)}\n${location.origin}${location.pathname}${hash}`, e.currentTarget as HTMLElement);
+  });
+  document.getElementById('selClear')!.addEventListener('click', () => {
+    items.forEach((li) => li.classList.remove('sel'));
+    update();
+  });
+
+  // 网址里的 #v16 或 #v16-18：高亮并滚动到那里
+  const showHash = () => {
+    items.forEach((li) => li.classList.remove('hl'));
+    const m = location.hash.match(/^#v(\d+)(?:-(\d+))?$/);
+    if (!m) return;
+    const a = +m[1], b = m[2] ? +m[2] : a;
+    const hit = items.filter((li) => +li.dataset.end! >= a && +li.dataset.v! <= b);
+    hit.forEach((li) => li.classList.add('hl'));
+    hit[0]?.scrollIntoView({ block: 'center' });
+  };
+  showHash();
+  addEventListener('hashchange', showHash);
+</script>
+
+<style>
+  .bible-bar {
+    position: sticky; top: 64px; z-index: 15; background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: saturate(1.6) blur(14px); -webkit-backdrop-filter: saturate(1.6) blur(14px); border-bottom: 1px solid var(--line);
+  }
+  .bar-inner { display: flex; align-items: center; gap: 12px; height: 54px; }
+  .bb-back {
+    flex: none; display: inline-flex; align-items: center; gap: 4px; text-decoration: none; color: var(--text);
+    font-size: 0.95rem; padding: 4px 10px; border-radius: 999px; background: var(--surface-2);
+  }
+  .bb-back span { color: var(--accent); font-weight: 700; }
+  .bar-inner :global(.bible-search) { flex: 1; min-width: 0; }
+  .chapter { margin-top: 28px; }
+  .crumbs { font-size: 0.88rem; color: var(--muted); }
+  .crumbs a { color: var(--muted); }
+  .chapter h1 { font-family: var(--serif); font-size: clamp(1.6rem, 5vw, 2.2rem); margin: 8px 0 4px; }
+  .hint { color: var(--muted); font-size: 0.85rem; margin: 0 0 22px; }
+  .verses { list-style: none; margin: 0; padding: 0; font-family: var(--serif); font-size: 1.14rem; line-height: 2; }
+  .verses li {
+    position: relative; padding: 3px 8px; margin: 0 -8px; border-radius: 8px; cursor: pointer; scroll-margin-top: 140px;
+    transition: background 0.15s;
+  }
+  .verses li:hover { background: var(--surface-2); }
+  .verses li.hl { background: color-mix(in srgb, #facc15 22%, transparent); }
+  .verses li.sel { background: color-mix(in srgb, var(--accent) 14%, transparent); }
+  .verses li.sel .vt { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 6px; }
+  .alias { position: absolute; top: 0; scroll-margin-top: 140px; }
+  .vn {
+    font-family: var(--sans); font-size: 0.68rem; font-weight: 700; color: var(--accent); margin-right: 5px;
+    vertical-align: 0.5em; line-height: 0; font-variant-numeric: tabular-nums;
+  }
+  .pager { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 40px; }
+  .pager a {
+    display: flex; flex-direction: column; padding: 12px 16px; border-radius: 14px; background: var(--surface);
+    border: 1px solid var(--line); text-decoration: none; color: var(--text); font-weight: 600; line-height: 1.4;
+  }
+  .pager a:hover { border-color: var(--accent); }
+  .pager small { font-weight: 400; color: var(--muted); font-size: 0.78rem; }
+  .pager .next { text-align: right; grid-column: 2; }
+  .foot-note { margin-top: 28px; font-size: 0.85rem; color: var(--muted); }
+  .sel-bar {
+    position: fixed; left: 50%; bottom: max(16px, env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 40;
+    display: flex; align-items: center; gap: 8px; padding: 8px 8px 8px 16px; border-radius: 999px;
+    background: var(--text); color: var(--bg); box-shadow: var(--shadow-hover); max-width: calc(100vw - 24px); white-space: nowrap;
+  }
+  .sel-bar[hidden] { display: none; }
+  .sel-bar #selRef { font-weight: 700; font-size: 0.92rem; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+  .sel-bar button {
+    flex: none; border: 0; border-radius: 999px; padding: 6px 12px; font: inherit; font-size: 0.85rem; font-weight: 600;
+    background: var(--accent); color: #fff; cursor: pointer;
+  }
+  .sel-bar button.ghost { background: color-mix(in srgb, var(--bg) 18%, transparent); color: var(--bg); }
+  @media (max-width: 720px) { .bible-bar { top: 60px; } }
+  @media (max-width: 520px) {
+    .bb-back { font-size: 0.88rem; padding: 4px 8px; }
+    .verses { font-size: 1.1rem; }
+    .sel-bar { padding-left: 12px; gap: 6px; }
+    .sel-bar button { padding: 6px 10px; }
+  }
+</style>
