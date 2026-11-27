@@ -1,0 +1,129 @@
+---
+import Base from '../../layouts/Base.astro';
+import BibleSearch from '../../components/bible/BibleSearch.astro';
+import { BOOKS } from '../../bible/books';
+
+const testaments = [
+  { key: 'OT', title: '旧约', en: 'Old Testament', books: BOOKS.filter((b) => b.testament === 'OT') },
+  { key: 'NT', title: '新约', en: 'New Testament', books: BOOKS.filter((b) => b.testament === 'NT') },
+].map((t) => ({
+  ...t,
+  groups: [...new Set(t.books.map((b) => b.group))].map((g) => ({ name: g, books: t.books.filter((b) => b.group === g) })),
+}));
+const examples = [
+  { q: '约3:16', label: '约3:16' },
+  { q: '诗23', label: '诗篇 23 篇' },
+  { q: '林前13:4-7', label: '林前13:4-7' },
+  { q: '罗8:28', label: '罗8:28' },
+];
+const words = ['恒久忍耐', '平安', '牧者', '盼望', '不要怕'];
+---
+<Base
+  title="圣经（和合本）：按章阅读与经文查找"
+  description="和合本圣经全文 66 卷，可按书卷章节阅读，输入“约3:16”直接跳到经文，也可以用关键词搜索整本圣经。"
+  keywords={['和合本', '圣经', '在线圣经', '经文查找', '经文搜索', '圣经全文']}
+>
+  <header class="page-hero">
+    <div class="wrap">
+      <span class="eyebrow">Holy Bible · 和合本</span>
+      <h1>圣经</h1>
+      <p class="lead">和合本全文，66 卷。可以按书卷、章节阅读；输入出处（如“约3:16”）直接跳到经文；或输入关键词，搜索整本圣经。</p>
+      <BibleSearch />
+      <p class="tries">
+        <span>试试：</span>
+        {examples.map((e) => <a href={`/bible/search/?q=${encodeURIComponent(e.q)}`} data-q={e.q}>{e.label}</a>)}
+        {words.map((w) => <a href={`/bible/search/?q=${encodeURIComponent(w)}`}>{w}</a>)}
+      </p>
+      <p class="resume" id="resume" hidden>
+        <a href="#" id="resumeLink">继续阅读：<strong id="resumeLabel"></strong> →</a>
+      </p>
+    </div>
+  </header>
+
+  <div class="wrap-wide bible-books">
+    {testaments.map((t) => (
+      <section class="testament" id={t.key.toLowerCase()}>
+        <div class="section-head">
+          <div>
+            <h2>{t.title}</h2>
+            <p>{t.en} · {t.books.length} 卷</p>
+          </div>
+        </div>
+        {t.groups.map((g) => (
+          <div class="book-group">
+            <h3>{g.name}</h3>
+            <div class="book-grid">
+              {g.books.map((b) => (
+                <a class="book" href={`/bible/${b.slug}/`}>
+                  <span class="b-name">{b.name}</span>
+                  <span class="b-meta">{b.abbr} · {b.chapters} 章</span>
+                </a>
+              ))}
+            </div>
+          </div>
+        ))}
+      </section>
+    ))}
+
+    <section class="bible-note">
+      <h2>关于译本</h2>
+      <p>这里收录的是<strong>和合本</strong>（1919 年出版，已进入公有领域，可以自由使用），文字为简体，用“神”版。</p>
+      <p>
+        新译本、和合本修订版、NLT、ESV、NIV 等现代译本仍受版权保护，不能整本放到网站上。每一章页面底部都有
+        “中英对照”链接，可以在 Bible Gateway 上和这些译本对照着读。
+      </p>
+    </section>
+  </div>
+</Base>
+
+<script>
+  import { parseRef, refHref } from '../../bible/ref';
+  // 例子里的出处直接跳到经文，不经过搜索页
+  document.querySelectorAll<HTMLAnchorElement>('.tries a[data-q]').forEach((a) => {
+    const r = parseRef(a.dataset.q!);
+    if (r) a.href = refHref(r);
+  });
+  try {
+    const last = JSON.parse(localStorage.getItem('bible:last') || 'null');
+    if (last?.href && last?.label) {
+      (document.getElementById('resumeLink') as HTMLAnchorElement).href = last.href;
+      document.getElementById('resumeLabel')!.textContent = last.label;
+      document.getElementById('resume')!.hidden = false;
+    }
+  } catch {}
+</script>
+
+<style>
+  .tries { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 16px 0 0; font-size: 0.88rem; }
+  .tries span { color: var(--muted); }
+  .tries a {
+    text-decoration: none; color: var(--text); background: var(--surface); border: 1px solid var(--line);
+    border-radius: 999px; padding: 3px 11px;
+  }
+  .tries a:hover { border-color: var(--accent); color: var(--accent); }
+  .resume { margin: 18px 0 0; }
+  .resume a { font-weight: 600; text-decoration: none; }
+  .bible-books { margin-top: 44px; }
+  .testament + .testament { margin-top: 56px; }
+  .book-group { margin-top: 18px; }
+  .book-group h3 { font-size: 0.85rem; font-weight: 600; color: var(--muted); letter-spacing: 0.06em; margin: 0 0 10px; }
+  .book-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+  .book {
+    display: flex; flex-direction: column; padding: 12px 14px; border-radius: 14px; background: var(--surface);
+    border: 1px solid var(--line); text-decoration: none; color: var(--text); line-height: 1.4;
+    transition: border-color 0.15s, transform 0.15s;
+  }
+  .book:hover { border-color: var(--accent); transform: translateY(-1px); }
+  .b-name { font-family: var(--serif); font-weight: 700; font-size: 1.05rem; }
+  .b-meta { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
+  .bible-note { margin-top: 56px; padding: 22px 24px; border-radius: var(--radius); background: var(--surface); border: 1px solid var(--line); max-width: 740px; }
+  .bible-note h2 { font-size: 1.15rem; margin: 0 0 8px; }
+  .bible-note p { margin: 0 0 8px; color: var(--muted); font-size: 0.95rem; }
+  .bible-note p:last-child { margin: 0; }
+  @media (max-width: 520px) {
+    .book-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+    .book { padding: 10px; }
+    .b-name { font-size: 0.95rem; }
+    .b-meta { font-size: 0.72rem; }
+  }
+</style>

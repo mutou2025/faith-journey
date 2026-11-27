@@ -1,0 +1,143 @@
+---
+import Base from '../../../layouts/Base.astro';
+import BibleSearch from '../../../components/bible/BibleSearch.astro';
+---
+<Base title="搜索经文（和合本）" description="在和合本圣经全文中按关键词搜索经文。" noindex>
+  <header class="page-hero slim">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="位置"><a href="/bible/">圣经</a> / 搜索</nav>
+      <h1>搜索经文</h1>
+      <p class="lead">在和合本全文中查找。多个词用空格隔开，会找出同时包含这些词的经文。</p>
+      <BibleSearch autofocus />
+    </div>
+  </header>
+
+  <div class="wrap results-wrap">
+    <p class="status" id="status" aria-live="polite"></p>
+    <div class="filters" id="filters" hidden></div>
+    <ol class="results" id="results"></ol>
+    <button type="button" class="more" id="more" hidden>显示更多</button>
+  </div>
+</Base>
+
+<script>
+  import { BOOKS } from '../../../bible/books';
+  import { parseRef, refHref } from '../../../bible/ref';
+
+  const PAGE = 60;
+  const q = (new URLSearchParams(location.search).get('q') || '').trim();
+  const statusEl = document.getElementById('status')!;
+  const filtersEl = document.getElementById('filters')!;
+  const listEl = document.getElementById('results')!;
+  const moreBtn = document.getElementById('more') as HTMLButtonElement;
+  const input = document.querySelector<HTMLInputElement>('form[data-bible-search] input')!;
+  input.value = q;
+
+  type Hit = { b: number; c: number; v: number; t: string };
+  const esc = (s: string) => s.replace(/[&<>"]/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[ch]!);
+
+  let hits: Hit[] = [];
+  let scope = 'all';
+  let shown = 0;
+  let terms: string[] = [];
+
+  const view = () => (scope === 'all' ? hits : scope === 'OT' || scope === 'NT' ? hits.filter((h) => BOOKS[h.b].testament === scope) : hits.filter((h) => String(h.b) === scope));
+
+  const mark = (t: string) => {
+    let s = esc(t);
+    for (const term of terms) s = s.split(esc(term)).join(`<mark>${esc(term)}</mark>`);
+    return s;
+  };
+
+  const renderList = (reset: boolean) => {
+    const v = view();
+    if (reset) { listEl.innerHTML = ''; shown = 0; }
+    const slice = v.slice(shown, shown + PAGE);
+    listEl.insertAdjacentHTML('beforeend', slice.map((h) => {
+      const bk = BOOKS[h.b];
+      return `<li><a href="/bible/${bk.slug}/${h.c}/#v${h.v}"><span class="r-ref">${bk.name} ${h.c}:${h.v}</span><span class="r-text">${mark(h.t)}</span></a></li>`;
+    }).join(''));
+    shown += slice.length;
+    moreBtn.hidden = shown >= v.length;
+    moreBtn.textContent = `显示更多（还有 ${v.length - shown} 节）`;
+  };
+
+  const renderFilters = () => {
+    const ot = hits.filter((h) => BOOKS[h.b].testament === 'OT').length;
+    const per = new Map<number, number>();
+    hits.forEach((h) => per.set(h.b, (per.get(h.b) ?? 0) + 1));
+    const chips = [
+      ['all', `全部 ${hits.length}`],
+      ...(ot && ot < hits.length ? [['OT', `旧约 ${ot}`], ['NT', `新约 ${hits.length - ot}`]] : []),
+      ...(per.size > 1 ? [...per].map(([b, n]) => [String(b), `${BOOKS[b].abbr} ${n}`]) : []),
+    ];
+    filtersEl.innerHTML = chips.map(([k, label]) => `<button type="button" data-k="${k}" aria-pressed="${k === scope}">${label}</button>`).join('');
+    filtersEl.hidden = chips.length < 2;
+  };
+  filtersEl.addEventListener('click', (e) => {
+    const btn = (e.target as HTMLElement).closest('button');
+    if (!btn) return;
+    scope = btn.dataset.k!;
+    filtersEl.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+    renderList(true);
+  });
+  moreBtn.addEventListener('click', () => renderList(false));
+
+  async function run() {
+    if (!q) { statusEl.textContent = '输入出处（如“约3:16”）或关键词（如“平安”）开始查找。'; return; }
+    const ref = parseRef(q);
+    if (ref) { location.replace(refHref(ref)); return; }
+    terms = q.split(/[\s,，、]+/).filter(Boolean);
+    statusEl.textContent = '正在载入整本圣经…（第一次大约 1MB，之后会快很多）';
+    let data: (string | null)[][][];
+    try {
+      const res = await fetch('/bible/cuv.json');
+      if (!res.ok) throw new Error(String(res.status));
+      data = await res.json();
+    } catch {
+      statusEl.textContent = '载入失败，请检查网络后刷新重试。';
+      return;
+    }
+    hits = [];
+    data.forEach((chs, b) => chs.forEach((vs, c) => vs.forEach((t, v) => {
+      if (t && terms.every((term) => t.includes(term))) hits.push({ b, c: c + 1, v: v + 1, t });
+    })));
+    if (!hits.length) {
+      statusEl.innerHTML = `没有找到包含“${esc(terms.join(' '))}”的经文。可以换个说法，或只用其中一两个字再试。`;
+      return;
+    }
+    statusEl.innerHTML = `“${esc(terms.join(' '))}”共找到 <strong>${hits.length}</strong> 节经文`;
+    renderFilters();
+    renderList(true);
+  }
+  run();
+</script>
+
+<style>
+  .slim { padding: 32px 0 26px; }
+  .slim h1 { margin: 6px 0 6px; }
+  .slim .lead { font-size: 0.95rem; }
+  .crumbs { font-size: 0.88rem; color: var(--muted); }
+  .crumbs a { color: var(--muted); }
+  .results-wrap { margin-top: 28px; }
+  .status { color: var(--muted); margin: 0 0 14px; }
+  .status strong { color: var(--text); }
+  .filters { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 10px; scrollbar-width: thin; }
+  .filters :global(button) {
+    flex: none; border: 1px solid var(--line); background: var(--surface); color: var(--text); border-radius: 999px;
+    padding: 4px 12px; font: inherit; font-size: 0.85rem; cursor: pointer;
+  }
+  .filters :global(button[aria-pressed='true']) { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .results { list-style: none; margin: 0; padding: 0; }
+  .results :global(li) { border-bottom: 1px solid var(--line); }
+  .results :global(a) { display: block; padding: 14px 4px; text-decoration: none; color: var(--text); }
+  .results :global(a:hover) { background: var(--surface-2); }
+  .results :global(.r-ref) { display: block; font-size: 0.82rem; font-weight: 700; color: var(--accent); }
+  .results :global(.r-text) { display: block; font-family: var(--serif); font-size: 1.05rem; line-height: 1.85; margin-top: 2px; }
+  .results :global(mark) { background: color-mix(in srgb, #facc15 40%, transparent); color: inherit; border-radius: 3px; padding: 0 1px; }
+  .more {
+    display: block; width: 100%; margin-top: 18px; padding: 12px; border-radius: 14px; border: 1px solid var(--line);
+    background: var(--surface); color: var(--text); font: inherit; font-weight: 600; cursor: pointer;
+  }
+  .more[hidden] { display: none; }
+</style>
