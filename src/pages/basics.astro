@@ -1,0 +1,234 @@
+---
+import Base from '../layouts/Base.astro';
+import BibleSearch from '../components/bible/BibleSearch.astro';
+import { TOPICS, KEY_PASSAGES, TIMELINE, CORRECTIONS } from '../basics';
+import { parseRef, refHref } from '../bible/ref';
+import { CUV } from '../bible/data';
+import { BOOKS } from '../bible/books';
+
+const link = (ref: string) => {
+  const r = parseRef(ref);
+  if (!r) throw new Error(`无法解析经文出处：${ref}`);
+  return refHref(r);
+};
+/** “太5:3” → “马太福音 5:3”，用于显示 */
+const pretty = (ref: string) => {
+  const r = parseRef(ref);
+  if (!r) return ref;
+  if (!r.verse) return `${r.book.name} ${r.chapter} 章`;
+  return `${r.book.name} ${r.chapter}:${r.verse}${r.verseEnd ? `-${r.verseEnd}` : ''}`;
+};
+/** 构建时从和合本取经文 */
+const verses = (ref: string) => {
+  const r = parseRef(ref)!;
+  const bi = BOOKS.indexOf(r.book);
+  const ch = CUV[bi][r.chapter - 1];
+  const from = r.verse ?? 1;
+  const to = r.verseEnd ?? (r.verse ? r.verse : ch.length);
+  const out: { n: number; t: string }[] = [];
+  for (let i = from; i <= to; i++) {
+    const t = ch[i - 1];
+    if (t) out.push({ n: i, t });
+  }
+  if (!out.length) throw new Error(`和合本中没有找到：${ref}`);
+  return out;
+};
+const total = TOPICS.reduce((s, t) => s + t.items.length, 0);
+---
+<Base
+  title="基督教常识问答：圣经、耶稣、圣礼与节日"
+  description={`${total} 个基督教常识问题，按主题整理：圣经、三位一体、耶稣的降生和生平、受难复活、圣灵与教会、洗礼圣餐、节日节期、旧约新约人物。每条附和合本经文出处，可点开阅读。`}
+  keywords={['基督教常识', '基督教问答', '圣经常识', '信仰问答', '三位一体', '洗礼', '圣餐', '复活节', '十诫', '八福', '十二门徒', '十架七言']}
+>
+  <header class="page-hero">
+    <div class="wrap">
+      <span class="eyebrow">Christian Basics Q&amp;A</span>
+      <h1>基督教常识问答</h1>
+      <p class="lead">把读经和学习时常遇到的基础问题按主题整理在一起，共 {total} 问。每个回答都附上和合本经文出处，点一下就能读到原文。适合自己复习，也适合小组里一起讨论。</p>
+      <div class="qa-tools">
+        <label class="qa-filter">
+          <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" fill="none"></circle><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
+          <input id="qaFilter" type="search" placeholder="在问答里找，例如：洗礼、门徒、逾越节" autocomplete="off" />
+        </label>
+        <p class="qa-count" id="qaCount" aria-live="polite"></p>
+      </div>
+      <nav class="jump" aria-label="跳到">
+        <a href="#key">核心经文</a>
+        {TOPICS.map((t) => <a href={`#${t.id}`}>{t.short}</a>)}
+        <a href="#timeline">大事年表</a>
+        <a href="#mistakes">容易记错</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="wrap basics">
+    <section class="section" id="key" data-hide-on-filter>
+      <div class="section-head"><div><h2>核心经文与要文</h2><p>值得熟记的几段经文，全文取自和合本。《使徒信经》和《主祷文》在<a href="/daily/">每日诵读</a>里有中英对照全文。</p></div></div>
+      <div class="passages">
+        {KEY_PASSAGES.map((p) => (
+          <details class="passage" id={p.id}>
+            <summary><span class="p-title">{p.title}</span><span class="p-ref">{pretty(p.ref)}</span></summary>
+            {p.note && <p class="p-note">{p.note}</p>}
+            {p.list ? (
+              <ol class="p-list">{p.list.map((l) => <li>{l}</li>)}</ol>
+            ) : (
+              <p class="p-text">{verses(p.ref).map((v) => <><sup>{v.n}</sup>{v.t}</>)}</p>
+            )}
+            <a class="p-go" href={link(p.ref)}>在圣经中阅读上下文 →</a>
+          </details>
+        ))}
+        <details class="passage" id="doxology">
+          <summary><span class="p-title">三一颂</span><span class="p-ref">诗歌</span></summary>
+          <p class="p-text">赞美真神万福之根，世上万民赞美主恩，天使天军赞美主名，赞美圣父、圣子、圣灵。阿们。</p>
+          <p class="p-note">许多教会在礼拜中唱的颂赞短歌。</p>
+        </details>
+      </div>
+    </section>
+
+    {TOPICS.map((t, ti) => (
+      <section class="section topic" id={t.id} data-topic>
+        <div class="section-head"><div><h2><span class="t-no">{String(ti + 1).padStart(2, '0')}</span>{t.title}</h2>{t.intro && <p>{t.intro}</p>}</div></div>
+        <div class="faq">
+          {t.items.map((it) => (
+            <details data-qa>
+              <summary>{it.q}</summary>
+              <p>{it.a}</p>
+              {it.refs && (
+                <p class="refs">
+                  <span class="refs-label">经文</span>
+                  {it.refs.map((r) => <a href={link(r)}>{pretty(r)}</a>)}
+                </p>
+              )}
+            </details>
+          ))}
+        </div>
+      </section>
+    ))}
+
+    <p class="qa-empty" id="qaEmpty" hidden>没有找到相关的问题。也可以试试<a href="/bible/search/">在圣经全文里搜索</a>。</p>
+
+    <section class="section" id="timeline" data-hide-on-filter>
+      <div class="section-head"><div><h2>圣经大事年表</h2><p>年代多为常用的约数，不同学者的推算会有出入，帮助把故事放进时间里就好。</p></div></div>
+      <ol class="tl">
+        {TIMELINE.map(([y, e]) => (
+          <li><span class="tl-y">{y}</span><span class="tl-e">{e}</span></li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="section" id="mistakes" data-hide-on-filter>
+      <div class="section-head"><div><h2>容易记错的地方</h2><p>整理时对照圣经核对过，网上流传的问答资料里常见下面这些说法，正确的应该是：</p></div></div>
+      <div class="fix">
+        {CORRECTIONS.map(([wrong, right]) => (
+          <div class="fix-row">
+            <span class="fix-wrong">{wrong}</span>
+            <span class="fix-right">{right}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="section" data-hide-on-filter>
+      <div class="section-head"><div><h2>想查某一节经文？</h2></div></div>
+      <BibleSearch />
+      <p class="more">也可以看看：<a href="/confession/">信仰告白学习</a> · <a href="/prayer/">学习祷告</a> · <a href="/gospel/">认识福音</a></p>
+    </section>
+  </div>
+</Base>
+
+<script>
+  const input = document.getElementById('qaFilter') as HTMLInputElement | null;
+  const count = document.getElementById('qaCount')!;
+  const empty = document.getElementById('qaEmpty')!;
+  const qas = Array.from(document.querySelectorAll<HTMLDetailsElement>('[data-qa]'));
+  const topics = Array.from(document.querySelectorAll<HTMLElement>('[data-topic]'));
+  const extras = Array.from(document.querySelectorAll<HTMLElement>('[data-hide-on-filter]'));
+  const jump = document.querySelector<HTMLElement>('.jump');
+  const run = () => {
+    const q = (input?.value ?? '').trim().toLowerCase();
+    let shown = 0;
+    qas.forEach((d) => {
+      const hit = !q || d.textContent!.toLowerCase().includes(q);
+      d.hidden = !hit;
+      if (q) d.open = hit;
+      if (hit) shown++;
+    });
+    if (!q) qas.forEach((d) => (d.open = false));
+    topics.forEach((t) => (t.hidden = !t.querySelector('[data-qa]:not([hidden])')));
+    extras.forEach((e) => (e.hidden = !!q));
+    if (jump) jump.hidden = !!q;
+    count.textContent = q ? `找到 ${shown} 个相关问题` : '';
+    empty.hidden = !q || shown > 0;
+  };
+  let timer: number | undefined;
+  input?.addEventListener('input', () => { clearTimeout(timer); timer = window.setTimeout(run, 150); });
+</script>
+
+<style>
+  .basics { margin-top: 32px; }
+  .basics [hidden], .jump[hidden] { display: none !important; }
+  .qa-tools { margin-top: 18px; max-width: 560px; }
+  .qa-filter {
+    display: flex; align-items: center; gap: 8px; padding: 0 14px; border-radius: 999px;
+    background: var(--surface); border: 1px solid var(--line); color: var(--muted);
+  }
+  .qa-filter:focus-within { border-color: var(--accent); }
+  .qa-filter input { flex: 1; min-width: 0; border: 0; background: transparent; color: var(--text); font: inherit; padding: 11px 0; outline: none; }
+  .qa-count { margin: 8px 4px 0; font-size: 0.88rem; color: var(--accent); min-height: 1em; }
+  .qa-count:empty { display: none; }
+  .jump { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .jump a {
+    font-size: 0.88rem; text-decoration: none; color: var(--text); background: var(--surface);
+    border: 1px solid var(--line); border-radius: 999px; padding: 5px 12px;
+  }
+  .jump a:hover { border-color: var(--accent); color: var(--accent); }
+  .section-head { display: block; }
+  section[id], .passage { scroll-margin-top: 80px; }
+  .t-no { font-size: 0.8em; color: var(--accent); margin-right: 10px; font-variant-numeric: tabular-nums; }
+
+  .passages { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; align-items: start; }
+  .passage { border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); padding: 14px 18px; }
+  .passage[open] { grid-column: 1 / -1; border-color: color-mix(in srgb, var(--accent) 35%, var(--line)); }
+  .passage summary { cursor: pointer; display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+  .p-title { font-weight: 600; }
+  .p-ref { font-size: 0.82rem; color: var(--muted); white-space: nowrap; }
+  .p-text { margin: 12px 0 8px; font-family: var(--serif); font-size: 1.06rem; line-height: 2; }
+  .p-text sup { color: var(--accent); font-size: 0.68em; margin: 0 2px 0 4px; font-family: var(--sans, inherit); }
+  .p-note { margin: 10px 0 0; color: var(--muted); font-size: 0.92rem; }
+  .p-list { margin: 10px 0 8px; padding-left: 1.6em; font-family: var(--serif); line-height: 1.95; }
+  .p-go { font-size: 0.88rem; }
+
+  .topic { margin-top: 48px; }
+  .faq { display: grid; gap: 10px; }
+  .faq details { border: 1px solid var(--line); border-radius: 12px; background: var(--surface); padding: 14px 18px; }
+  .faq details[open] { border-color: color-mix(in srgb, var(--accent) 35%, var(--line)); }
+  .faq summary { cursor: pointer; font-weight: 600; line-height: 1.6; }
+  .faq details > p { margin: 10px 0 0; line-height: 1.85; }
+  .refs { display: flex; flex-wrap: wrap; gap: 6px 8px; align-items: center; font-size: 0.86rem; }
+  .refs-label { color: var(--muted); font-size: 0.8rem; }
+  .refs a {
+    text-decoration: none; color: var(--accent); padding: 2px 9px; border-radius: 999px;
+    background: color-mix(in srgb, var(--accent) 9%, transparent);
+  }
+  .refs a:hover { background: color-mix(in srgb, var(--accent) 18%, transparent); }
+  .qa-empty { margin: 32px 0; color: var(--muted); }
+
+  .tl { list-style: none; margin: 0; padding: 0; border-left: 2px solid color-mix(in srgb, var(--accent) 35%, var(--line)); }
+  .tl li { position: relative; display: grid; grid-template-columns: 9.5em 1fr; gap: 12px; padding: 8px 0 8px 18px; }
+  .tl li::before { content: ''; position: absolute; left: -6px; top: 15px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); }
+  .tl-y { font-weight: 600; font-variant-numeric: tabular-nums; }
+  .tl-e { color: var(--text); }
+
+  .fix { display: grid; gap: 10px; }
+  .fix-row { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: 14px; padding: 14px 18px; border-radius: 12px; background: var(--surface); border: 1px solid var(--line); }
+  .fix-wrong { color: var(--muted); text-decoration: line-through; text-decoration-color: color-mix(in srgb, var(--muted) 60%, transparent); }
+  .fix-right { line-height: 1.75; }
+  .more { margin-top: 18px; color: var(--muted); }
+
+  @media (max-width: 640px) {
+    .passages { grid-template-columns: 1fr; }
+    .tl li { grid-template-columns: 1fr; gap: 2px; }
+    .fix-row { grid-template-columns: 1fr; gap: 6px; }
+    .faq details, .passage { padding: 13px 15px; }
+  }
+</style>
