@@ -1,0 +1,127 @@
+---
+// 家谱页的简笔画小图：48×48，线条用 currentColor，强调色用 .a（朱红）
+interface Props { name: string; size?: number; label?: string }
+const { name, size = 48, label } = Astro.props;
+
+const I: Record<string, string> = {
+  // 亚伯拉罕：帐棚和满天星
+  tent: `<path d="M6 40 L22 14 L38 40 Z"/><path d="M22 14 L22 40"/><path d="M17 40 L22 30 L27 40"/><path d="M3 40 H44"/>
+    <g class="a"><path d="M37 8 v6 M34 11 h6"/><path d="M44 18 v4 M42 20 h4"/><path d="M10 7 v4 M8 9 h4"/></g>`,
+  // 以撒：小树丛里的公羊
+  ram: `<ellipse cx="22" cy="28" rx="11" ry="7"/><path d="M14 34 v7 M20 35 v6 M26 35 v6 M31 33 v8"/>
+    <circle cx="34" cy="20" r="5"/><path class="a" d="M33 15 c-4 -4 -9 0 -6 4 c2 2 5 0 3 -2"/><path d="M38 21 l3 1"/>
+    <path d="M4 42 c2 -6 6 -6 8 0 M40 42 c2 -6 5 -6 6 0"/>`,
+  // 雅各：通天的梯子
+  ladder: `<path d="M16 44 L20 6 M32 44 L28 6"/><path d="M17 36 H31 M17.8 28 H30.2 M18.6 20 H29.4 M19.4 12 H28.6"/>
+    <g class="a"><circle cx="38" cy="10" r="3"/><path d="M38 4 v-2 M44 10 h2 M42 6 l1.5 -1.5"/></g><path d="M4 44 H44"/>`,
+  // 犹大：狮子
+  lion: `<path class="a" d="M24 6 l4 4 5 -2 1 5 5 1 -2 5 4 4 -4 4 2 5 -5 1 -1 5 -5 -2 -4 4 -4 -4 -5 2 -1 -5 -5 -1 2 -5 -4 -4 4 -4 -2 -5 5 -1 1 -5 5 2 Z"/>
+    <circle cx="24" cy="24" r="9"/><circle cx="20.5" cy="22" r="1" fill="currentColor"/><circle cx="27.5" cy="22" r="1" fill="currentColor"/>
+    <path d="M22 26 h4 l-2 2 Z M24 28 v1.5 M21 30 c2 1.5 4 1.5 6 0"/>`,
+  // 法勒斯和谢拉：双胞胎，手上的朱红线
+  twins: `<circle cx="15" cy="16" r="6"/><circle cx="33" cy="16" r="6"/><path d="M8 40 c0 -10 3 -16 7 -16 s7 6 7 16"/><path d="M26 40 c0 -10 3 -16 7 -16 s7 6 7 16"/>
+    <path d="M40 28 l5 -5"/><path class="a" d="M41 26 l3 2 M42.5 24.5 l3 2"/>`,
+  // 希斯仑：下埃及
+  pyramid: `<path d="M6 40 L20 14 L34 40 Z"/><path d="M20 14 L24 40"/><path d="M28 40 L37 24 L46 40"/><path d="M2 40 H46"/><circle class="a" cx="38" cy="9" r="4"/>`,
+  // 亚兰：在埃及做砖
+  brick: `<rect x="6" y="30" width="16" height="9" rx="1"/><rect x="24" y="30" width="16" height="9" rx="1"/><rect x="15" y="20" width="16" height="9" rx="1"/>
+    <path d="M10 14 c3 -3 6 3 9 0 s6 3 9 0" class="a"/>`,
+  // 亚米拿达：两家结亲
+  link: `<rect x="5" y="18" width="20" height="12" rx="6"/><rect x="23" y="18" width="20" height="12" rx="6" class="a"/>`,
+  // 拿顺：营中的大旗
+  flag: `<path d="M12 44 V6"/><path class="a" d="M12 8 c8 -4 14 4 24 0 v14 c-10 4 -16 -4 -24 0"/><path d="M6 44 H20"/>`,
+  // 撒门/喇合：城墙窗口挂着朱红线绳
+  wall: `<path d="M6 44 V14 h6 v-4 h6 v4 h6 v-4 h6 v4 h6 v-4 h6 v4 h0 V44"/><rect x="20" y="20" width="8" height="8"/>
+    <path class="a" d="M24 28 c-2 4 2 6 0 10 c-2 3 1 4 0 6"/>`,
+  // 她玛：系在手腕上的朱红线
+  thread: `<path d="M10 40 c0 -8 2 -14 4 -18 l2 -10 c0 -2 3 -2 3 0 v8 l1 -12 c0 -2 3 -2 3 0 v12 l1 -10 c0 -2 3 -2 3 0 v11 l1 -7 c0 -2 3 -2 3 0 v12 c0 6 -2 10 -4 14"/>
+    <path class="a" d="M12 33 c6 3 14 3 20 -1 M30 32 c4 2 8 6 8 10 M31 33 c6 0 9 2 11 4"/>`,
+  // 喇合：窗口垂下的朱红线绳
+  cord: `<rect x="10" y="8" width="28" height="22" rx="2"/><path d="M24 8 V30 M10 19 H38"/><path d="M6 30 H42"/>
+    <path class="a" d="M30 30 c-2 4 2 6 0 9 c-2 3 1 4 0 6"/>`,
+  // 波阿斯：一捆麦子
+  sheaf: `<path d="M24 44 V18 M24 30 L14 14 M24 30 L34 14 M24 30 L18 10 M24 30 L30 10"/><path class="a" d="M17 30 H31"/>
+    <path d="M14 14 l-2 -4 M34 14 l2 -4 M18 10 l-1 -4 M30 10 l1 -4 M24 18 v-6"/>`,
+  // 路得：拾起的麦穗
+  wheat: `<path d="M24 44 V8"/><path d="M24 12 c-4 -2 -6 1 -6 4 c4 0 6 -2 6 -4 M24 12 c4 -2 6 1 6 4 c-4 0 -6 -2 -6 -4 M24 20 c-4 -2 -6 1 -6 4 c4 0 6 -2 6 -4 M24 20 c4 -2 6 1 6 4 c-4 0 -6 -2 -6 -4 M24 28 c-4 -2 -6 1 -6 4 c4 0 6 -2 6 -4 M24 28 c4 -2 6 1 6 4 c-4 0 -6 -2 -6 -4"/>
+    <path class="a" d="M10 44 c6 -6 22 -6 28 0"/>`,
+  // 俄备得：被抱着的婴孩
+  baby: `<path d="M10 30 c0 -8 8 -14 18 -12 c8 2 12 8 10 14 c-2 8 -14 10 -22 6 c-4 -2 -6 -5 -6 -8 Z"/><circle cx="31" cy="23" r="5"/>
+    <path d="M16 26 c4 4 8 6 14 6"/><path class="a" d="M20 10 c0 -3 4 -3 4 0 c0 -3 4 -3 4 0 c0 3 -4 5 -4 6 c0 -1 -4 -3 -4 -6 Z"/>`,
+  // 耶西：树墩发出嫩枝
+  stump: `<path d="M12 44 c2 -4 2 -14 0 -18 h24 c-2 4 -2 14 0 18"/><ellipse cx="24" cy="26" rx="12" ry="3"/><path d="M6 44 H42"/>
+    <path class="a" d="M26 25 c0 -8 2 -12 6 -16 M30 13 c4 -2 7 -1 8 1 c-3 2 -6 2 -8 -1 M27 18 c-4 -3 -7 -2 -8 0 c3 2 6 2 8 0"/>`,
+  // 大卫：琴（和机弦的石头）
+  harp: `<path d="M12 42 C8 30 10 14 18 8 C24 14 34 14 38 10 C36 22 30 34 12 42 Z"/><path d="M17 12 L15 38 M22 13 L19 35 M27 13 L23 32 M32 12 L28 28"/>
+    <path class="a" d="M30 4 l2 3 3 -1 -1 3 3 2 -3 1 1 3 -3 -1 -2 3 -1 -3 -3 1 1 -3 -3 -2 3 -1 -1 -3 3 1 Z" transform="translate(6 -1) scale(0.7)"/>`,
+  // 乌利亚的妻子：眼泪（诗51）
+  tear: `<path class="a" d="M24 8 C18 18 14 24 14 30 a10 10 0 0 0 20 0 C34 24 30 18 24 8 Z"/><path d="M19 31 c0 3 2 5 5 5"/>`,
+  // 所罗门：圣殿
+  temple: `<path d="M6 18 L24 8 L42 18 Z"/><path d="M8 18 H40 M10 18 V40 M18 18 V40 M30 18 V40 M38 18 V40 M6 40 H42 M4 44 H44"/><rect class="a" x="21" y="28" width="6" height="12"/>`,
+  // 罗波安：裂成两半的王冠
+  split: `<path d="M6 34 L8 16 L15 24 L20 12 L22 34 Z"/><path d="M26 34 L28 12 L33 24 L40 16 L42 34 Z"/><path class="a" d="M24 8 L22 18 L26 24 L22 32 L24 40"/>`,
+  // 亚比雅：吹号
+  trumpet: `<path d="M8 22 h4 l22 -10 v24 l-22 -10 h-4 Z"/><path d="M12 26 l3 10 h4 l-2 -8"/><path class="a" d="M38 16 l4 -3 M38 24 h6 M38 32 l4 3"/>`,
+  // 亚撒：打碎的偶像
+  idol: `<circle cx="22" cy="12" r="5"/><path d="M15 42 V20 h14 V42"/><path d="M11 42 H33"/><path class="a" d="M15 27 L22 30 L18 35 L29 38"/>
+    <path d="M44 6 l-4 -2 -6 6 4 4 6 -6 Z"/><path d="M36 12 L30 18"/>`,
+  // 约沙法：唱诗赞美
+  note: `<path d="M18 36 V10 L38 6 V32"/><ellipse cx="13" cy="36" rx="5" ry="4"/><ellipse cx="33" cy="32" rx="5" ry="4"/><path class="a" d="M18 16 L38 12"/>`,
+  // 约兰：歪掉的王冠
+  crowndown: `<path d="M8 28 L10 12 L17 20 L24 8 L31 20 L38 12 L40 28 Z" transform="rotate(14 24 24)"/><path class="a" d="M24 34 v8 M20 38 l4 4 4 -4"/>`,
+  // 乌西雅：香炉
+  censer: `<path d="M12 26 h24 c0 8 -5 14 -12 14 s-12 -6 -12 -14 Z"/><path d="M24 40 v4 M18 44 h12"/><path d="M14 26 L24 14 L34 26"/>
+    <path class="a" d="M24 14 c-3 -3 3 -5 0 -8 M30 12 c-2 -2 2 -4 0 -6"/>`,
+  // 约坦：殿的上门
+  gate: `<path d="M8 44 V18 a16 14 0 0 1 32 0 V44"/><path d="M16 44 V22 a8 8 0 0 1 16 0 V44"/><path d="M4 44 H44"/><path class="a" d="M24 4 v6"/>`,
+  // 亚哈斯：外邦的祭坛
+  altar: `<rect x="10" y="26" width="28" height="16"/><path d="M10 34 H38 M24 26 V34 M17 34 V42 M31 34 V42"/>
+    <path class="a" d="M18 26 c-2 -6 4 -8 3 -14 c4 4 6 8 3 14 M27 26 c-1 -4 3 -5 3 -9 c3 3 4 6 2 9"/>`,
+  // 希西家：日晷的影子往回走
+  sundial: `<circle cx="24" cy="26" r="16"/><path d="M24 26 L24 12"/><path d="M24 10 v-2 M38 26 h2 M8 26 h2 M24 42 v2"/>
+    <path class="a" d="M24 26 L34 34 M30 18 a10 10 0 0 1 4 6 M30 18 l1 -3 M30 18 l-3 1"/>`,
+  // 玛拿西：铁链
+  chains: `<rect x="4" y="18" width="12" height="8" rx="4"/><rect x="13" y="20" width="12" height="8" rx="4" class="a"/><rect x="22" y="18" width="12" height="8" rx="4"/><rect x="31" y="20" width="12" height="8" rx="4"/>
+    <path d="M14 36 c4 4 16 4 20 0"/>`,
+  // 亚们：匕首
+  dagger: `<path d="M24 6 L28 26 H20 Z"/><path d="M16 26 H32"/><path d="M24 26 V36"/><circle class="a" cx="24" cy="39" r="3"/>`,
+  // 约西亚：展开的律法书
+  scroll: `<path d="M10 12 h28 v24 h-28 Z"/><path d="M10 12 c-4 0 -4 -6 0 -6 h28 c4 0 4 6 0 6 M10 36 c-4 0 -4 6 0 6 h28 c4 0 4 -6 0 -6"/>
+    <path class="a" d="M16 18 H32 M16 24 H32 M16 30 H26"/>`,
+  // 耶哥尼雅：被掳去巴比伦
+  exile: `<path d="M30 42 V30 h4 V22 h4 V16 h4 V42 Z"/><path d="M2 42 H46"/><circle cx="12" cy="18" r="3"/><path d="M12 21 v10 l-4 8 M12 31 l4 8 M12 24 l-4 4 M12 24 l5 2"/>
+    <path class="a" d="M18 34 c4 -2 6 2 10 0"/>`,
+  // 撒拉铁：巴比伦河边的柳树
+  willow: `<path d="M24 44 V16"/><path d="M24 16 c-6 -6 -14 -4 -16 4 M24 16 c6 -6 14 -4 16 4"/><path d="M10 18 v14 M14 15 v18 M34 15 v18 M38 18 v14"/>
+    <path class="a" d="M4 44 c6 -3 10 3 16 0 s10 3 16 0 s6 2 8 0"/>`,
+  // 所罗巴伯：印戒
+  ring: `<circle cx="24" cy="30" r="12"/><circle cx="24" cy="30" r="8"/><rect class="a" x="18" y="8" width="12" height="10" rx="2"/><path d="M21 13 h6"/>`,
+  // 只留下名字的人
+  name: `<path d="M8 14 h22 l10 10 -10 10 h-22 Z"/><circle class="a" cx="15" cy="24" r="3"/>`,
+  // 约瑟：梦里的天使
+  dream: `<path d="M30 8 a14 14 0 1 0 10 22 a11 11 0 0 1 -10 -22 Z"/><path class="a" d="M8 10 h6 l-6 7 h6 M16 4 h4 l-4 5 h4"/>`,
+  // 马利亚：百合
+  lily: `<path d="M24 44 V24"/><path d="M24 24 c-8 -2 -12 -10 -10 -16 c4 2 8 6 10 10 c2 -4 6 -8 10 -10 c2 6 -2 14 -10 16"/><path d="M24 18 V8"/>
+    <path class="a" d="M24 34 c-6 0 -10 -4 -10 -8 c4 0 8 2 10 6 M24 36 c6 0 10 -4 10 -8 c-4 0 -8 2 -10 6"/>`,
+  // 耶稣：伯利恒之星和马槽
+  star: `<path class="a" d="M24 3 l2.6 7.4 7.8 .2 -6.2 4.8 2.3 7.6 -6.5 -4.5 -6.5 4.5 2.3 -7.6 -6.2 -4.8 7.8 -.2 Z"/>
+    <path d="M8 30 h32 l-6 10 h-20 Z"/><path d="M14 40 l-4 4 M34 40 l4 4"/><path d="M15 30 c2 -4 4 -4 6 0 M21 30 c2 -4 4 -4 6 0 M27 30 c2 -4 4 -4 6 0"/>`,
+  // 路加：亚伯拉罕之前
+  road: `<path d="M6 42 c10 -4 6 -12 16 -14 s10 -10 20 -12"/><circle cx="10" cy="20" r="3"/><path d="M10 23 v8 l-3 6 M10 31 l3 6"/><path class="a" d="M38 12 l4 4 -4 4"/>`,
+  earth: `<circle cx="24" cy="24" r="16"/><path d="M8 24 H40 M24 8 c-8 8 -8 24 0 32 c8 -8 8 -24 0 -32"/><path class="a" d="M14 12 l-4 -4 M34 12 l4 -4 M14 36 l-4 4 M34 36 l4 4"/>`,
+  cloak: `<path d="M12 10 h24 l6 32 H6 Z"/><path d="M20 10 l4 8 4 -8"/><path class="a" d="M14 26 H34"/>`,
+  ark: `<path d="M4 28 H44 l-6 10 H10 Z"/><rect x="12" y="18" width="24" height="10"/><path d="M10 18 L24 10 L38 18"/><path class="a" d="M2 44 c4 -3 8 3 12 0 s8 3 12 0 s8 3 12 0 s6 2 8 0"/>`,
+  hourglass: `<path d="M12 6 H36 M12 42 H36 M14 6 c0 12 20 12 20 18 s-20 6 -20 18 M34 6 c0 12 -20 12 -20 18 s20 6 20 18"/><path class="a" d="M18 40 c2 -4 10 -4 12 0 Z"/>`,
+  walk: `<circle cx="20" cy="14" r="4"/><path d="M20 18 l2 12 -6 10 M22 30 l6 10 M21 22 l-7 4 M21 22 l8 -2"/><path class="a" d="M34 18 c4 -6 6 -10 6 -14 M36 6 l4 -2 2 4"/>`,
+  sprout: `<path d="M24 44 V22"/><path d="M24 30 c-10 0 -14 -8 -12 -14 c8 0 12 6 12 14 M24 24 c8 0 12 -6 10 -12 c-6 0 -10 6 -10 12"/><path class="a" d="M8 44 H40"/>`,
+  tree: `<path d="M24 44 V26 M18 44 h12"/><circle cx="24" cy="18" r="13"/><circle class="a" cx="19" cy="16" r="2.4"/><circle class="a" cx="29" cy="20" r="2.4"/><circle class="a" cx="25" cy="10" r="2.4"/>`,
+};
+const body = I[name] ?? I.name;
+---
+<svg class="gi" width={size} height={size} viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"
+  role={label ? 'img' : undefined} aria-label={label} aria-hidden={label ? undefined : 'true'} set:html={body} />
+
+<style>
+  .gi :global(.a) { stroke: var(--accent); }
+  .gi :global(rect.a), .gi :global(circle.a) { fill: color-mix(in srgb, var(--accent) 14%, transparent); }
+</style>

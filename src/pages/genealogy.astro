@@ -1,0 +1,566 @@
+---
+import Base from '../layouts/Base.astro';
+import GenIcon from '../components/GenIcon.astro';
+import { SECTIONS, VERDICT_LABEL, WOMEN, TIPS, BEFORE_ABRAHAM, COMPARE, type Person } from '../genealogy';
+import { parseRef, refHref } from '../bible/ref';
+import { CUV } from '../bible/data';
+
+const link = (ref: string) => {
+  const r = parseRef(ref);
+  if (!r) throw new Error(`无法解析经文出处：${ref}`);
+  return refHref(r);
+};
+const pretty = (ref: string) => {
+  const r = parseRef(ref);
+  if (!r) return ref;
+  if (!r.verse) return `${r.book.name} ${r.chapter} 章`;
+  return `${r.book.name} ${r.chapter}:${r.verse}${r.verseEnd ? `-${r.verseEnd}` : ''}`;
+};
+
+// 路加 3:23-38：构建时直接从和合本取出“X是Y的儿子”里的名字
+const lukeText = CUV[41][2].slice(22, 38).join('');
+const LUKE = ['耶稣', ...[...lukeText.matchAll(/([^；，。\s]+?)是([^；，。]+?)的儿子/g)].map((m) => m[2])];
+const BEFORE = new Set(BEFORE_ABRAHAM.map((b) => b.name));
+const dIdx = LUKE.indexOf('大卫'), aIdx = LUKE.indexOf('亚伯拉罕');
+const inMatt = (n: string, i: number) => n === '撒拉铁' || n === '所罗巴伯' || (i >= dIdx && i <= aIdx);
+
+// 每段的名字顺序（记忆练习用）
+const order = SECTIONS.map((s) => ({
+  id: s.id,
+  title: `第${'一二三'[s.no - 1]}段 · ${s.span}`,
+  names: [...s.people.map((p) => p.name), ...(s.namesOnly?.names ?? []), ...(s.after ?? []).map((p) => p.name)],
+}));
+---
+<Base
+  title="耶稣基督的家谱图解：三个十四代，每个人身上发生了什么"
+  description="用简笔画图解马太福音 1 章耶稣基督的家谱：从亚伯拉罕到大卫、从大卫到被掳巴比伦、从被掳到基督的三个十四代，每位人物的主要事迹附和合本出处；还有家谱中的五位女性、马太与路加家谱对照，以及按顺序记名字的小练习。"
+  keywords={['耶稣家谱', '耶稣基督的家谱', '马太福音1章', '路加福音3章', '三个十四代', '大卫的子孙', '家谱中的女性', '圣经人物']}
+>
+  <header class="page-hero">
+    <div class="wrap">
+      <span class="eyebrow">The Genealogy of Jesus Christ</span>
+      <h1>耶稣基督的家谱</h1>
+      <p class="lead">新约的第一页是一串名字：“亚伯拉罕生以撒，以撒生雅各……”。看起来枯燥，其实每个名字背后都有一段故事，有信心也有失败。这里用简笔画把马太福音 1 章的家谱画成一条路，点开每个人，就能看到他身上发生了什么，经文出处都可以直接点开阅读。</p>
+
+      <figure class="map" aria-labelledby="mapCap">
+        <svg viewBox="0 0 360 200" role="img" aria-label="三个十四代的路线图：从亚伯拉罕上坡到大卫，下坡到巴比伦，再上坡到基督">
+          <path class="map-road" d="M22 160 C 60 150, 90 50, 128 44 C 168 40, 200 160, 240 162 C 280 164, 300 60, 338 40" />
+          <path class="map-road-dash" d="M22 160 C 60 150, 90 50, 128 44 C 168 40, 200 160, 240 162 C 280 164, 300 60, 338 40" />
+          <g transform="translate(2 120) scale(0.8)"><GenIcon name="tent" /></g>
+          <g transform="translate(108 0) scale(0.8)"><GenIcon name="harp" /></g>
+          <g transform="translate(222 168) scale(0.55)"><GenIcon name="chains" /></g>
+          <g transform="translate(318 0) scale(0.8)"><GenIcon name="star" /></g>
+          <text x="24" y="190" class="map-name">亚伯拉罕</text>
+          <text x="148" y="30" class="map-name">大卫</text>
+          <text x="254" y="190" class="map-name">迁至巴比伦</text>
+          <text x="314" y="24" class="map-name" text-anchor="end">基督</text>
+          <g class="map-14"><circle cx="78" cy="100" r="13" /><text x="78" y="105">14</text></g>
+          <g class="map-14"><circle cx="186" cy="104" r="13" /><text x="186" y="109">14</text></g>
+          <g class="map-14"><circle cx="292" cy="112" r="13" /><text x="292" y="117">14</text></g>
+        </svg>
+        <figcaption id="mapCap">一上、一下、再一上：<b>应许</b>一路走到大卫的宝座，<b>王国</b>一路滑到被掳，在<b>等候</b>中迎来基督。（太 1:17）</figcaption>
+      </figure>
+
+      <nav class="jump" aria-label="跳到">
+        <a href="#frame">先记大框架</a>
+        {SECTIONS.map((s) => <a href={`#${s.id}`}>第{'一二三'[s.no - 1]}段</a>)}
+        <a href="#women">五位女性</a>
+        <a href="#luke">马太和路加</a>
+        <a href="#practice">记忆练习</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="wrap gen">
+    <section class="section" id="frame">
+      <div class="section-head"><div><h2>先记住大框架</h2><p>马太自己把家谱分成三段，每段十四代（太 1:17）。先记住三个关键词和四个转折点，名字就有了挂的地方。</p></div></div>
+      <ol class="frame">
+        {SECTIONS.map((s) => (
+          <li>
+            <a href={`#${s.id}`}>
+              <span class="f-no">{s.no}</span>
+              <span class="f-word">{s.title}</span>
+              <span class="f-span">{s.span}</span>
+              <span class="f-theme">{s.theme}</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+      <div class="tips">
+        {TIPS.map((t) => (
+          <details class="tip">
+            <summary>{t.title}</summary>
+            <p>{t.body}</p>
+          </details>
+        ))}
+      </div>
+      <p class="tools">
+        <button type="button" class="btn ghost small" id="openAll">全部展开</button>
+        <a class="btn ghost small" href={link('太1')}>读马太福音 1 章原文</a>
+      </p>
+    </section>
+
+    {SECTIONS.map((s, si) => (
+      <section class="section part" id={s.id}>
+        <div class="part-head">
+          <span class="part-no">第{'一二三'[s.no - 1]}段 · 14 代</span>
+          <h2>{s.title}<small>{s.span}</small></h2>
+          <p>{s.intro}</p>
+          <p class="rhyme"><span>顺口溜</span>{s.rhyme}</p>
+          {s.no === 2 && (
+            <p class="legend">
+              <span><i class="v good"></i>行正</span><span><i class="v bad"></i>行恶</span><span><i class="v mixed"></i>先好后偏</span><span><i class="v repent"></i>后来悔改</span>
+            </p>
+          )}
+        </div>
+        <ol class="line" start="1">
+          {[...s.people].map((p: Person, pi) => (
+            <li class="node">
+              <details class="p" data-p>
+                <summary>
+                  <span class="p-icon"><GenIcon name={p.icon} size={40} /></span>
+                  <span class="p-main">
+                    <span class="p-name"><span class="p-n">{pi + 1}</span>{p.name}{p.aside && <small>{p.aside}</small>}
+                      {p.verdict && <i class:list={['v', p.verdict]} title={VERDICT_LABEL[p.verdict]}></i>}
+                      {p.mother && <span class="p-mom">母 · {p.mother.name}</span>}
+                    </span>
+                    <span class="p-tag">{p.tag}</span>
+                  </span>
+                </summary>
+                <div class="p-body">
+                  {p.verdict && <p class="p-verdict">圣经的评价：{VERDICT_LABEL[p.verdict]}</p>}
+                  <ul>{p.events.map((e) => <li>{e}</li>)}</ul>
+                  <p class="refs"><span class="refs-label">经文</span>{p.refs.map((r) => <a href={link(r)}>{pretty(r)}</a>)}</p>
+                  {p.mother && (
+                    <div class="mom">
+                      <span class="mom-icon"><GenIcon name={p.mother.icon} size={36} /></span>
+                      <div>
+                        <p class="mom-title">家谱中的女性 · {p.mother.name}<span>{p.mother.tag}</span></p>
+                        <ul>{p.mother.events.map((e) => <li>{e}</li>)}</ul>
+                        <p class="refs"><span class="refs-label">经文</span>{p.mother.refs.map((r) => <a href={link(r)}>{pretty(r)}</a>)}</p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </details>
+            </li>
+          ))}
+          {s.namesOnly && (
+            <li class="node">
+              <div class="p p-quiet">
+                <span class="p-icon"><GenIcon name="name" size={40} /></span>
+                <div class="p-main">
+                  <span class="p-name"><span class="p-n">{s.people.length + 1}–{s.people.length + s.namesOnly.names.length}</span>只留下名字的九个人</span>
+                  <span class="names">{s.namesOnly.names.map((n, i) => <span>{n}{(i + 1) % 3 === 0 && i < 8 && <b aria-hidden="true">｜</b>}</span>)}</span>
+                  <span class="p-tag">{s.namesOnly.note}</span>
+                  <p class="refs"><span class="refs-label">经文</span><a href={link('太1:13-15')}>{pretty('太1:13-15')}</a></p>
+                </div>
+              </div>
+            </li>
+          )}
+          {(s.after ?? []).map((p, ai) => (
+            <li class:list={['node', { jesus: p.name === '耶稣' }]}>
+              <details class="p" data-p open={p.name === '耶稣' ? true : undefined}>
+                <summary>
+                  <span class="p-icon"><GenIcon name={p.icon} size={40} /></span>
+                  <span class="p-main">
+                    <span class="p-name"><span class="p-n">{s.people.length + (s.namesOnly?.names.length ?? 0) + ai + 1}</span>{p.name}
+                      {p.mother && <span class="p-mom">母 · {p.mother.name}</span>}
+                    </span>
+                    <span class="p-tag">{p.tag}</span>
+                  </span>
+                </summary>
+                <div class="p-body">
+                  <ul>{p.events.map((e) => <li>{e}</li>)}</ul>
+                  <p class="refs"><span class="refs-label">经文</span>{p.refs.map((r) => <a href={link(r)}>{pretty(r)}</a>)}</p>
+                  {p.mother && (
+                    <div class="mom">
+                      <span class="mom-icon"><GenIcon name={p.mother.icon} size={36} /></span>
+                      <div>
+                        <p class="mom-title">家谱中的女性 · {p.mother.name}<span>{p.mother.tag}</span></p>
+                        <ul>{p.mother.events.map((e) => <li>{e}</li>)}</ul>
+                        <p class="refs"><span class="refs-label">经文</span>{p.mother.refs.map((r) => <a href={link(r)}>{pretty(r)}</a>)}</p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </details>
+            </li>
+          ))}
+        </ol>
+      </section>
+    ))}
+
+    <section class="section" id="women">
+      <div class="section-head"><div><h2>家谱里的五位女性</h2><p>古代家谱通常只记男人，马太却特别写进五位女性，而且多半不是“体面”的人选：有外邦人，有不光彩的过去。神的恩典偏偏从这些地方走过去。</p></div></div>
+      <div class="women">
+        {WOMEN.map((w, i) => (
+          <a class="woman" href={link(w.ref)}>
+            <span class="w-no">{i + 1}</span>
+            <span class="w-name">{w.name}</span>
+            <span class="w-who">{w.who}</span>
+            <span class="w-point">{w.point}</span>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="section" id="luke">
+      <div class="section-head"><div><h2>马太和路加：两份家谱</h2><p>路加福音 3 章还有一份耶稣的家谱。两份在大卫之前几乎一样，大卫之后却走了两条线，到约瑟那里又会合。</p></div></div>
+
+      <figure class="branches">
+        <svg viewBox="0 0 340 300" role="img" aria-label="大卫之后分成两条线：马太经所罗门，路加经拿单，两条线在撒拉铁和所罗巴伯相交，最后都到约瑟和耶稣">
+          <g class="br-m">
+            <path d="M170 34 C 130 55, 100 70, 100 100 L 100 132 C 100 150, 150 150, 160 166 C 150 184, 100 186, 100 206 L 100 236 C 100 256, 150 256, 170 266" />
+          </g>
+          <g class="br-l">
+            <path d="M170 34 C 210 55, 240 70, 240 100 L 240 132 C 240 150, 190 150, 180 166 C 190 184, 240 186, 240 206 L 240 236 C 240 256, 190 256, 170 266" />
+          </g>
+          <g class="br-node"><circle cx="170" cy="28" r="18" /><text x="170" y="33">大卫</text></g>
+          <text class="br-lab m" x="92" y="108" text-anchor="end">所罗门</text>
+          <text class="br-sub" x="92" y="126" text-anchor="end">众王 ··· 耶哥尼雅</text>
+          <text class="br-lab l" x="248" y="108" text-anchor="start">拿单</text>
+          <text class="br-sub" x="248" y="126" text-anchor="start">玛达他 ··· 尼利</text>
+          <g class="br-node"><rect x="104" y="151" width="132" height="32" rx="16" /><text x="170" y="172">撒拉铁 · 所罗巴伯</text></g>
+          <text class="br-lab m" x="92" y="226" text-anchor="end">亚比玉 ··· 雅各</text>
+          <text class="br-lab l" x="248" y="226" text-anchor="start">利撒 ··· 希里</text>
+          <g class="br-node"><circle cx="170" cy="272" r="20" /><text x="170" y="270" class="sm">约瑟</text><text x="170" y="284" class="sm">耶稣</text></g>
+          <text class="br-key m" x="10" y="290">马太</text>
+          <text class="br-key l" x="330" y="290" text-anchor="end">路加</text>
+        </svg>
+        <figcaption>两份家谱都经过被掳时期的撒拉铁和所罗巴伯，最后都说到约瑟和耶稣。</figcaption>
+      </figure>
+
+      <div class="cmp" role="table" aria-label="马太与路加家谱对照">
+        <div class="cmp-row cmp-h" role="row"><span role="columnheader"></span><span role="columnheader">马太福音 1 章</span><span role="columnheader">路加福音 3 章</span></div>
+        {COMPARE.map(([k, m, l]) => (
+          <div class="cmp-row" role="row"><span class="cmp-k" role="rowheader">{k}</span><span role="cell" data-label="马太">{m}</span><span role="cell" data-label="路加">{l}</span></div>
+        ))}
+      </div>
+
+      <details class="tip why">
+        <summary>为什么约瑟的父亲一个是雅各、一个是希里？</summary>
+        <p>圣经没有直接说明，历代常见两种看法：</p>
+        <ul>
+          <li><b>路加写的是马利亚的家谱。</b>希里是马利亚的父亲，约瑟是他的女婿，按当时的习惯也可称“儿子”。路加的降生故事本来就多从马利亚的角度写，而且他特别说耶稣“依人看来，是约瑟的儿子”。</li>
+          <li><b>两份都是约瑟的家谱。</b>马太写的是王位的、法律上的继承，路加写的是血缘上的；中间可能有过“兄死无子，弟娶嫂为兄立后”的情形，所以同一个人会有两位“父亲”。</li>
+        </ul>
+        <p>无论哪一种，两份家谱都见证同一件事：耶稣是大卫的后裔，是神应许的那一位。</p>
+        <p class="refs"><span class="refs-label">经文</span><a href={link('路3:23')}>{pretty('路3:23')}</a><a href={link('申25:5-6')}>{pretty('申25:5-6')}</a><a href={link('路1:32')}>{pretty('路1:32')}</a></p>
+      </details>
+
+      <h3 class="sub">路加一直往上写到亚当</h3>
+      <p class="muted">马太从亚伯拉罕开始，路加越过亚伯拉罕，一直写到“亚当是神的儿子”。紧接着就是耶稣在旷野受试探：第一个亚当失败的地方，末后的亚当得胜了。</p>
+      <div class="before">
+        {BEFORE_ABRAHAM.map((b) => (
+          <a class="b-card" href={link(b.ref)}>
+            <span class="b-icon"><GenIcon name={b.icon} size={36} /></span>
+            <span class="b-name">{b.name}</span>
+            <span class="b-ev">{b.event}</span>
+            <span class="b-ref">{pretty(b.ref)}</span>
+          </a>
+        ))}
+      </div>
+
+      <details class="tip all-luke">
+        <summary>路加家谱的全部名字（从耶稣往上）</summary>
+        <p class="legend">
+          <span><i class="dot both"></i>马太家谱里也有</span><span><i class="dot before"></i>亚伯拉罕之前（上面画了的）</span>
+        </p>
+        <ol class="luke-list">
+          {LUKE.map((n, i) => (
+            <li class:list={{ both: inMatt(n, i), before: BEFORE.has(n), god: n === '神' }}>{n}</li>
+          ))}
+        </ol>
+        <p class="refs"><span class="refs-label">经文</span><a href={link('路3:23-38')}>{pretty('路3:23-38')}</a></p>
+      </details>
+    </section>
+
+    <section class="section" id="practice">
+      <div class="section-head"><div><h2>记忆练习：按顺序点名字</h2><p>名字被打乱了，按家谱顺序一个个点出来。点对了会排进上面的队伍，点错了会抖一下。先看一遍上面的顺口溜再试试。</p></div></div>
+      <div class="game" id="game" data-order={JSON.stringify(order)}>
+        <div class="g-tabs" role="tablist">
+          {order.map((o, i) => <button type="button" role="tab" data-i={i} aria-selected={i === 0 ? 'true' : 'false'}>第{'一二三'[i]}段</button>)}
+        </div>
+        <p class="g-title" id="gTitle"></p>
+        <ol class="g-done" id="gDone" aria-live="polite"></ol>
+        <div class="g-pool" id="gPool"></div>
+        <p class="g-msg" id="gMsg" aria-live="polite"></p>
+        <p class="g-actions">
+          <button type="button" class="btn ghost small" id="gHint">提示下一个</button>
+          <button type="button" class="btn ghost small" id="gReset">重新打乱</button>
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="more">家谱读完，可以接着看：<a href="/basics/#ot">常识问答 · 旧约人物</a> · <a href="/basics/#nt">新约人物</a> · <a href={link('太1')}>马太福音 1 章</a> · <a href={link('路3')}>路加福音 3 章</a> · <a href={link('得4')}>路得记 4 章（大卫的家谱）</a> · <a href="/gospel/">认识福音</a></p>
+    </section>
+  </div>
+</Base>
+
+<script>
+  // 全部展开 / 收起
+  const btn = document.getElementById('openAll');
+  const ps = Array.from(document.querySelectorAll<HTMLDetailsElement>('[data-p]'));
+  btn?.addEventListener('click', () => {
+    const open = btn.textContent === '全部展开';
+    ps.forEach((d) => (d.open = open));
+    btn.textContent = open ? '全部收起' : '全部展开';
+  });
+
+  // 记忆练习
+  const game = document.getElementById('game');
+  if (game) {
+    const order = JSON.parse(game.dataset.order!) as { id: string; title: string; names: string[] }[];
+    const tabs = Array.from(game.querySelectorAll<HTMLButtonElement>('[role=tab]'));
+    const title = document.getElementById('gTitle')!;
+    const done = document.getElementById('gDone')!;
+    const pool = document.getElementById('gPool')!;
+    const msg = document.getElementById('gMsg')!;
+    let cur = 0;
+    let next = 0;
+    let misses = 0;
+    const shuffle = <T,>(a: T[]) => {
+      const b = a.slice();
+      for (let i = b.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [b[i], b[j]] = [b[j], b[i]];
+      }
+      return b;
+    };
+    const start = (i: number) => {
+      cur = i; next = 0; misses = 0;
+      tabs.forEach((t, k) => t.setAttribute('aria-selected', String(k === i)));
+      const o = order[i];
+      title.textContent = `${o.title}（共 ${o.names.length} 个名字）`;
+      done.innerHTML = '';
+      msg.textContent = '';
+      pool.innerHTML = '';
+      shuffle(o.names.map((n, k) => ({ n, k }))).forEach(({ n, k }) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.textContent = n;
+        b.dataset.k = String(k);
+        pool.appendChild(b);
+      });
+    };
+    const place = (b: HTMLButtonElement) => {
+      const li = document.createElement('li');
+      li.textContent = b.textContent;
+      done.appendChild(li);
+      b.remove();
+      next++;
+      const o = order[cur];
+      if (next === o.names.length) {
+        msg.textContent = misses === 0 ? '太好了，一次都没错！' : `完成了！中间点错了 ${misses} 次，再来一遍会更熟。`;
+      } else msg.textContent = '';
+    };
+    pool.addEventListener('click', (e) => {
+      const b = (e.target as HTMLElement).closest('button');
+      if (!b) return;
+      const name = order[cur].names[next];
+      // 同名的人（如两个“雅各”）任点一个都算对
+      if (b.textContent === name) place(b as HTMLButtonElement);
+      else {
+        misses++;
+        b.classList.remove('shake');
+        void b.offsetWidth;
+        b.classList.add('shake');
+        msg.textContent = '不对哦，再想想上面的顺口溜。';
+      }
+    });
+    document.getElementById('gHint')!.addEventListener('click', () => {
+      const name = order[cur].names[next];
+      const b = Array.from(pool.querySelectorAll('button')).find((x) => x.textContent === name);
+      if (b) { b.classList.add('hint'); setTimeout(() => b.classList.remove('hint'), 1200); }
+    });
+    document.getElementById('gReset')!.addEventListener('click', () => start(cur));
+    tabs.forEach((t, k) => t.addEventListener('click', () => start(k)));
+    start(0);
+  }
+</script>
+
+<style>
+  .gen { margin-top: 32px; }
+  section[id] { scroll-margin-top: 80px; }
+  .section-head { display: block; }
+  .muted { color: var(--muted); }
+
+  /* 路线图 */
+  .map { margin: 22px 0 0; padding: 14px 12px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); }
+  .map svg { display: block; width: 100%; height: auto; color: var(--text); }
+  .map-road { fill: none; stroke: color-mix(in srgb, var(--accent) 22%, transparent); stroke-width: 14; stroke-linecap: round; }
+  .map-road-dash { fill: none; stroke: var(--accent); stroke-width: 2; stroke-dasharray: 2 7; stroke-linecap: round; }
+  .map-name { font-size: 13px; font-weight: 700; fill: var(--text); }
+  .map-14 circle { fill: var(--surface); stroke: var(--accent); stroke-width: 2; }
+  .map-14 text { font-size: 12px; font-weight: 700; fill: var(--accent); text-anchor: middle; }
+  .map figcaption { margin-top: 8px; font-size: 0.9rem; color: var(--muted); line-height: 1.7; }
+  .map figcaption b { color: var(--text); }
+
+  .jump { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .jump a { font-size: 0.88rem; text-decoration: none; color: var(--text); background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 5px 12px; }
+  .jump a:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* 大框架 */
+  .frame { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+  .frame a { display: grid; gap: 4px; height: 100%; padding: 14px 16px; border-radius: var(--radius); background: var(--surface); border: 1px solid var(--line); text-decoration: none; color: var(--text); }
+  .frame a:hover { border-color: var(--accent); }
+  .f-no { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.85rem; }
+  .f-word { font-size: 1.25rem; font-weight: 700; }
+  .f-span { font-size: 0.86rem; color: var(--accent); font-weight: 600; }
+  .f-theme { font-size: 0.88rem; color: var(--muted); line-height: 1.6; }
+  .tips { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 12px; align-items: start; }
+  .tip { border: 1px solid var(--line); border-radius: 12px; background: var(--surface); padding: 12px 16px; }
+  .tip summary { cursor: pointer; font-weight: 600; }
+  .tip p, .tip ul { margin: 8px 0 0; line-height: 1.8; font-size: 0.95rem; }
+  .tip ul { padding-left: 1.2em; }
+  .tools { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .btn.small { padding: 7px 14px; font-size: 0.88rem; }
+
+  /* 每一段 */
+  .part { margin-top: 56px; }
+  .part-head { padding: 18px 20px; border-radius: var(--radius); background: var(--accent-soft); margin-bottom: 18px; }
+  .part-no { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em; color: var(--accent); }
+  .part-head h2 { margin: 4px 0 6px; font-size: 1.6rem; }
+  .part-head h2 small { font-size: 0.95rem; color: var(--muted); font-weight: 500; margin-left: 10px; }
+  .part-head p { margin: 6px 0 0; line-height: 1.8; }
+  .rhyme { font-family: var(--serif); background: var(--surface); border-radius: 12px; padding: 10px 14px; font-size: 0.98rem; }
+  .rhyme span { display: inline-block; font-family: var(--sans); font-size: 0.75rem; font-weight: 700; color: var(--accent); border: 1px solid currentColor; border-radius: 999px; padding: 0 8px; margin-right: 8px; vertical-align: 2px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 0.84rem; color: var(--muted); }
+  .legend span { display: inline-flex; align-items: center; gap: 5px; }
+
+  .v { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-left: 6px; flex: none; }
+  .v.good { background: #16a34a; }
+  .v.bad { background: #dc2626; }
+  .v.mixed { background: linear-gradient(90deg, #16a34a 50%, #dc2626 50%); }
+  .v.repent { background: linear-gradient(90deg, #dc2626 50%, #16a34a 50%); }
+
+  .line { list-style: none; margin: 0; padding: 0 0 0 0; position: relative; }
+  .line::before { content: ''; position: absolute; left: 31px; top: 10px; bottom: 10px; border-left: 3px dotted color-mix(in srgb, var(--accent) 45%, var(--line)); }
+  .node { position: relative; margin: 0 0 10px; }
+  .p { position: relative; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); }
+  .p[open] { border-color: color-mix(in srgb, var(--accent) 40%, var(--line)); box-shadow: var(--shadow); }
+  .p summary, .p-quiet { display: flex; gap: 12px; align-items: center; padding: 10px 14px 10px 8px; cursor: pointer; list-style: none; }
+  .p-quiet { cursor: default; align-items: flex-start; }
+  .p summary::-webkit-details-marker { display: none; }
+  .p summary::after { content: '+'; margin-left: auto; font-size: 1.3rem; color: var(--muted); line-height: 1; padding-left: 6px; }
+  .p[open] summary::after { content: '−'; }
+  .p-icon { flex: none; width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; background: var(--bg); border: 2px solid var(--line); color: var(--text); }
+  .p[open] .p-icon { border-color: var(--accent); }
+  .p-main { display: grid; gap: 2px; min-width: 0; }
+  .p-name { display: flex; flex-wrap: wrap; align-items: center; gap: 0 4px; font-weight: 700; font-size: 1.08rem; }
+  .p-name small { font-weight: 500; font-size: 0.8rem; color: var(--muted); margin-left: 4px; }
+  .p-n { font-size: 0.72rem; font-weight: 700; color: var(--accent); min-width: 1.6em; font-variant-numeric: tabular-nums; }
+  .p-mom { font-size: 0.72rem; font-weight: 600; color: var(--c-reflections); background: var(--c-reflections-bg); border-radius: 999px; padding: 1px 8px; margin-left: 6px; }
+  .p-tag { font-size: 0.88rem; color: var(--muted); line-height: 1.55; }
+  .p-body { padding: 0 16px 14px 68px; }
+  .p-body ul { margin: 4px 0 0; padding-left: 1.1em; line-height: 1.85; }
+  .p-body li + li { margin-top: 4px; }
+  .p-verdict { margin: 0; font-size: 0.85rem; font-weight: 600; color: var(--muted); }
+  .names { display: flex; flex-wrap: wrap; gap: 4px 8px; margin: 4px 0 2px; font-weight: 600; }
+  .names b { color: var(--muted); font-weight: 400; margin-left: 8px; }
+  .p-quiet .refs { margin-top: 6px; }
+  .jesus .p { border-color: var(--accent); background: linear-gradient(135deg, var(--accent-soft), var(--surface)); }
+  .jesus .p-icon { border-color: var(--accent); background: var(--surface); }
+
+  .mom { display: flex; gap: 12px; margin-top: 14px; padding: 12px 14px; border-radius: 12px; background: var(--c-reflections-bg); }
+  .mom-icon { flex: none; color: var(--c-reflections); }
+  .mom ul { padding-left: 1.1em; }
+  .mom-title { margin: 0; font-weight: 700; color: var(--c-reflections); }
+  .mom-title span { display: block; font-weight: 500; color: var(--text); font-size: 0.9rem; }
+
+  .refs { display: flex; flex-wrap: wrap; gap: 6px 8px; align-items: center; font-size: 0.84rem; margin: 10px 0 0; }
+  .refs-label { color: var(--muted); font-size: 0.78rem; }
+  .refs a { text-decoration: none; color: var(--accent); padding: 2px 9px; border-radius: 999px; background: color-mix(in srgb, var(--accent) 9%, transparent); }
+  .refs a:hover { background: color-mix(in srgb, var(--accent) 18%, transparent); }
+
+  /* 五位女性 */
+  .women { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; }
+  .woman { display: grid; gap: 3px; padding: 14px 16px; border-radius: 14px; background: var(--c-reflections-bg); color: var(--text); text-decoration: none; border: 1px solid transparent; }
+  .woman:hover { border-color: var(--c-reflections); }
+  .w-no { font-size: 0.75rem; font-weight: 700; color: var(--c-reflections); }
+  .w-name { font-size: 1.12rem; font-weight: 700; }
+  .w-who { font-size: 0.84rem; color: var(--c-reflections); font-weight: 600; }
+  .w-point { font-size: 0.9rem; line-height: 1.6; color: var(--muted); }
+
+  /* 马太和路加 */
+  .branches { margin: 0 0 16px; padding: 12px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+  .branches svg { display: block; width: 100%; max-width: 420px; height: auto; margin: 0 auto; }
+  .branches path { fill: none; stroke-width: 4; stroke-linecap: round; }
+  .br-m path { stroke: var(--accent); }
+  .br-l path { stroke: var(--accent-2); stroke-dasharray: 8 6; }
+  .br-node circle, .br-node rect { fill: var(--surface); stroke: var(--text); stroke-width: 2; }
+  .br-node text { font-size: 13px; font-weight: 700; text-anchor: middle; fill: var(--text); }
+  .br-node text.sm { font-size: 11px; }
+  .br-lab { font-size: 13px; font-weight: 700; text-anchor: middle; paint-order: stroke; stroke: var(--surface); stroke-width: 6px; }
+  .br-lab.m, .br-key.m { fill: var(--accent); }
+  .br-lab.l, .br-key.l { fill: var(--accent-2); }
+  .br-sub { font-size: 11px; text-anchor: middle; fill: var(--muted); paint-order: stroke; stroke: var(--surface); stroke-width: 6px; }
+  .br-key { font-size: 14px; font-weight: 800; }
+  .branches figcaption { text-align: center; font-size: 0.88rem; color: var(--muted); margin-top: 6px; }
+
+  .cmp { border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--surface); }
+  .cmp-row { display: grid; grid-template-columns: 7em 1fr 1fr; }
+  .cmp-row > span { padding: 10px 12px; border-top: 1px solid var(--line); line-height: 1.6; font-size: 0.93rem; }
+  .cmp-row > span + span { border-left: 1px solid var(--line); }
+  .cmp-h > span { border-top: 0; font-weight: 700; background: var(--surface-2); }
+  .cmp-h > span:nth-child(2) { color: var(--accent); }
+  .cmp-h > span:nth-child(3) { color: var(--accent-2); }
+  .cmp-k { font-weight: 600; color: var(--muted); }
+  .why { margin-top: 12px; }
+  .sub { margin: 32px 0 4px; font-size: 1.2rem; }
+  .before { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 12px; }
+  .b-card { display: grid; grid-template-columns: 44px 1fr; gap: 2px 12px; padding: 12px 14px; border-radius: 14px; border: 1px solid var(--line); background: var(--surface); color: var(--text); text-decoration: none; }
+  .b-card:hover { border-color: var(--accent-2); }
+  .b-icon { grid-row: span 3; color: var(--accent-2); }
+  .b-icon :global(.a) { stroke: var(--accent-2); }
+  .b-name { font-weight: 700; }
+  .b-ev { font-size: 0.88rem; color: var(--muted); line-height: 1.6; }
+  .b-ref { font-size: 0.8rem; color: var(--accent-2); }
+  .all-luke { margin-top: 12px; }
+  .dot { display: inline-block; width: 10px; height: 10px; border-radius: 3px; }
+  .dot.both { background: color-mix(in srgb, var(--accent) 30%, transparent); }
+  .dot.before { background: color-mix(in srgb, var(--accent-2) 30%, transparent); }
+  .luke-list { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; padding: 0; margin: 10px 0 0; counter-reset: l; }
+  .luke-list li { counter-increment: l; font-size: 0.88rem; padding: 3px 9px; border-radius: 8px; background: var(--surface-2); }
+  .luke-list li::before { content: counter(l); font-size: 0.68rem; color: var(--muted); margin-right: 4px; }
+  .luke-list li.both { background: color-mix(in srgb, var(--accent) 16%, transparent); }
+  .luke-list li.before { background: color-mix(in srgb, var(--accent-2) 18%, transparent); }
+  .luke-list li.god { font-weight: 700; background: var(--accent); color: #fff; }
+  .luke-list li.god::before { color: #fff; }
+
+  /* 记忆练习 */
+  .game { padding: 16px; border-radius: var(--radius); background: var(--surface); border: 1px solid var(--line); }
+  .g-tabs { display: flex; gap: 6px; }
+  .g-tabs button { flex: 1; font: inherit; font-size: 0.92rem; padding: 8px 0; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); color: var(--text); cursor: pointer; }
+  .g-tabs button[aria-selected='true'] { background: var(--accent); color: #fff; border-color: var(--accent); font-weight: 600; }
+  .g-title { margin: 14px 0 6px; font-weight: 600; }
+  .g-done { display: flex; flex-wrap: wrap; gap: 6px; min-height: 40px; margin: 0; padding: 8px; list-style: none; border-radius: 12px; border: 2px dashed var(--line); counter-reset: d; }
+  .g-done :global(li) { counter-increment: d; padding: 5px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-weight: 600; font-size: 0.92rem; }
+  .g-done :global(li)::before { content: counter(d) ' '; font-size: 0.72rem; opacity: 0.7; }
+  .g-pool { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .g-pool :global(button) { font: inherit; font-size: 1rem; padding: 8px 14px; border-radius: 12px; border: 1px solid var(--line); background: var(--bg); color: var(--text); cursor: pointer; min-height: 44px; }
+  .g-pool :global(button:active) { transform: scale(0.97); }
+  .g-pool :global(button.hint) { border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent); }
+  .g-pool :global(button.shake) { animation: shake 0.35s; border-color: #dc2626; }
+  @keyframes shake { 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+  .g-msg { min-height: 1.4em; margin: 10px 0 0; color: var(--accent); font-weight: 600; }
+  .g-actions { display: flex; gap: 8px; margin: 8px 0 0; }
+  .more { color: var(--muted); line-height: 2; }
+
+  @media (prefers-reduced-motion: reduce) { .g-pool :global(button.shake) { animation: none; } }
+  @media (max-width: 640px) {
+    .frame { grid-template-columns: 1fr; }
+    .frame a { grid-template-columns: 26px auto 1fr; align-items: center; column-gap: 10px; }
+    .f-theme { grid-column: 1 / -1; }
+    .tips, .before { grid-template-columns: 1fr; }
+    .part-head { padding: 16px; }
+    .part-head h2 small { display: block; margin: 2px 0 0; }
+    .p-body { padding: 0 14px 14px 16px; }
+    .cmp-row { grid-template-columns: 1fr 1fr; }
+    .cmp-k { grid-column: 1 / -1; background: var(--surface-2); padding: 6px 12px !important; font-size: 0.82rem !important; }
+    .cmp-h > span:first-child { display: none; }
+    .cmp-row > .cmp-k + span { border-left: 0; }
+  }
+</style>
